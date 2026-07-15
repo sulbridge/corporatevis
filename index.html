@@ -3,10 +3,9 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>CorporateVis — Enterprise AI Visibility Platform</title>
-    <meta name="description" content="CorporateVis helps enterprises dominate AI search: track, optimize, and prove your brand's visibility in ChatGPT, Gemini, Claude, Perplexity, and beyond." />
+    <title>CorporateVIS — Enterprise AI Visibility Platform</title>
+    <meta name="description" content="CorporateVIS helps enterprises dominate AI search: track, optimize, and prove your brand's visibility in ChatGPT, Gemini, Claude, Perplexity, and beyond." />
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏢</text></svg>" />
-    <!-- Google Fonts: Inter & Geist (fallback) -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Geist:wght@100..900&display=swap" rel="stylesheet" />
@@ -49,6 +48,7 @@
             line-height: 1.6;
             -webkit-font-smoothing: antialiased;
             -moz-osx-font-smoothing: grayscale;
+            overflow-x: hidden;
         }
         a {
             color: var(--accent);
@@ -184,9 +184,14 @@
             align-items: center;
             gap: 8px;
             color: var(--text-primary);
+            background: linear-gradient(135deg, #a78bfa, #6ee7ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
         .logo span {
-            color: var(--accent);
+            font-weight: 300;
+            -webkit-text-fill-color: rgba(255, 255, 255, 0.3);
         }
         .nav-links {
             display: flex;
@@ -249,7 +254,6 @@
         .hamburger.active span:nth-child(3) {
             transform: rotate(-45deg) translate(5px, -5px);
         }
-        /* Mobile nav */
         .mobile-nav {
             display: none;
             position: fixed;
@@ -386,89 +390,254 @@
             stroke: var(--success);
             fill: none;
         }
-        /* Right column — animated AI logos */
+
+        /* ===== FLOATING LOGO CLOUD ===== */
         .hero-visual {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
             position: relative;
-        }
-        .ai-logos-container {
-            position: relative;
-            width: 100%;
-            max-width: 480px;
-            aspect-ratio: 1/0.8;
             display: flex;
             align-items: center;
             justify-content: center;
+            min-height: 420px;
         }
-        .ai-logos-ring {
+        .logo-cloud {
             position: relative;
             width: 100%;
-            height: 100%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            max-width: 520px;
+            aspect-ratio: 1/0.9;
+            margin: 0 auto;
         }
-        .ai-logo-item {
+        .logo-bubble {
             position: absolute;
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 6px;
-            font-weight: 600;
-            font-size: 0.75rem;
-            color: var(--text-secondary);
-            opacity: 0;
-            transition: opacity 0.6s ease, transform 0.6s ease;
-            transform: scale(0.8);
-            will-change: transform, opacity;
+            justify-content: center;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.04);
+            backdrop-filter: blur(6px);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            box-shadow: 0 20px 40px -12px rgba(0, 0, 0, 0.6);
+            transition: transform 0.1s;
+            will-change: transform;
+            color: rgba(255, 255, 255, 0.85);
+            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+            padding: 6px;
         }
-        .ai-logo-item.active {
-            opacity: 1;
-            transform: scale(1);
-        }
-        .ai-logo-item svg {
-            width: 52px;
-            height: 52px;
-            filter: drop-shadow(0 4px 20px rgba(93, 171, 255, 0.15));
-        }
-        .ai-logo-item .label {
-            background: var(--bg-card);
-            padding: 4px 12px;
-            border-radius: 20px;
-            border: 1px solid var(--border-color);
-            font-size: 0.7rem;
-        }
-        .ai-logo-center {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            font-size: 1.2rem;
-            font-weight: 500;
-            color: var(--text-tertiary);
-            text-align: center;
-            pointer-events: none;
-            opacity: 0.5;
-        }
-        .ai-logo-center strong {
-            color: var(--text-primary);
+        .logo-bubble svg {
+            width: 44px;
+            height: 44px;
             display: block;
-            font-size: 1.8rem;
+            flex-shrink: 0;
         }
-        @keyframes float {
-            0%,
-            100% {
-                transform: translateY(0px) scale(1);
+        .logo-bubble .label {
+            font-size: 9px;
+            font-weight: 600;
+            color: rgba(255, 255, 255, 0.5);
+            letter-spacing: 0.3px;
+            margin-top: 2px;
+            white-space: nowrap;
+            background: rgba(0, 0, 0, 0.4);
+            padding: 2px 10px;
+            border-radius: 20px;
+            backdrop-filter: blur(4px);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+        }
+
+        /* Bubble sizes & positions */
+        .bubble-chatgpt {
+            width: 110px;
+            height: 110px;
+            background: rgba(16, 163, 127, 0.12);
+            border-color: rgba(16, 163, 127, 0.2);
+            left: 2%;
+            top: 10%;
+        }
+        .bubble-gemini {
+            width: 100px;
+            height: 100px;
+            background: rgba(66, 133, 244, 0.10);
+            border-color: rgba(66, 133, 244, 0.18);
+            right: 2%;
+            top: 4%;
+        }
+        .bubble-claude {
+            width: 95px;
+            height: 95px;
+            background: rgba(214, 158, 91, 0.10);
+            border-color: rgba(214, 158, 91, 0.18);
+            left: 10%;
+            bottom: 16%;
+        }
+        .bubble-perplexity {
+            width: 105px;
+            height: 105px;
+            background: rgba(0, 200, 200, 0.08);
+            border-color: rgba(0, 200, 200, 0.16);
+            right: 6%;
+            bottom: 10%;
+        }
+        .bubble-grok {
+            width: 90px;
+            height: 90px;
+            background: rgba(168, 85, 247, 0.10);
+            border-color: rgba(168, 85, 247, 0.18);
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+        }
+        .bubble-copilot {
+            width: 88px;
+            height: 88px;
+            background: rgba(0, 164, 239, 0.08);
+            border-color: rgba(0, 164, 239, 0.16);
+            right: 18%;
+            bottom: 38%;
+        }
+        .bubble-meta {
+            width: 85px;
+            height: 85px;
+            background: rgba(0, 102, 179, 0.08);
+            border-color: rgba(0, 102, 179, 0.14);
+            left: 22%;
+            top: 42%;
+        }
+
+        /* Floating animations */
+        @keyframes float1 {
+            0% {
+                transform: translate(0, 0) scale(1);
+            }
+            25% {
+                transform: translate(18px, -24px) scale(1.02);
             }
             50% {
-                transform: translateY(-8px) scale(1.02);
+                transform: translate(-12px, -40px) scale(0.98);
+            }
+            75% {
+                transform: translate(24px, -12px) scale(1.01);
+            }
+            100% {
+                transform: translate(0, 0) scale(1);
             }
         }
-        .ai-logo-item.active {
-            animation: float 4s ease-in-out infinite;
+        @keyframes float2 {
+            0% {
+                transform: translate(0, 0) scale(1);
+            }
+            30% {
+                transform: translate(-28px, 16px) scale(1.03);
+            }
+            60% {
+                transform: translate(16px, 32px) scale(0.97);
+            }
+            100% {
+                transform: translate(0, 0) scale(1);
+            }
+        }
+        @keyframes float3 {
+            0% {
+                transform: translate(0, 0) scale(1);
+            }
+            20% {
+                transform: translate(30px, -18px) scale(1.01);
+            }
+            50% {
+                transform: translate(-20px, 20px) scale(0.99);
+            }
+            80% {
+                transform: translate(12px, -30px) scale(1.02);
+            }
+            100% {
+                transform: translate(0, 0) scale(1);
+            }
+        }
+        @keyframes float4 {
+            0% {
+                transform: translate(0, 0) scale(1);
+            }
+            35% {
+                transform: translate(-16px, -28px) scale(0.98);
+            }
+            65% {
+                transform: translate(22px, 12px) scale(1.03);
+            }
+            100% {
+                transform: translate(0, 0) scale(1);
+            }
+        }
+        @keyframes float5 {
+            0% {
+                transform: translate(-50%, -50%) scale(1);
+            }
+            25% {
+                transform: translate(-42%, -62%) scale(1.04);
+            }
+            50% {
+                transform: translate(-58%, -40%) scale(0.96);
+            }
+            75% {
+                transform: translate(-44%, -54%) scale(1.02);
+            }
+            100% {
+                transform: translate(-50%, -50%) scale(1);
+            }
+        }
+        @keyframes float6 {
+            0% {
+                transform: translate(0, 0) scale(1);
+            }
+            30% {
+                transform: translate(-14px, 28px) scale(1.02);
+            }
+            60% {
+                transform: translate(18px, -16px) scale(0.98);
+            }
+            100% {
+                transform: translate(0, 0) scale(1);
+            }
+        }
+        @keyframes float7 {
+            0% {
+                transform: translate(0, 0) scale(1);
+            }
+            25% {
+                transform: translate(22px, 14px) scale(1.01);
+            }
+            55% {
+                transform: translate(-18px, -22px) scale(0.99);
+            }
+            100% {
+                transform: translate(0, 0) scale(1);
+            }
+        }
+
+        .bubble-chatgpt {
+            animation: float1 7.2s ease-in-out infinite;
+            animation-delay: 0s;
+        }
+        .bubble-gemini {
+            animation: float2 8.4s ease-in-out infinite;
+            animation-delay: 0.6s;
+        }
+        .bubble-claude {
+            animation: float3 9.0s ease-in-out infinite;
+            animation-delay: 1.2s;
+        }
+        .bubble-perplexity {
+            animation: float4 7.8s ease-in-out infinite;
+            animation-delay: 0.3s;
+        }
+        .bubble-grok {
+            animation: float5 8.8s ease-in-out infinite;
+            animation-delay: 0.9s;
+        }
+        .bubble-copilot {
+            animation: float6 7.4s ease-in-out infinite;
+            animation-delay: 1.5s;
+        }
+        .bubble-meta {
+            animation: float7 8.0s ease-in-out infinite;
+            animation-delay: 0.4s;
         }
 
         /* ===== CLIENTS STRIP ===== */
@@ -585,7 +754,7 @@
             color: var(--accent);
         }
 
-        /* ===== PROCESS (Flywheel) ===== */
+        /* ===== PROCESS ===== */
         .process-tabs {
             display: flex;
             flex-wrap: wrap;
@@ -1025,9 +1194,13 @@
         footer .brand {
             font-size: 1.2rem;
             font-weight: 700;
+            background: linear-gradient(135deg, #a78bfa, #6ee7ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
         footer .brand span {
-            color: var(--accent);
+            -webkit-text-fill-color: rgba(255, 255, 255, 0.3);
         }
         footer .footer-description {
             color: var(--text-tertiary);
@@ -1066,7 +1239,7 @@
             gap: 12px;
         }
 
-        /* ===== MODAL (Audit) ===== */
+        /* ===== MODAL ===== */
         .modal-overlay {
             position: fixed;
             inset: 0;
@@ -1186,10 +1359,50 @@
             }
             .hero-visual {
                 order: -1;
+                min-height: 340px;
             }
-            .ai-logos-container {
-                max-width: 320px;
-                margin: 0 auto;
+            .logo-cloud {
+                max-width: 380px;
+            }
+            .logo-bubble {
+                width: 80px !important;
+                height: 80px !important;
+            }
+            .logo-bubble svg {
+                width: 34px;
+                height: 34px;
+            }
+            .logo-bubble .label {
+                font-size: 7px;
+                padding: 1px 8px;
+            }
+            .bubble-chatgpt {
+                left: 0%;
+                top: 6%;
+            }
+            .bubble-gemini {
+                right: 0%;
+                top: 0%;
+            }
+            .bubble-claude {
+                left: 4%;
+                bottom: 20%;
+            }
+            .bubble-perplexity {
+                right: 2%;
+                bottom: 14%;
+            }
+            .bubble-grok {
+                left: 50%;
+                top: 44%;
+            }
+            .bubble-copilot {
+                right: 14%;
+                bottom: 34%;
+            }
+            .bubble-meta {
+                left: 18%;
+                top: 38%;
             }
             .shift-grid {
                 grid-template-columns: 1fr;
@@ -1264,13 +1477,23 @@
                 font-size: 0.75rem;
                 padding: 6px 14px;
             }
-            .ai-logo-item svg {
-                width: 36px;
-                height: 36px;
+            .logo-cloud {
+                max-width: 300px;
+            }
+            .logo-bubble {
+                width: 66px !important;
+                height: 66px !important;
+            }
+            .logo-bubble svg {
+                width: 28px;
+                height: 28px;
+            }
+            .logo-bubble .label {
+                font-size: 6px;
+                padding: 1px 6px;
             }
         }
 
-        /* Utility */
         .sr-only {
             position: absolute;
             width: 1px;
@@ -1314,7 +1537,7 @@
     <!-- ===== HEADER ===== -->
     <header>
         <div class="container">
-            <a href="#" class="logo">Corporate<span>Vis</span></a>
+            <a href="#" class="logo">Corporate<span>VIS</span></a>
             <nav>
                 <ul class="nav-links">
                     <li><a href="#shift">Why AI</a></li>
@@ -1348,7 +1571,7 @@
                 <div class="hero-content">
                     <span class="badge">Enterprise AI Visibility</span>
                     <h1 class="hero-title">Your brand must be in <span>every AI answer</span> where competitors are mentioned.</h1>
-                    <p class="hero-sub">CorporateVis ensures ChatGPT, Gemini, Claude, Perplexity, and Grok recommend you — with guaranteed lift in citations, sentiment, and share of voice.</p>
+                    <p class="hero-sub">CorporateVIS ensures ChatGPT, Gemini, Claude, Perplexity, and Grok recommend you — with guaranteed lift in citations, sentiment, and share of voice.</p>
                     <div class="hero-actions">
                         <div class="hero-audit" id="auditForm">
                             <input type="text" placeholder="Enter your domain…" id="auditInput" aria-label="Your website domain" />
@@ -1362,40 +1585,91 @@
                     </div>
                 </div>
                 <div class="hero-visual">
-                    <div class="ai-logos-container">
-                        <div class="ai-logos-ring" id="aiLogosRing">
-                            <!-- Positions will be set by JS -->
-                            <div class="ai-logo-item active" data-index="0">
-                                <svg viewBox="0 0 100 100" fill="none"><circle cx="50" cy="50" r="45" fill="#10a37f"/><text x="50" y="62" font-size="32" text-anchor="middle" fill="white" font-weight="700">C</text></svg>
-                                <span class="label">ChatGPT</span>
-                            </div>
-                            <div class="ai-logo-item" data-index="1">
-                                <svg viewBox="0 0 100 100" fill="none"><circle cx="50" cy="50" r="45" fill="#d97757"/><text x="50" y="62" font-size="32" text-anchor="middle" fill="white" font-weight="700">C</text></svg>
-                                <span class="label">Claude</span>
-                            </div>
-                            <div class="ai-logo-item" data-index="2">
-                                <svg viewBox="0 0 100 100" fill="none"><circle cx="50" cy="50" r="45" fill="#4285f4"/><text x="50" y="62" font-size="32" text-anchor="middle" fill="white" font-weight="700">G</text></svg>
-                                <span class="label">Gemini</span>
-                            </div>
-                            <div class="ai-logo-item" data-index="3">
-                                <svg viewBox="0 0 100 100" fill="none"><circle cx="50" cy="50" r="45" fill="#1f9ea0"/><text x="50" y="62" font-size="32" text-anchor="middle" fill="white" font-weight="700">P</text></svg>
-                                <span class="label">Perplexity</span>
-                            </div>
-                            <div class="ai-logo-item" data-index="4">
-                                <svg viewBox="0 0 100 100" fill="none"><circle cx="50" cy="50" r="45" fill="#ea4335"/><text x="50" y="62" font-size="32" text-anchor="middle" fill="white" font-weight="700">G</text></svg>
-                                <span class="label">Grok</span>
-                            </div>
-                            <div class="ai-logo-item" data-index="5">
-                                <svg viewBox="0 0 100 100" fill="none"><circle cx="50" cy="50" r="45" fill="#00a4ef"/><text x="50" y="62" font-size="32" text-anchor="middle" fill="white" font-weight="700">C</text></svg>
-                                <span class="label">Copilot</span>
-                            </div>
-                            <div class="ai-logo-item" data-index="6">
-                                <svg viewBox="0 0 100 100" fill="none"><circle cx="50" cy="50" r="45" fill="#0066b3"/><text x="50" y="62" font-size="32" text-anchor="middle" fill="white" font-weight="700">M</text></svg>
-                                <span class="label">Meta AI</span>
-                            </div>
-                            <div class="ai-logo-center">
-                                <strong>AI</strong> Search
-                            </div>
+                    <div class="logo-cloud">
+                        <!-- ChatGPT -->
+                        <div class="logo-bubble bubble-chatgpt">
+                            <svg viewBox="0 0 100 100" fill="none">
+                                <circle cx="50" cy="50" r="46" fill="#10a37f" />
+                                <circle cx="50" cy="50" r="46" stroke="#10a37f" stroke-width="1.5" stroke-opacity="0.4" />
+                                <path d="M34 38L50 24L66 38L62 46L50 34L38 46L34 38Z" fill="white" />
+                                <path d="M34 62L50 76L66 62L62 54L50 66L38 54L34 62Z" fill="white" />
+                                <path d="M30 50L44 34L52 38L38 54L30 50Z" fill="white" opacity="0.7" />
+                                <path d="M70 50L56 66L48 62L62 46L70 50Z" fill="white" opacity="0.7" />
+                                <rect x="46" y="22" width="8" height="22" rx="4" fill="white" opacity="0.3" />
+                                <rect x="46" y="56" width="8" height="22" rx="4" fill="white" opacity="0.3" />
+                            </svg>
+                            <span class="label">ChatGPT</span>
+                        </div>
+
+                        <!-- Gemini -->
+                        <div class="logo-bubble bubble-gemini">
+                            <svg viewBox="0 0 100 100" fill="none">
+                                <circle cx="50" cy="50" r="46" fill="#4285f4" opacity="0.2" />
+                                <circle cx="50" cy="50" r="46" stroke="#4285f4" stroke-width="1.5" stroke-opacity="0.3" />
+                                <path d="M50 18L62 42L88 46L68 66L72 92L50 80L28 92L32 66L12 46L38 42L50 18Z" fill="#4285f4" stroke="#4285f4" stroke-width="1.5" />
+                                <path d="M50 30L58 48L78 50L62 66L64 84L50 74L36 84L38 66L22 50L42 48L50 30Z" fill="white" opacity="0.9" />
+                            </svg>
+                            <span class="label">Gemini</span>
+                        </div>
+
+                        <!-- Claude -->
+                        <div class="logo-bubble bubble-claude">
+                            <svg viewBox="0 0 100 100" fill="none">
+                                <circle cx="50" cy="50" r="46" fill="#d97757" opacity="0.15" />
+                                <circle cx="50" cy="50" r="46" stroke="#d97757" stroke-width="1.5" stroke-opacity="0.3" />
+                                <circle cx="50" cy="50" r="32" fill="#d97757" opacity="0.2" />
+                                <circle cx="50" cy="50" r="20" fill="#d97757" opacity="0.4" />
+                                <text x="50" y="60" font-size="38" text-anchor="middle" fill="#d97757" font-weight="700" font-family="Inter, sans-serif">C</text>
+                                <circle cx="50" cy="50" r="36" stroke="#d97757" stroke-width="1.5" stroke-opacity="0.15" stroke-dasharray="4 6" />
+                            </svg>
+                            <span class="label">Claude</span>
+                        </div>
+
+                        <!-- Perplexity -->
+                        <div class="logo-bubble bubble-perplexity">
+                            <svg viewBox="0 0 100 100" fill="none">
+                                <circle cx="50" cy="50" r="46" fill="#1f9ea0" opacity="0.12" />
+                                <circle cx="50" cy="50" r="46" stroke="#1f9ea0" stroke-width="1.5" stroke-opacity="0.25" />
+                                <text x="50" y="60" font-size="40" text-anchor="middle" fill="#1f9ea0" font-weight="800" font-family="Inter, sans-serif">P</text>
+                                <circle cx="50" cy="50" r="30" stroke="#1f9ea0" stroke-width="1.5" stroke-opacity="0.15" />
+                                <path d="M50 26L58 44L76 48L62 62L66 80L50 70L34 80L38 62L24 48L42 44L50 26Z" fill="#1f9ea0" opacity="0.15" stroke="#1f9ea0" stroke-width="0.8" stroke-opacity="0.2" />
+                            </svg>
+                            <span class="label">Perplexity</span>
+                        </div>
+
+                        <!-- Grok -->
+                        <div class="logo-bubble bubble-grok">
+                            <svg viewBox="0 0 100 100" fill="none">
+                                <circle cx="50" cy="50" r="46" fill="#8b5cf6" opacity="0.10" />
+                                <circle cx="50" cy="50" r="46" stroke="#8b5cf6" stroke-width="1.5" stroke-opacity="0.2" />
+                                <circle cx="50" cy="50" r="28" fill="#8b5cf6" opacity="0.12" />
+                                <text x="50" y="60" font-size="38" text-anchor="middle" fill="#8b5cf6" font-weight="800" font-family="Inter, sans-serif">G</text>
+                                <circle cx="50" cy="50" r="34" stroke="#8b5cf6" stroke-width="1" stroke-opacity="0.12" stroke-dasharray="2 4" />
+                            </svg>
+                            <span class="label">Grok</span>
+                        </div>
+
+                        <!-- Copilot -->
+                        <div class="logo-bubble bubble-copilot">
+                            <svg viewBox="0 0 100 100" fill="none">
+                                <circle cx="50" cy="50" r="46" fill="#00a4ef" opacity="0.10" />
+                                <circle cx="50" cy="50" r="46" stroke="#00a4ef" stroke-width="1.5" stroke-opacity="0.2" />
+                                <circle cx="50" cy="50" r="22" fill="#00a4ef" opacity="0.15" />
+                                <text x="50" y="60" font-size="36" text-anchor="middle" fill="#00a4ef" font-weight="700" font-family="Inter, sans-serif">C</text>
+                                <circle cx="50" cy="50" r="32" stroke="#00a4ef" stroke-width="1" stroke-opacity="0.12" stroke-dasharray="3 5" />
+                            </svg>
+                            <span class="label">Copilot</span>
+                        </div>
+
+                        <!-- Meta AI -->
+                        <div class="logo-bubble bubble-meta">
+                            <svg viewBox="0 0 100 100" fill="none">
+                                <circle cx="50" cy="50" r="46" fill="#0066b3" opacity="0.08" />
+                                <circle cx="50" cy="50" r="46" stroke="#0066b3" stroke-width="1.5" stroke-opacity="0.18" />
+                                <text x="50" y="60" font-size="34" text-anchor="middle" fill="#0066b3" font-weight="800" font-family="Inter, sans-serif">M</text>
+                                <circle cx="50" cy="50" r="26" stroke="#0066b3" stroke-width="1" stroke-opacity="0.12" />
+                            </svg>
+                            <span class="label">Meta AI</span>
                         </div>
                     </div>
                 </div>
@@ -1427,7 +1701,6 @@
                     <span>⚡ Monster Energy</span>
                     <span>📋 Ashby</span>
                     <span>🧱 Clay</span>
-                    <!-- duplicate for seamless loop -->
                     <span>🏢 Calendly</span>
                     <span>⚡ Zapier</span>
                     <span>💳 Plaid</span>
@@ -1480,7 +1753,7 @@
         </div>
     </section>
 
-    <!-- ===== PROCESS (Flywheel) ===== -->
+    <!-- ===== PROCESS ===== -->
     <section class="section-padding" id="process" style="background: var(--bg-secondary);">
         <div class="container">
             <div class="text-center">
@@ -1496,7 +1769,6 @@
                 <button class="process-tab" data-tab="4">5. Monitor</button>
             </div>
             <div class="process-panels">
-                <!-- Panel 0 -->
                 <div class="process-panel active" data-panel="0">
                     <div class="process-panel-content">
                         <div class="process-panel-text">
@@ -1514,7 +1786,6 @@
                         </div>
                     </div>
                 </div>
-                <!-- Panel 1 -->
                 <div class="process-panel" data-panel="1">
                     <div class="process-panel-content">
                         <div class="process-panel-text">
@@ -1532,7 +1803,6 @@
                         </div>
                     </div>
                 </div>
-                <!-- Panel 2 -->
                 <div class="process-panel" data-panel="2">
                     <div class="process-panel-content">
                         <div class="process-panel-text">
@@ -1550,7 +1820,6 @@
                         </div>
                     </div>
                 </div>
-                <!-- Panel 3 -->
                 <div class="process-panel" data-panel="3">
                     <div class="process-panel-content">
                         <div class="process-panel-text">
@@ -1568,7 +1837,6 @@
                         </div>
                     </div>
                 </div>
-                <!-- Panel 4 -->
                 <div class="process-panel" data-panel="4">
                     <div class="process-panel-content">
                         <div class="process-panel-text">
@@ -1683,7 +1951,7 @@
             <div class="cases-grid">
                 <div class="case-card">
                     <div class="logo">🏢 Ramp</div>
-                    <blockquote>"Before CorporateVis, AI Search was a black box. Now it's a competitive advantage."</blockquote>
+                    <blockquote>"Before CorporateVIS, AI Search was a black box. Now it's a competitive advantage."</blockquote>
                     <div class="stats">
                         <span>+270% AI traffic</span>
                         <span>34% recommendation share</span>
@@ -1773,10 +2041,10 @@
                 </div>
                 <div class="faq-item">
                     <div class="question">
-                        <span>How is CorporateVis different from traditional SEO tools?</span>
+                        <span>How is CorporateVIS different from traditional SEO tools?</span>
                         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
                     </div>
-                    <div class="answer">Traditional SEO tools focus on keyword rankings and backlinks. CorporateVis is built for the AI era: we track brand mentions, sentiment, citation share, and passage-level optimization across 8+ AI platforms. We also close the loop — from audit to implementation to verification.</div>
+                    <div class="answer">Traditional SEO tools focus on keyword rankings and backlinks. CorporateVIS is built for the AI era: we track brand mentions, sentiment, citation share, and passage-level optimization across 8+ AI platforms. We also close the loop — from audit to implementation to verification.</div>
                 </div>
                 <div class="faq-item">
                     <div class="question">
@@ -1830,7 +2098,7 @@
         <div class="container">
             <div class="footer-grid">
                 <div>
-                    <div class="brand">Corporate<span>Vis</span></div>
+                    <div class="brand">Corporate<span>VIS</span></div>
                     <p class="footer-description">Enterprise AI visibility platform. We help global brands get cited, recommended, and trusted by AI assistants.</p>
                 </div>
                 <div>
@@ -1862,7 +2130,7 @@
                 </div>
             </div>
             <div class="bottom">
-                <span>&copy; 2026 CorporateVis. All rights reserved.</span>
+                <span>&copy; 2026 CorporateVIS. All rights reserved.</span>
                 <span>Built for the answer‑engine era.</span>
             </div>
         </div>
@@ -1902,15 +2170,6 @@
                 mobileNav.classList.toggle('open');
             });
 
-            // ===== AI Logos animation =====
-            const logos = document.querySelectorAll('.ai-logo-item');
-            let currentIndex = 0;
-            let interval = setInterval(() => {
-                logos.forEach(el => el.classList.remove('active'));
-                currentIndex = (currentIndex + 1) % logos.length;
-                logos[currentIndex].classList.add('active');
-            }, 2800);
-
             // ===== Process tabs =====
             const tabs = document.querySelectorAll('.process-tab');
             const panels = document.querySelectorAll('.process-panel');
@@ -1932,10 +2191,9 @@
                     this.classList.toggle('open');
                 });
             });
-            // open first by default
             if (faqItems.length) faqItems[0].classList.add('open');
 
-            // ===== Audit modal (simulated) =====
+            // ===== Audit modal =====
             const auditBtn = document.getElementById('auditBtn');
             const auditInput = document.getElementById('auditInput');
             const modal = document.getElementById('auditModal');
@@ -1952,11 +2210,9 @@
             function openModal() {
                 modal.classList.add('open');
                 document.body.style.overflow = 'hidden';
-                // reset
                 progressFill.style.width = '0%';
                 statusText.textContent = 'Scanning AI engines…';
                 [r1, r2, r3, r4, r5, r6].forEach(el => el.textContent = '…');
-                // simulate progress
                 let progress = 0;
                 const interval = setInterval(() => {
                     progress += Math.random() * 6 + 2;
@@ -1964,28 +2220,25 @@
                         progress = 100;
                         clearInterval(interval);
                         statusText.textContent = '✅ Audit complete! Here\'s your snapshot.';
-                        // fill mock data
                         const scores = [
-                            { label: 'ChatGPT mentions', val: Math.floor(Math.random() * 50 + 10) + '%',
+                            { val: Math.floor(Math.random() * 50 + 10) + '%', cls: 'good' },
+                            { val: ['Positive', 'Neutral', 'Mixed'][Math.floor(Math.random() * 3)],
                             cls: 'good' },
-                            { label: 'Gemini sentiment', val: ['Positive', 'Neutral', 'Mixed'][Math.floor(Math
-                                    .random() * 3)], cls: 'good' },
-                            { label: 'Perplexity citations', val: Math.floor(Math.random() * 30 + 5) + '%',
-                            cls: 'warn' },
-                            { label: 'Claude recommendation', val: ['Yes', 'No', 'Sometimes'][Math.floor(Math
-                                    .random() * 3)], cls: 'good' },
-                            { label: 'Share of voice', val: Math.floor(Math.random() * 20 + 2) + '%', cls: 'warn' },
-                            { label: 'Overall AI Score', val: Math.floor(Math.random() * 40 + 30) + '/100',
-                                cls: 'warn' }
+                            { val: Math.floor(Math.random() * 30 + 5) + '%', cls: 'warn' },
+                            { val: ['Yes', 'No', 'Sometimes'][Math.floor(Math.random() * 3)],
+                            cls: 'good' },
+                            { val: Math.floor(Math.random() * 20 + 2) + '%', cls: 'warn' },
+                            { val: Math.floor(Math.random() * 40 + 30) + '/100', cls: 'warn' }
                         ];
                         const resultEls = [r1, r2, r3, r4, r5, r6];
                         resultEls.forEach((el, i) => {
                             el.textContent = scores[i].val;
                             el.className = 'value ' + scores[i].cls;
                         });
-                        // randomize a bit for realism
-                        if (Math.random() > 0.5) r1.textContent = Math.floor(Math.random() * 60 + 20) + '%';
-                        if (Math.random() > 0.5) r3.textContent = Math.floor(Math.random() * 40 + 5) + '%';
+                        if (Math.random() > 0.5) r1.textContent = Math.floor(Math.random() * 60 + 20) +
+                        '%';
+                        if (Math.random() > 0.5) r3.textContent = Math.floor(Math.random() * 40 + 5) +
+                        '%';
                     }
                     progressFill.style.width = Math.min(progress, 100) + '%';
                 }, 120);
@@ -2009,9 +2262,7 @@
             });
 
             auditInput.addEventListener('keydown', function(e) {
-                if (e.key === 'Enter') {
-                    auditBtn.click();
-                }
+                if (e.key === 'Enter') auditBtn.click();
             });
 
             modalClose.addEventListener('click', closeModal);
@@ -2022,7 +2273,7 @@
                 if (e.key === 'Escape' && modal.classList.contains('open')) closeModal();
             });
 
-            // ===== Smooth scroll for anchor links =====
+            // ===== Smooth scroll =====
             document.querySelectorAll('a[href^="#"]').forEach(anchor => {
                 anchor.addEventListener('click', function(e) {
                     const target = document.querySelector(this.getAttribute('href'));
@@ -2031,7 +2282,6 @@
                         const offset = 80;
                         const top = target.getBoundingClientRect().top + window.scrollY - offset;
                         window.scrollTo({ top, behavior: 'smooth' });
-                        // close mobile nav if open
                         if (mobileNav.classList.contains('open')) {
                             hamburger.classList.remove('active');
                             mobileNav.classList.remove('open');
@@ -2040,7 +2290,7 @@
                 });
             });
 
-            // ===== Intersection Observer for card reveals =====
+            // ===== Intersection Observer =====
             if ('IntersectionObserver' in window) {
                 const cards = document.querySelectorAll(
                     '.feature-card, .trust-card, .case-card, .pricing-card, .shift-card');
@@ -2058,7 +2308,6 @@
                     card.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
                     observer.observe(card);
                 });
-                // Also observe process panels
                 document.querySelectorAll('.process-panel-visual').forEach(el => {
                     el.style.opacity = '0';
                     el.style.transform = 'translateY(10px)';
@@ -2066,16 +2315,15 @@
                     observer.observe(el);
                 });
             } else {
-                // fallback: show all
-                document.querySelectorAll('.feature-card, .trust-card, .case-card, .pricing-card, .shift-card')
-                    .forEach(el => {
-                        el.style.opacity = '1';
-                        el.style.transform = 'none';
-                    });
+                document.querySelectorAll(
+                    '.feature-card, .trust-card, .case-card, .pricing-card, .shift-card'
+                ).forEach(el => {
+                    el.style.opacity = '1';
+                    el.style.transform = 'none';
+                });
             }
 
-            // ===== Log =====
-            console.log('CorporateVis — Enterprise AI Visibility Platform loaded.');
+            console.log('CorporateVIS — Enterprise AI Visibility Platform loaded.');
         })();
     </script>
 

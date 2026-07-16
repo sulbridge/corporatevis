@@ -2219,7 +2219,7 @@
             }
 
             // ============================================================
-            // BUBBLE CANVAS — ORBITAL PHYSICS WITH OFFICIAL ICONS
+            // BUBBLE CANVAS — SMOOTH ORBIT WITH OFFICIAL LOGOS
             // ============================================================
             const canvas = document.getElementById('bubbleCanvas');
             const ctx = canvas.getContext('2d');
@@ -2229,16 +2229,127 @@
                 CY = H / 2;
             const EYE_RADIUS = 110;
 
-            // ---- Official SVG icons ----
-            const svgIcons = {
-                chatgpt: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="46" fill="#10a37f"/><path d="M34 38L50 24L66 38L62 46L50 34L38 46L34 38Z" fill="white"/><path d="M34 62L50 76L66 62L62 54L50 66L38 54L34 62Z" fill="white"/><path d="M30 50L44 34L52 38L38 54L30 50Z" fill="white" opacity="0.7"/><path d="M70 50L56 66L48 62L62 46L70 50Z" fill="white" opacity="0.7"/></svg>`,
-                gemini: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="46" fill="#4285f4" opacity="0.2"/><path d="M50 18L62 42L88 46L68 66L72 92L50 80L28 92L32 66L12 46L38 42L50 18Z" fill="#4285f4" stroke="#4285f4" stroke-width="1.5"/><path d="M50 30L58 48L78 50L62 66L64 84L50 74L36 84L38 66L22 50L42 48L50 30Z" fill="white" opacity="0.9"/></svg>`,
-                claude: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="46" fill="#d97757" opacity="0.15"/><circle cx="50" cy="50" r="32" fill="#d97757" opacity="0.2"/><circle cx="50" cy="50" r="20" fill="#d97757" opacity="0.4"/><text x="50" y="60" font-size="38" text-anchor="middle" fill="#d97757" font-weight="700" font-family="Inter, sans-serif">C</text><circle cx="50" cy="50" r="36" stroke="#d97757" stroke-width="1.5" stroke-opacity="0.15" stroke-dasharray="4 6"/></svg>`,
-                perplexity: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="46" fill="#1f9ea0" opacity="0.12"/><text x="50" y="60" font-size="40" text-anchor="middle" fill="#1f9ea0" font-weight="800" font-family="Inter, sans-serif">P</text><circle cx="50" cy="50" r="30" stroke="#1f9ea0" stroke-width="1.5" stroke-opacity="0.15"/><path d="M50 26L58 44L76 48L62 62L66 80L50 70L34 80L38 62L24 48L42 44L50 26Z" fill="#1f9ea0" opacity="0.15" stroke="#1f9ea0" stroke-width="0.8" stroke-opacity="0.2"/></svg>`,
-                grok: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="46" fill="#8b5cf6" opacity="0.10"/><circle cx="50" cy="50" r="28" fill="#8b5cf6" opacity="0.12"/><text x="50" y="60" font-size="38" text-anchor="middle" fill="#8b5cf6" font-weight="800" font-family="Inter, sans-serif">G</text><circle cx="50" cy="50" r="34" stroke="#8b5cf6" stroke-width="1" stroke-opacity="0.12" stroke-dasharray="2 4"/></svg>`,
-                copilot: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="46" fill="#00a4ef" opacity="0.10"/><circle cx="50" cy="50" r="22" fill="#00a4ef" opacity="0.15"/><text x="50" y="60" font-size="36" text-anchor="middle" fill="#00a4ef" font-weight="700" font-family="Inter, sans-serif">C</text><circle cx="50" cy="50" r="32" stroke="#00a4ef" stroke-width="1" stroke-opacity="0.12" stroke-dasharray="3 5"/></svg>`,
-                meta: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="46" fill="#0066b3" opacity="0.08"/><text x="50" y="60" font-size="34" text-anchor="middle" fill="#0066b3" font-weight="800" font-family="Inter, sans-serif">M</text><circle cx="50" cy="50" r="26" stroke="#0066b3" stroke-width="1" stroke-opacity="0.12"/></svg>`
+            // ---- High-DPI setup for crisp rendering ----
+            const DPR = Math.min(window.devicePixelRatio || 1, 2);
+            canvas.width = W * DPR;
+            canvas.height = H * DPR;
+            ctx.scale(DPR, DPR);
+
+            // ---- Official brand marks (exact vector paths, 24×24 source viewBox) ----
+            // Each entry: path data (official logomark), brand color, background tint.
+            const BRANDS = {
+                chatgpt: {
+                    label: 'ChatGPT',
+                    color: '#FFFFFF',
+                    bg: '#10A37F',
+                    ring: 'rgba(16,163,127,0.35)',
+                    paths: [
+                        'M9.205 8.658v-2.26c0-.19.072-.333.238-.428l4.543-2.616c.619-.357 1.356-.523 2.117-.523 2.854 0 4.662 2.212 4.662 4.566 0 .167 0 .357-.024.547l-4.71-2.759a.797.797 0 00-.856 0l-5.97 3.473zm10.609 8.8V12.06c0-.333-.143-.57-.429-.737l-5.97-3.473 1.95-1.118a.433.433 0 01.476 0l4.543 2.617c1.309.76 2.189 2.378 2.189 3.948 0 1.808-1.07 3.473-2.76 4.163zM7.802 12.703l-1.95-1.142c-.167-.095-.239-.238-.239-.428V5.899c0-2.545 1.95-4.472 4.591-4.472 1 0 1.927.333 2.712.928L8.23 5.067c-.285.166-.428.404-.428.737v6.898zM12 15.128l-2.795-1.57v-3.33L12 8.658l2.795 1.57v3.33L12 15.128zm1.796 7.23c-1 0-1.927-.332-2.712-.927l4.686-2.712c.285-.166.428-.404.428-.737v-6.898l1.974 1.142c.167.095.238.238.238.428v5.233c0 2.545-1.974 4.472-4.614 4.472zm-5.637-5.303l-4.544-2.617c-1.308-.761-2.188-2.378-2.188-3.948A4.482 4.482 0 014.21 6.327v5.423c0 .333.143.571.428.738l5.947 3.449-1.95 1.118a.432.432 0 01-.476 0zm-.262 3.9c-2.688 0-4.662-2.021-4.662-4.519 0-.19.024-.38.047-.57l4.686 2.71c.286.167.571.167.856 0l5.97-3.448v2.26c0 .19-.07.333-.237.428l-4.543 2.616c-.619.357-1.356.523-2.117.523zm5.899 2.83a5.947 5.947 0 005.827-4.756C22.287 18.339 24 15.84 24 13.296c0-1.665-.713-3.282-1.998-4.448.119-.5.19-.999.19-1.498 0-3.401-2.759-5.947-5.946-5.947-.642 0-1.26.095-1.88.31A5.962 5.962 0 0010.205 0a5.947 5.947 0 00-5.827 4.757C1.713 5.447 0 7.945 0 10.49c0 1.666.713 3.283 1.998 4.448-.119.5-.19 1-.19 1.499 0 3.401 2.759 5.946 5.946 5.946.642 0 1.26-.095 1.88-.309a5.96 5.96 0 004.162 1.713z'
+                    ]
+                },
+                gemini: {
+                    label: 'Gemini',
+                    color: '#FFFFFF',
+                    bg: 'gemini-gradient',
+                    ring: 'rgba(140,120,245,0.35)',
+                    paths: [
+                        'M11.04 19.32Q12 21.51 12 24q0-2.49.93-4.68.96-2.19 2.58-3.81t3.81-2.55Q21.51 12 24 12q-2.49 0-4.68-.93a12.3 12.3 0 0 1-3.81-2.58 12.3 12.3 0 0 1-2.58-3.81Q12 2.49 12 0q0 2.49-.96 4.68-.93 2.19-2.55 3.81a12.3 12.3 0 0 1-3.81 2.58Q2.49 12 0 12q2.49 0 4.68.96 2.19.93 3.81 2.55t2.55 3.81'
+                    ]
+                },
+                claude: {
+                    label: 'Claude',
+                    color: '#D97757',
+                    bg: '#20120C',
+                    ring: 'rgba(217,119,87,0.35)',
+                    paths: [
+                        'm4.7144 15.9555 4.7174-2.6471.079-.2307-.079-.1275h-.2307l-.7893-.0486-2.6956-.0729-2.3375-.0971-2.2646-.1214-.5707-.1215-.5343-.7042.0546-.3522.4797-.3218.686.0608 1.5179.1032 2.2767.1578 1.6514.0972 2.4468.255h.3886l.0546-.1579-.1336-.0971-.1032-.0972L6.973 9.8356l-2.55-1.6879-1.3356-.9714-.7225-.4918-.3643-.4614-.1578-1.0078.6557-.7225.8803.0607.2246.0607.8925.686 1.9064 1.4754 2.4893 1.8336.3643.3035.1457-.1032.0182-.0728-.164-.2733-1.3539-2.4467-1.445-2.4893-.6435-1.032-.17-.6194c-.0607-.255-.1032-.4674-.1032-.7285L6.287.1335 6.6997 0l.9957.1336.419.3642.6192 1.4147 1.0018 2.2282 1.5543 3.0296.4553.8985.2429.8318.091.255h.1579v-.1457l.1275-1.706.2368-2.0947.2307-2.6957.0789-.7589.3764-.9107.7468-.4918.5828.2793.4797.686-.0668.4433-.2853 1.8517-.5586 2.9021-.3643 1.9429h.2125l.2429-.2429.9835-1.3053 1.6514-2.0643.7286-.8196.85-.9046.5464-.4311h1.0321l.759 1.1293-.34 1.1657-1.0625 1.3478-.8804 1.1414-1.2628 1.7-.7893 1.36.0729.1093.1882-.0183 2.8535-.607 1.5421-.2794 1.8396-.3157.8318.3886.091.3946-.3278.8075-1.967.4857-2.3072.4614-3.4364.8136-.0425.0304.0486.0607 1.5482.1457.6618.0364h1.621l3.0175.2247.7892.522.4736.6376-.079.4857-1.2142.6193-1.6393-.3886-3.825-.9107-1.3113-.3279h-.1822v.1093l1.0929 1.0686 2.0035 1.8092 2.5075 2.3314.1275.5768-.3218.4554-.34-.0486-2.2039-1.6575-.85-.7468-1.9246-1.621h-.1275v.17l.4432.6496 2.3436 3.5214.1214 1.0807-.17.3521-.6071.2125-.6679-.1214-1.3721-1.9246L14.38 17.959l-1.1414-1.9428-.1397.079-.674 7.2552-.3156.3703-.7286.2793-.6071-.4614-.3218-.7468.3218-1.4753.3886-1.9246.3157-1.53.2853-1.9004.17-.6314-.0121-.0425-.1397.0182-1.4328 1.9672-2.1796 2.9446-1.7243 1.8456-.4128.164-.7164-.3704.0667-.6618.4008-.5889 2.386-3.0357 1.4389-1.882.929-1.0868-.0062-.1579h-.0546l-6.3385 4.1164-1.1293.1457-.4857-.4554.0608-.7467.2307-.2429 1.9064-1.3114Z'
+                    ]
+                },
+                perplexity: {
+                    label: 'Perplexity',
+                    color: '#1FB8CD',
+                    bg: '#0B1F22',
+                    ring: 'rgba(31,184,205,0.35)',
+                    paths: [
+                        'M22.3977 7.0896h-2.3106V.0676l-7.5094 6.3542V.1577h-1.1554v6.1966L4.4904 0v7.0896H1.6023v10.3976h2.8882V24l6.932-6.3591v6.2005h1.1554v-6.0469l6.9318 6.1807v-6.4879h2.8882V7.0896zm-3.4657-4.531v4.531h-5.355l5.355-4.531zm-13.2862.0676 4.8691 4.4634H5.6458V2.6262zM2.7576 16.332V8.245h7.8476l-6.1149 6.1147v1.9723H2.7576zm2.8882 5.0404v-3.8852h.0001v-2.6488l5.7763-5.7764v7.0111l-5.7764 5.2993zm12.7086.0248-5.7766-5.1509V9.0618l5.7766 5.7766v6.5588zm2.8882-5.0652h-1.733v-1.9723L13.3948 8.245h7.8478v8.087z'
+                    ]
+                },
+                grok: {
+                    label: 'Grok',
+                    color: '#FFFFFF',
+                    bg: '#000000',
+                    ring: 'rgba(255,255,255,0.25)',
+                    paths: [
+                        'M9.27 15.29l7.978-5.897c.391-.29.95-.177 1.137.272.98 2.369.542 5.215-1.41 7.169-1.951 1.954-4.667 2.382-7.149 1.406l-2.711 1.257c3.889 2.661 8.611 2.003 11.562-.953 2.341-2.344 3.066-5.539 2.388-8.42l.006.007c-.983-4.232.242-5.924 2.75-9.383.06-.082.12-.164.179-.248l-3.301 3.305v-.01L9.267 15.292M7.623 16.723c-2.792-2.67-2.31-6.801.071-9.184 1.761-1.763 4.647-2.483 7.166-1.425l2.705-1.25a7.808 7.808 0 00-1.829-1A8.975 8.975 0 005.984 5.83c-2.533 2.536-3.33 6.436-1.962 9.764 1.022 2.487-.653 4.246-2.34 6.022-.599.63-1.199 1.259-1.682 1.925l7.62-6.815'
+                    ]
+                },
+                copilot: {
+                    label: 'Copilot',
+                    color: '#FFFFFF',
+                    bg: 'copilot-gradient',
+                    ring: 'rgba(0,174,255,0.35)',
+                    paths: [
+                        'M9 23l.073-.001a2.53 2.53 0 01-2.347-1.838l-.697-2.433a2.529 2.529 0 00-2.426-1.839h-.497l-.104-.002c-4.485 0-2.935-5.278-1.75-9.225l.162-.525C2.412 3.99 3.883 1 6.25 1h8.86c1.12 0 2.106.745 2.422 1.829l.715 2.453a2.53 2.53 0 002.247 1.823l.147.005.534.001c3.557.115 3.088 3.745 2.156 7.206l-.113.413c-.154.548-.315 1.089-.47 1.607l-.163.525C21.588 20.01 20.116 23 17.75 23h-8.75zm8.22-15.89l-3.856.001a2.526 2.526 0 00-2.35 1.615L9.21 15.04a2.529 2.529 0 01-2.43 1.847l3.853.002c1.056 0 1.992-.661 2.361-1.644l1.796-6.287a2.529 2.529 0 012.43-1.848z'
+                    ]
+                },
+                meta: {
+                    label: 'Meta AI',
+                    color: '#FFFFFF',
+                    bg: 'meta-gradient',
+                    ring: 'rgba(9,136,255,0.35)',
+                    paths: [
+                        'M10.73.032c-1.333 0-2.032 1.016-2.032 2.285 0 2.223 2.127 4.953 4.318 4.953 1.301 0 2-.953 2-2.254 0-2.254-2.095-4.984-4.286-4.984m8.413 2.984c-1.968 0-3.397 2.73-3.397 4.825 0 1.556.794 3.016 2.254 3.016 2 0 3.365-2.762 3.365-4.794 0-1.523-.762-3.047-2.222-3.047M4.857 4.159c-1.968 0-3.778 1.016-3.778 2.54 0 1.65 2.16 2.793 4.254 2.793 1.873 0 3.778-.92 3.778-2.508 0-1.682-2.159-2.825-4.254-2.825m-.222 6.476C2.413 10.635 0 13.175 0 15.397c0 1.301.825 2.159 2.095 2.159 2.19 0 4.603-2.508 4.603-4.794 0-1.27-.761-2.127-2.063-2.127m16.667.698c-2.223 0-5.016 1.62-5.016 3.651 0 1.238 1.047 2.19 2.698 2.19 2.159 0 5.016-1.587 5.016-3.682 0-1.302-1.08-2.159-2.698-2.159M7.619 16c-1.524 0-2.38 1.746-2.38 3.429 0 2.063 1.269 4.54 3.047 4.54 1.524 0 2.38-1.81 2.38-3.461C10.667 18.57 9.46 16 7.62 16m6.571 1.016c-1.333 0-2.476.667-2.476 2.032 0 2.095 2.667 4.063 4.92 4.063 1.366 0 2.54-.73 2.54-2.063 0-2.032-2.698-4.032-4.984-4.032'
+                    ]
+                }
             };
+
+            const ORDER = ['chatgpt', 'gemini', 'claude', 'perplexity', 'grok', 'copilot', 'meta'];
+
+            // Build a self-contained SVG badge (circular tinted background + official
+            // logomark, scaled from its native 24×24 viewBox) for each brand.
+            function buildBadgeSVG(key) {
+                const b = BRANDS[key];
+                let defs = '';
+                let fill = b.color;
+                let bgFill = typeof b.bg === 'string' && b.bg.startsWith('#') ? b.bg : null;
+
+                if (b.bg === 'gemini-gradient') {
+                    defs += `<linearGradient id="g-${key}" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" stop-color="#4C8DF6"/>
+                        <stop offset="50%" stop-color="#9168C0"/>
+                        <stop offset="100%" stop-color="#D96570"/>
+                    </linearGradient>`;
+                    bgFill = `url(#g-${key})`;
+                }
+                if (b.bg === 'meta-gradient') {
+                    defs += `<linearGradient id="g-${key}" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" stop-color="#0081FB"/>
+                        <stop offset="100%" stop-color="#B02BFF"/>
+                    </linearGradient>`;
+                    bgFill = `url(#g-${key})`;
+                }
+                if (b.bg === 'copilot-gradient') {
+                    defs += `<linearGradient id="g-${key}" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" stop-color="#00AEFF"/>
+                        <stop offset="55%" stop-color="#8C48FF"/>
+                        <stop offset="100%" stop-color="#FFB657"/>
+                    </linearGradient>`;
+                    bgFill = `url(#g-${key})`;
+                }
+
+                // native 24x24 path centered & scaled inside a 100x100 badge
+                const scale = 2.15;
+                const off = 50 - (24 * scale) / 2;
+                const pathMarkup = b.paths.map(d => `<path d="${d}"/>`).join('');
+
+                return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+                    <defs>${defs}</defs>
+                    <circle cx="50" cy="50" r="47" fill="${bgFill}"/>
+                    <circle cx="50" cy="50" r="47" fill="none" stroke="${b.ring}" stroke-width="1.5"/>
+                    <circle cx="50" cy="50" r="47" fill="none" stroke="rgba(255,255,255,0.12)" stroke-width="1"/>
+                    <g transform="translate(${off},${off}) scale(${scale})" fill="${fill}">${pathMarkup}</g>
+                </svg>`;
+            }
 
             function loadIcon(svg) {
                 return new Promise((resolve) => {
@@ -2249,135 +2360,121 @@
                 });
             }
 
-            const keys = ['chatgpt', 'gemini', 'claude', 'perplexity', 'grok', 'copilot', 'meta'];
-            const labels = ['ChatGPT', 'Gemini', 'Claude', 'Perplexity', 'Grok', 'Copilot', 'Meta AI'];
-
-            Promise.all(keys.map(k => loadIcon(svgIcons[k]))).then(icons => {
+            Promise.all(ORDER.map(k => loadIcon(buildBadgeSVG(k)))).then(icons => {
                 const count = icons.length;
                 let bubbles = [];
 
-                // ---- Init orbital bubbles ----
+                // ---- Orbit configuration ----
+                // Fixed, even angular spacing so bubbles can never drift into a
+                // clump — they are always locked around the eye at a stable
+                // distance, rotating together like a slow, deliberate halo.
+                const ORBIT_R = 215; // base horizontal radius
+                const SQUASH = 0.56; // vertical squash → elliptical "orbit" around the eye
+                const GLOBAL_SPEED = 0.00016; // rad/ms — one full turn ≈ 39s
+                const RADIUS_JITTER = 22; // per-bubble breathing amplitude
+                const ICON_SIZE = 78;
+
                 for (let i = 0; i < count; i++) {
-                    const radius = 38 + Math.random() * 16;
-                    const orbitRadius = 140 + Math.random() * 160;
-                    const angle = Math.random() * 2 * Math.PI;
-                    const speed = (0.002 + Math.random() * 0.008) * (Math.random() > 0.5 ? 1 : -1);
+                    const key = ORDER[i];
                     bubbles.push({
                         icon: icons[i],
-                        label: labels[i],
-                        radius: radius,
-                        orbitRadius: orbitRadius,
-                        angle: angle,
-                        speed: speed,
-                        x: CX + Math.cos(angle) * orbitRadius,
-                        y: CY + Math.sin(angle) * orbitRadius,
-                        vx: 0,
-                        vy: 0,
-                        mass: radius / 20,
-                        // Spring constants for smooth return
-                        springK: 0.035,
-                        damping: 0.92
+                        label: BRANDS[key].label,
+                        ring: BRANDS[key].ring,
+                        baseAngle: (i / count) * Math.PI * 2,
+                        // gentle per-bubble variety, purely additive — never breaks spacing
+                        radiusPhase: Math.random() * Math.PI * 2,
+                        radiusSpeed: 0.00045 + Math.random() * 0.00025,
+                        size: ICON_SIZE * (0.92 + (i % 2 === 0 ? 0.1 : -0.04)),
+                        hover: 0,
+                        x: CX, y: CY, depth: 0.5, scale: 1
                     });
                 }
 
-                // ---- Physics update ----
-                function updateOrbits() {
+                let mouseX = -9999,
+                    mouseY = -9999;
+                let hoveredBubble = null;
+
+                canvas.addEventListener('mousemove', function(e) {
+                    const rect = canvas.getBoundingClientRect();
+                    mouseX = (e.clientX - rect.left) * (W / rect.width);
+                    mouseY = (e.clientY - rect.top) * (H / rect.height);
+                });
+                canvas.addEventListener('mouseleave', function() {
+                    mouseX = -9999;
+                    mouseY = -9999;
+                });
+
+                // ---- Update: deterministic, time-based, frame-rate independent ----
+                let lastT = performance.now();
+
+                function update(now) {
+                    const dt = Math.min(now - lastT, 48); // clamp to avoid jumps on tab-switch
+                    lastT = now;
+
+                    const globalAngle = now * GLOBAL_SPEED;
+
+                    hoveredBubble = null;
+                    let minD = Infinity;
+
                     for (let b of bubbles) {
-                        // Compute target orbital position
-                        b.angle += b.speed;
-                        const targetX = CX + Math.cos(b.angle) * b.orbitRadius;
-                        const targetY = CY + Math.sin(b.angle) * b.orbitRadius;
+                        const angle = globalAngle + b.baseAngle;
+                        const breathe = Math.sin(now * b.radiusSpeed + b.radiusPhase) * RADIUS_JITTER;
+                        const r = ORBIT_R + breathe;
 
-                        // Spring force toward target
-                        const dx = targetX - b.x;
-                        const dy = targetY - b.y;
-                        b.vx += dx * b.springK;
-                        b.vy += dy * b.springK;
+                        const targetX = CX + Math.cos(angle) * r;
+                        const targetY = CY + Math.sin(angle) * r * SQUASH;
 
-                        // Damping
-                        b.vx *= b.damping;
-                        b.vy *= b.damping;
+                        // Smooth (critically-damped-feeling) interpolation instead of
+                        // springs/collisions — buttery motion, no jitter, no pile-ups.
+                        const ease = 1 - Math.pow(0.001, dt / 1000);
+                        b.x += (targetX - b.x) * ease;
+                        b.y += (targetY - b.y) * ease;
 
-                        // Apply velocity
-                        b.x += b.vx;
-                        b.y += b.vy;
+                        // Pseudo-3D depth from vertical position: bubbles in the
+                        // "front" of the ellipse read larger & brighter.
+                        const depthTarget = (Math.sin(angle) + 1) / 2; // 0 back → 1 front
+                        b.depth += (depthTarget - b.depth) * ease;
+                        b.scale = 0.78 + b.depth * 0.5;
 
-                        // Boundary guards (soft)
-                        const margin = b.radius + 10;
-                        if (b.x < margin) { b.x = margin;
-                            b.vx = Math.abs(b.vx) * 0.5; }
-                        if (b.x > W - margin) { b.x = W - margin;
-                            b.vx = -Math.abs(b.vx) * 0.5; }
-                        if (b.y < margin) { b.y = margin;
-                            b.vy = Math.abs(b.vy) * 0.5; }
-                        if (b.y > H - margin) { b.y = H - margin;
-                            b.vy = -Math.abs(b.vy) * 0.5; }
-
-                        // Repulsion from center eye
-                        const dxc = b.x - CX;
-                        const dyc = b.y - CY;
-                        const distC = Math.hypot(dxc, dyc);
-                        const minDistC = EYE_RADIUS + b.radius + 8;
-                        if (distC < minDistC && distC > 0.001) {
-                            const push = (minDistC - distC) * 0.08;
-                            b.x += (dxc / distC) * push;
-                            b.y += (dyc / distC) * push;
-                            // Reflect velocity if moving toward center
-                            const vn = (b.vx * dxc + b.vy * dyc) / distC;
-                            if (vn < 0) {
-                                b.vx -= 2 * vn * (dxc / distC);
-                                b.vy -= 2 * vn * (dyc / distC);
-                            }
+                        // Hover detection (in screen units, generous radius)
+                        const d = Math.hypot(mouseX - b.x, mouseY - b.y);
+                        const hitR = (b.size * b.scale) / 2 + 10;
+                        const hoverTarget = d < hitR ? 1 : 0;
+                        b.hover += (hoverTarget - b.hover) * 0.18;
+                        if (d < hitR && d < minD) {
+                            minD = d;
+                            hoveredBubble = b;
                         }
                     }
 
-                    // ---- Bubble-to-bubble repulsion ----
-                    for (let i = 0; i < bubbles.length; i++) {
-                        for (let j = i + 1; j < bubbles.length; j++) {
-                            const a = bubbles[i],
-                                b = bubbles[j];
-                            const dx = b.x - a.x,
-                                dy = b.y - a.y;
-                            const dist = Math.hypot(dx, dy);
-                            const minD = a.radius + b.radius + 6;
-                            if (dist < minD && dist > 0.001) {
-                                const push = (minD - dist) * 0.06;
-                                const nx = dx / dist,
-                                    ny = dy / dist;
-                                a.x -= nx * push;
-                                a.y -= ny * push;
-                                b.x += nx * push;
-                                b.y += ny * push;
-                                // Swap velocity component along collision normal (elastic-like)
-                                const dvn = (a.vx - b.vx) * nx + (a.vy - b.vy) * ny;
-                                if (dvn < 0) {
-                                    const impulse = 0.5 * dvn;
-                                    a.vx += impulse * nx;
-                                    a.vy += impulse * ny;
-                                    b.vx -= impulse * nx;
-                                    b.vy -= impulse * ny;
-                                }
-                            }
-                        }
-                    }
+                    canvas.style.cursor = hoveredBubble ? 'pointer' : 'default';
                 }
 
                 // ---- Draw ----
-                function draw() {
+                function draw(now) {
                     ctx.clearRect(0, 0, W, H);
 
-                    // ---- AI Eye (2× larger) ----
-                    // Glow
-                    const grad = ctx.createRadialGradient(CX, CY, 10, CX, CY, EYE_RADIUS + 40);
+                    // Faint orbit path for context
+                    ctx.save();
+                    ctx.beginPath();
+                    ctx.ellipse(CX, CY, ORBIT_R, ORBIT_R * SQUASH, 0, 0, Math.PI * 2);
+                    ctx.strokeStyle = 'rgba(93,171,255,0.08)';
+                    ctx.lineWidth = 1;
+                    ctx.setLineDash([2, 6]);
+                    ctx.stroke();
+                    ctx.restore();
+
+                    // ---- AI Eye ----
+                    const pulse = 1 + Math.sin(now * 0.0012) * 0.02;
+                    const grad = ctx.createRadialGradient(CX, CY, 10, CX, CY, (EYE_RADIUS + 40) * pulse);
                     grad.addColorStop(0, 'rgba(93,171,255,0.25)');
                     grad.addColorStop(0.6, 'rgba(93,171,255,0.05)');
                     grad.addColorStop(1, 'rgba(93,171,255,0)');
                     ctx.beginPath();
-                    ctx.arc(CX, CY, EYE_RADIUS + 40, 0, 2 * Math.PI);
+                    ctx.arc(CX, CY, (EYE_RADIUS + 40) * pulse, 0, 2 * Math.PI);
                     ctx.fillStyle = grad;
                     ctx.fill();
 
-                    // Eye background
                     ctx.beginPath();
                     ctx.arc(CX, CY, EYE_RADIUS, 0, 2 * Math.PI);
                     ctx.fillStyle = 'rgba(8,9,10,0.85)';
@@ -2386,29 +2483,35 @@
                     ctx.lineWidth = 2.5;
                     ctx.stroke();
 
-                    // Pupil
+                    // Pupil gently tracks the cursor — subtle, alive, premium feel
+                    const maxOffset = 16;
+                    let dxp = mouseX - CX,
+                        dyp = mouseY - CY;
+                    const dp = Math.hypot(dxp, dyp) || 1;
+                    const pupilX = CX + (dxp / dp) * Math.min(maxOffset, dp * 0.08);
+                    const pupilY = CY + (dyp / dp) * Math.min(maxOffset, dp * 0.08);
+
                     const pR = 42;
-                    const pGrad = ctx.createRadialGradient(CX - 12, CY - 12, 4, CX, CY, pR);
+                    const pGrad = ctx.createRadialGradient(pupilX - 12, pupilY - 12, 4, pupilX, pupilY, pR);
                     pGrad.addColorStop(0, '#ffffff');
                     pGrad.addColorStop(0.3, '#a78bfa');
                     pGrad.addColorStop(1, '#6ee7ff');
                     ctx.beginPath();
-                    ctx.arc(CX, CY, pR, 0, 2 * Math.PI);
+                    ctx.arc(pupilX, pupilY, pR, 0, 2 * Math.PI);
                     ctx.fillStyle = pGrad;
                     ctx.fill();
                     ctx.beginPath();
-                    ctx.arc(CX, CY, pR + 4, 0, 2 * Math.PI);
+                    ctx.arc(pupilX, pupilY, pR + 4, 0, 2 * Math.PI);
                     ctx.strokeStyle = 'rgba(255,255,255,0.15)';
                     ctx.lineWidth = 2;
                     ctx.stroke();
 
-                    // Glints
                     ctx.beginPath();
-                    ctx.arc(CX - 16, CY - 18, 12, 0, 2 * Math.PI);
+                    ctx.arc(pupilX - 16, pupilY - 18, 12, 0, 2 * Math.PI);
                     ctx.fillStyle = 'rgba(255,255,255,0.6)';
                     ctx.fill();
                     ctx.beginPath();
-                    ctx.arc(CX - 8, CY - 30, 5, 0, 2 * Math.PI);
+                    ctx.arc(pupilX - 8, pupilY - 30, 5, 0, 2 * Math.PI);
                     ctx.fillStyle = 'rgba(255,255,255,0.3)';
                     ctx.fill();
 
@@ -2418,52 +2521,42 @@
                     ctx.textBaseline = 'bottom';
                     ctx.fillText('AI', CX, CY + EYE_RADIUS + 24);
 
-                    // ---- Bubbles with official icons ----
-                    for (let b of bubbles) {
+                    // ---- Bubbles: draw back-to-front by depth for a real 3D feel ----
+                    const sorted = bubbles.slice().sort((a, b2) => a.depth - b2.depth);
+                    for (let b of sorted) {
                         if (!b.icon) continue;
-                        const size = b.radius * 1.2;
-                        ctx.drawImage(b.icon, b.x - size / 2, b.y - size / 2, size, size);
+                        const s = b.size * b.scale * (1 + b.hover * 0.14);
+                        const alpha = 0.55 + b.depth * 0.45;
 
-                        ctx.fillStyle = 'rgba(255,255,255,0.5)';
-                        ctx.font = '10px Inter, sans-serif';
+                        ctx.save();
+                        ctx.globalAlpha = alpha;
+
+                        if (b.hover > 0.01) {
+                            ctx.shadowColor = b.ring;
+                            ctx.shadowBlur = 24 * b.hover;
+                        }
+
+                        ctx.drawImage(b.icon, b.x - s / 2, b.y - s / 2, s, s);
+                        ctx.restore();
+
+                        ctx.save();
+                        ctx.globalAlpha = Math.min(1, alpha + 0.15) * (0.55 + b.hover * 0.45);
+                        ctx.fillStyle = '#ffffff';
+                        ctx.font = (b.hover > 0.4 ? '600 ' : '400 ') + '11px Inter, sans-serif';
                         ctx.textAlign = 'center';
                         ctx.textBaseline = 'top';
-                        ctx.fillText(b.label, b.x, b.y + b.radius + 5);
+                        ctx.fillText(b.label, b.x, b.y + s / 2 + 6);
+                        ctx.restore();
                     }
                 }
 
                 // ---- Animation loop ----
-                function animate() {
-                    updateOrbits();
-                    draw();
+                function animate(now) {
+                    update(now);
+                    draw(now);
                     requestAnimationFrame(animate);
                 }
-                animate();
-
-                // ---- Click handler: impulse on bubble ----
-                canvas.addEventListener('click', function(e) {
-                    const rect = canvas.getBoundingClientRect();
-                    const scaleX = canvas.width / rect.width;
-                    const scaleY = canvas.height / rect.height;
-                    const mx = (e.clientX - rect.left) * scaleX;
-                    const my = (e.clientY - rect.top) * scaleY;
-
-                    let closest = null,
-                        minD = Infinity;
-                    for (let b of bubbles) {
-                        const d = Math.hypot(mx - b.x, my - b.y);
-                        if (d < b.radius + 10 && d < minD) {
-                            minD = d;
-                            closest = b;
-                        }
-                    }
-                    if (closest) {
-                        const angle = Math.random() * 2 * Math.PI;
-                        const strength = 6 + Math.random() * 8;
-                        closest.vx += Math.cos(angle) * strength;
-                        closest.vy += Math.sin(angle) * strength;
-                    }
-                });
+                requestAnimationFrame(animate);
 
                 canvas.addEventListener('touchstart', function(e) {
                     // passive: prevent tap highlight

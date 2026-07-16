@@ -415,7 +415,7 @@
             fill: none;
         }
 
-        /* ===== BUBBLE CANVAS ===== */
+        /* ===== BUBBLE CANVAS — ORBITAL PHYSICS ===== */
         .hero-visual {
             position: relative;
             display: flex;
@@ -1064,7 +1064,7 @@
             justify-content: center;
         }
 
-        /* ===== FOOTER (updated) ===== */
+        /* ===== FOOTER ===== */
         footer {
             background: var(--bg-primary);
             padding: 40px 0 24px;
@@ -1496,7 +1496,7 @@
                     </div>
                 </div>
 
-                <!-- ===== BUBBLE CANVAS ===== -->
+                <!-- ===== BUBBLE CANVAS — ORBITAL PHYSICS ===== -->
                 <div class="hero-visual">
                     <div class="bubble-canvas-wrapper">
                         <canvas id="bubbleCanvas" width="700" height="600"></canvas>
@@ -2218,20 +2218,18 @@
                 });
             }
 
-            // =============================================
-            // BUBBLE CANVAS — PHYSICS WITH OFFICIAL ICONS
-            // =============================================
+            // ============================================================
+            // BUBBLE CANVAS — ORBITAL PHYSICS WITH OFFICIAL ICONS
+            // ============================================================
             const canvas = document.getElementById('bubbleCanvas');
             const ctx = canvas.getContext('2d');
-            const width = 700,
-                height = 600;
+            const W = 700,
+                H = 600;
+            const CX = W / 2,
+                CY = H / 2;
+            const EYE_RADIUS = 110;
 
-            // ---- AI Eye (2× larger) ----
-            const centerX = width / 2;
-            const centerY = height / 2;
-            const centerRadius = 110;
-
-            // ---- Official SVG icons as Image objects ----
+            // ---- Official SVG icons ----
             const svgIcons = {
                 chatgpt: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="46" fill="#10a37f"/><path d="M34 38L50 24L66 38L62 46L50 34L38 46L34 38Z" fill="white"/><path d="M34 62L50 76L66 62L62 54L50 66L38 54L34 62Z" fill="white"/><path d="M30 50L44 34L52 38L38 54L30 50Z" fill="white" opacity="0.7"/><path d="M70 50L56 66L48 62L62 46L70 50Z" fill="white" opacity="0.7"/></svg>`,
                 gemini: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="46" fill="#4285f4" opacity="0.2"/><path d="M50 18L62 42L88 46L68 66L72 92L50 80L28 92L32 66L12 46L38 42L50 18Z" fill="#4285f4" stroke="#4285f4" stroke-width="1.5"/><path d="M50 30L58 48L78 50L62 66L64 84L50 74L36 84L38 66L22 50L42 48L50 30Z" fill="white" opacity="0.9"/></svg>`,
@@ -2242,138 +2240,146 @@
                 meta: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="46" fill="#0066b3" opacity="0.08"/><text x="50" y="60" font-size="34" text-anchor="middle" fill="#0066b3" font-weight="800" font-family="Inter, sans-serif">M</text><circle cx="50" cy="50" r="26" stroke="#0066b3" stroke-width="1" stroke-opacity="0.12"/></svg>`
             };
 
-            function loadIcon(svgStr) {
+            function loadIcon(svg) {
                 return new Promise((resolve) => {
                     const img = new Image();
                     img.onload = () => resolve(img);
                     img.onerror = () => resolve(null);
-                    img.src = 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(svgStr);
+                    img.src = 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(svg);
                 });
             }
 
-            const iconKeys = ['chatgpt', 'gemini', 'claude', 'perplexity', 'grok', 'copilot', 'meta'];
-            const iconLabels = ['ChatGPT', 'Gemini', 'Claude', 'Perplexity', 'Grok', 'Copilot', 'Meta AI'];
+            const keys = ['chatgpt', 'gemini', 'claude', 'perplexity', 'grok', 'copilot', 'meta'];
+            const labels = ['ChatGPT', 'Gemini', 'Claude', 'Perplexity', 'Grok', 'Copilot', 'Meta AI'];
 
-            Promise.all(iconKeys.map(key => loadIcon(svgIcons[key]))).then(icons => {
-                // ---- Init bubbles ----
-                const numBubbles = icons.length;
+            Promise.all(keys.map(k => loadIcon(svgIcons[k]))).then(icons => {
+                const count = icons.length;
                 let bubbles = [];
-                for (let i = 0; i < numBubbles; i++) {
-                    let radius = 38 + Math.random() * 18;
-                    let angle = Math.random() * 2 * Math.PI;
-                    let dist = 150 + Math.random() * 180;
-                    let x = centerX + Math.cos(angle) * dist;
-                    let y = centerY + Math.sin(angle) * dist;
-                    while (Math.hypot(x - centerX, y - centerY) < centerRadius + radius + 20) {
-                        angle = Math.random() * 2 * Math.PI;
-                        dist = 170 + Math.random() * 200;
-                        x = centerX + Math.cos(angle) * dist;
-                        y = centerY + Math.sin(angle) * dist;
-                    }
-                    let vx = (Math.random() - 0.5) * 2.5;
-                    let vy = (Math.random() - 0.5) * 2.5;
-                    if (Math.abs(vx) < 0.4) vx = 0.6 * (Math.random() > 0.5 ? 1 : -1);
-                    if (Math.abs(vy) < 0.4) vy = 0.6 * (Math.random() > 0.5 ? 1 : -1);
+
+                // ---- Init orbital bubbles ----
+                for (let i = 0; i < count; i++) {
+                    const radius = 38 + Math.random() * 16;
+                    const orbitRadius = 140 + Math.random() * 160;
+                    const angle = Math.random() * 2 * Math.PI;
+                    const speed = (0.002 + Math.random() * 0.008) * (Math.random() > 0.5 ? 1 : -1);
                     bubbles.push({
-                        x,
-                        y,
-                        radius,
-                        vx,
-                        vy,
                         icon: icons[i],
-                        label: iconLabels[i],
-                        mass: radius / 20
+                        label: labels[i],
+                        radius: radius,
+                        orbitRadius: orbitRadius,
+                        angle: angle,
+                        speed: speed,
+                        x: CX + Math.cos(angle) * orbitRadius,
+                        y: CY + Math.sin(angle) * orbitRadius,
+                        vx: 0,
+                        vy: 0,
+                        mass: radius / 20,
+                        // Spring constants for smooth return
+                        springK: 0.035,
+                        damping: 0.92
                     });
                 }
 
-                // ---- Physics ----
-                function resolveCollision(a, b) {
-                    const dx = b.x - a.x,
-                        dy = b.y - a.y;
-                    const dist = Math.hypot(dx, dy);
-                    const minDist = a.radius + b.radius;
-                    if (dist >= minDist || dist === 0) return false;
-                    const nx = dx / dist,
-                        ny = dy / dist;
-                    const overlap = (minDist - dist) / 2;
-                    a.x -= nx * overlap;
-                    a.y -= ny * overlap;
-                    b.x += nx * overlap;
-                    b.y += ny * overlap;
-                    const dvx = a.vx - b.vx,
-                        dvy = a.vy - b.vy;
-                    const dvn = dvx * nx + dvy * ny;
-                    if (dvn > 0) return false;
-                    const totalMass = a.mass + b.mass;
-                    const impulse = (2 * dvn) / totalMass;
-                    a.vx -= impulse * b.mass * nx;
-                    a.vy -= impulse * b.mass * ny;
-                    b.vx += impulse * a.mass * nx;
-                    b.vy += impulse * a.mass * ny;
-                    const damp = 0.98;
-                    a.vx *= damp;
-                    a.vy *= damp;
-                    b.vx *= damp;
-                    b.vy *= damp;
-                    return true;
-                }
-
-                function updatePhysics() {
+                // ---- Physics update ----
+                function updateOrbits() {
                     for (let b of bubbles) {
+                        // Compute target orbital position
+                        b.angle += b.speed;
+                        const targetX = CX + Math.cos(b.angle) * b.orbitRadius;
+                        const targetY = CY + Math.sin(b.angle) * b.orbitRadius;
+
+                        // Spring force toward target
+                        const dx = targetX - b.x;
+                        const dy = targetY - b.y;
+                        b.vx += dx * b.springK;
+                        b.vy += dy * b.springK;
+
+                        // Damping
+                        b.vx *= b.damping;
+                        b.vy *= b.damping;
+
+                        // Apply velocity
                         b.x += b.vx;
                         b.y += b.vy;
-                    }
-                    for (let i = 0; i < bubbles.length; i++) {
-                        for (let j = i + 1; j < bubbles.length; j++) {
-                            resolveCollision(bubbles[i], bubbles[j]);
-                        }
-                    }
-                    for (let b of bubbles) {
-                        const dx = b.x - centerX,
-                            dy = b.y - centerY;
-                        const dist = Math.hypot(dx, dy);
-                        const minDist = centerRadius + b.radius;
-                        if (dist < minDist && dist > 0) {
-                            const nx = dx / dist,
-                                ny = dy / dist;
-                            const overlap = (minDist - dist) / 2;
-                            b.x += nx * overlap;
-                            b.y += ny * overlap;
-                            const vn = b.vx * nx + b.vy * ny;
+
+                        // Boundary guards (soft)
+                        const margin = b.radius + 10;
+                        if (b.x < margin) { b.x = margin;
+                            b.vx = Math.abs(b.vx) * 0.5; }
+                        if (b.x > W - margin) { b.x = W - margin;
+                            b.vx = -Math.abs(b.vx) * 0.5; }
+                        if (b.y < margin) { b.y = margin;
+                            b.vy = Math.abs(b.vy) * 0.5; }
+                        if (b.y > H - margin) { b.y = H - margin;
+                            b.vy = -Math.abs(b.vy) * 0.5; }
+
+                        // Repulsion from center eye
+                        const dxc = b.x - CX;
+                        const dyc = b.y - CY;
+                        const distC = Math.hypot(dxc, dyc);
+                        const minDistC = EYE_RADIUS + b.radius + 8;
+                        if (distC < minDistC && distC > 0.001) {
+                            const push = (minDistC - distC) * 0.08;
+                            b.x += (dxc / distC) * push;
+                            b.y += (dyc / distC) * push;
+                            // Reflect velocity if moving toward center
+                            const vn = (b.vx * dxc + b.vy * dyc) / distC;
                             if (vn < 0) {
-                                b.vx -= 2 * vn * nx;
-                                b.vy -= 2 * vn * ny;
+                                b.vx -= 2 * vn * (dxc / distC);
+                                b.vy -= 2 * vn * (dyc / distC);
                             }
                         }
-                        const r = b.radius;
-                        if (b.x - r < 0) { b.x = r;
-                            b.vx = -b.vx; }
-                        if (b.x + r > width) { b.x = width - r;
-                            b.vx = -b.vx; }
-                        if (b.y - r < 0) { b.y = r;
-                            b.vy = -b.vy; }
-                        if (b.y + r > height) { b.y = height - r;
-                            b.vy = -b.vy; }
+                    }
+
+                    // ---- Bubble-to-bubble repulsion ----
+                    for (let i = 0; i < bubbles.length; i++) {
+                        for (let j = i + 1; j < bubbles.length; j++) {
+                            const a = bubbles[i],
+                                b = bubbles[j];
+                            const dx = b.x - a.x,
+                                dy = b.y - a.y;
+                            const dist = Math.hypot(dx, dy);
+                            const minD = a.radius + b.radius + 6;
+                            if (dist < minD && dist > 0.001) {
+                                const push = (minD - dist) * 0.06;
+                                const nx = dx / dist,
+                                    ny = dy / dist;
+                                a.x -= nx * push;
+                                a.y -= ny * push;
+                                b.x += nx * push;
+                                b.y += ny * push;
+                                // Swap velocity component along collision normal (elastic-like)
+                                const dvn = (a.vx - b.vx) * nx + (a.vy - b.vy) * ny;
+                                if (dvn < 0) {
+                                    const impulse = 0.5 * dvn;
+                                    a.vx += impulse * nx;
+                                    a.vy += impulse * ny;
+                                    b.vx -= impulse * nx;
+                                    b.vy -= impulse * ny;
+                                }
+                            }
+                        }
                     }
                 }
 
                 // ---- Draw ----
                 function draw() {
-                    ctx.clearRect(0, 0, width, height);
+                    ctx.clearRect(0, 0, W, H);
 
-                    // AI Eye glow
-                    const grad = ctx.createRadialGradient(centerX, centerY, 10, centerX, centerY, centerRadius + 40);
+                    // ---- AI Eye (2× larger) ----
+                    // Glow
+                    const grad = ctx.createRadialGradient(CX, CY, 10, CX, CY, EYE_RADIUS + 40);
                     grad.addColorStop(0, 'rgba(93,171,255,0.25)');
                     grad.addColorStop(0.6, 'rgba(93,171,255,0.05)');
                     grad.addColorStop(1, 'rgba(93,171,255,0)');
                     ctx.beginPath();
-                    ctx.arc(centerX, centerY, centerRadius + 40, 0, 2 * Math.PI);
+                    ctx.arc(CX, CY, EYE_RADIUS + 40, 0, 2 * Math.PI);
                     ctx.fillStyle = grad;
                     ctx.fill();
 
                     // Eye background
                     ctx.beginPath();
-                    ctx.arc(centerX, centerY, centerRadius, 0, 2 * Math.PI);
+                    ctx.arc(CX, CY, EYE_RADIUS, 0, 2 * Math.PI);
                     ctx.fillStyle = 'rgba(8,9,10,0.85)';
                     ctx.fill();
                     ctx.strokeStyle = 'rgba(93,171,255,0.5)';
@@ -2381,28 +2387,28 @@
                     ctx.stroke();
 
                     // Pupil
-                    const pupilR = 42;
-                    const pupilGrad = ctx.createRadialGradient(centerX - 12, centerY - 12, 4, centerX, centerY, pupilR);
-                    pupilGrad.addColorStop(0, '#ffffff');
-                    pupilGrad.addColorStop(0.3, '#a78bfa');
-                    pupilGrad.addColorStop(1, '#6ee7ff');
+                    const pR = 42;
+                    const pGrad = ctx.createRadialGradient(CX - 12, CY - 12, 4, CX, CY, pR);
+                    pGrad.addColorStop(0, '#ffffff');
+                    pGrad.addColorStop(0.3, '#a78bfa');
+                    pGrad.addColorStop(1, '#6ee7ff');
                     ctx.beginPath();
-                    ctx.arc(centerX, centerY, pupilR, 0, 2 * Math.PI);
-                    ctx.fillStyle = pupilGrad;
+                    ctx.arc(CX, CY, pR, 0, 2 * Math.PI);
+                    ctx.fillStyle = pGrad;
                     ctx.fill();
                     ctx.beginPath();
-                    ctx.arc(centerX, centerY, pupilR + 4, 0, 2 * Math.PI);
+                    ctx.arc(CX, CY, pR + 4, 0, 2 * Math.PI);
                     ctx.strokeStyle = 'rgba(255,255,255,0.15)';
                     ctx.lineWidth = 2;
                     ctx.stroke();
 
                     // Glints
                     ctx.beginPath();
-                    ctx.arc(centerX - 16, centerY - 18, 12, 0, 2 * Math.PI);
+                    ctx.arc(CX - 16, CY - 18, 12, 0, 2 * Math.PI);
                     ctx.fillStyle = 'rgba(255,255,255,0.6)';
                     ctx.fill();
                     ctx.beginPath();
-                    ctx.arc(centerX - 8, centerY - 30, 5, 0, 2 * Math.PI);
+                    ctx.arc(CX - 8, CY - 30, 5, 0, 2 * Math.PI);
                     ctx.fillStyle = 'rgba(255,255,255,0.3)';
                     ctx.fill();
 
@@ -2410,24 +2416,25 @@
                     ctx.font = 'bold 18px Inter, sans-serif';
                     ctx.textAlign = 'center';
                     ctx.textBaseline = 'bottom';
-                    ctx.fillText('AI', centerX, centerY + centerRadius + 24);
+                    ctx.fillText('AI', CX, CY + EYE_RADIUS + 24);
 
-                    // Bubbles with official icons
+                    // ---- Bubbles with official icons ----
                     for (let b of bubbles) {
                         if (!b.icon) continue;
-                        const iconSize = b.radius * 1.2;
-                        ctx.drawImage(b.icon, b.x - iconSize / 2, b.y - iconSize / 2, iconSize, iconSize);
+                        const size = b.radius * 1.2;
+                        ctx.drawImage(b.icon, b.x - size / 2, b.y - size / 2, size, size);
+
                         ctx.fillStyle = 'rgba(255,255,255,0.5)';
-                        ctx.font = '11px Inter, sans-serif';
+                        ctx.font = '10px Inter, sans-serif';
                         ctx.textAlign = 'center';
                         ctx.textBaseline = 'top';
-                        ctx.fillText(b.label, b.x, b.y + b.radius + 6);
+                        ctx.fillText(b.label, b.x, b.y + b.radius + 5);
                     }
                 }
 
-                // ---- Animation loop (continuous) ----
+                // ---- Animation loop ----
                 function animate() {
-                    updatePhysics();
+                    updateOrbits();
                     draw();
                     requestAnimationFrame(animate);
                 }
@@ -2438,29 +2445,28 @@
                     const rect = canvas.getBoundingClientRect();
                     const scaleX = canvas.width / rect.width;
                     const scaleY = canvas.height / rect.height;
-                    const mouseX = (e.clientX - rect.left) * scaleX;
-                    const mouseY = (e.clientY - rect.top) * scaleY;
+                    const mx = (e.clientX - rect.left) * scaleX;
+                    const my = (e.clientY - rect.top) * scaleY;
 
                     let closest = null,
-                        minDist = Infinity;
+                        minD = Infinity;
                     for (let b of bubbles) {
-                        const d = Math.hypot(mouseX - b.x, mouseY - b.y);
-                        if (d < b.radius + 10 && d < minDist) {
-                            minDist = d;
+                        const d = Math.hypot(mx - b.x, my - b.y);
+                        if (d < b.radius + 10 && d < minD) {
+                            minD = d;
                             closest = b;
                         }
                     }
                     if (closest) {
                         const angle = Math.random() * 2 * Math.PI;
-                        const strength = 5 + Math.random() * 7;
+                        const strength = 6 + Math.random() * 8;
                         closest.vx += Math.cos(angle) * strength;
                         closest.vy += Math.sin(angle) * strength;
                     }
                 });
 
-                // Prevent tap highlight on mobile
                 canvas.addEventListener('touchstart', function(e) {
-                    // passive: just prevent default highlight behavior
+                    // passive: prevent tap highlight
                 }, { passive: true });
 
             }); // end Promise.all

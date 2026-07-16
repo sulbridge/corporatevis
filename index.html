@@ -256,6 +256,10 @@
             padding: 8px 18px;
             font-size: 0.85rem;
         }
+        .nav-links a.btn-primary,
+        .nav-links a.btn-primary:hover {
+            color: #000 !important;
+        }
         .hamburger {
             display: none;
             flex-direction: column;
@@ -1857,7 +1861,7 @@
                 <p class="section-subtitle mx-auto">Everything you need to know about AI visibility for enterprises.</p>
             </div>
             <div class="faq-grid" id="faqGrid">
-                <div class="faq-item open">
+                <div class="faq-item">
                     <div class="question">
                         <span>What is AI visibility and why does it matter for enterprises?</span>
                         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
@@ -2066,7 +2070,6 @@
                     this.classList.toggle('open');
                 });
             });
-            if (faqItems.length) faqItems[0].classList.add('open');
 
             // ===== Audit modal =====
             const auditBtn = document.getElementById('auditBtn');

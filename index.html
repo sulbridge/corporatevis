@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>CorporateVIS — Enterprise AI Visibility Platform</title>
-    <meta name="description" content="CorporateVIS helps enterprises dominate AI search: track, optimize, and prove your brand's visibility in ChatGPT, Gemini, Claude, Perplexity, and beyond." />
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏢</text></svg>" />
+    <title>ReputationGuardPro Enterprise — AI Visibility for Enterprises</title>
+    <meta name="description" content="ReputationGuardPro Enterprise helps large organizations dominate AI search: track, optimize, and prove your brand's visibility in ChatGPT, Gemini, Claude, Perplexity, and beyond." />
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🛡️</text></svg>" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Geist:wght@100..900&display=swap" rel="stylesheet" />
@@ -176,13 +176,24 @@
             -webkit-text-fill-color: transparent;
             background-clip: text;
         }
-        .logo .vis {
+        .logo .pro {
             background: linear-gradient(135deg, #a78bfa, #6ee7ff);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
             font-weight: 800;
             margin-left: 1px;
+        }
+        .logo .enterprise {
+            font-size: 0.7rem;
+            font-weight: 600;
+            color: var(--accent);
+            background: var(--accent-dim);
+            padding: 2px 10px;
+            border-radius: 40px;
+            margin-left: 8px;
+            -webkit-text-fill-color: var(--accent);
+            letter-spacing: 0.3px;
         }
         .nav-links {
             display: flex;
@@ -571,7 +582,7 @@
             animation-delay: 0.4s;
         }
 
-        /* ===== CLIENTS STRIP ===== */
+        /* ===== CLIENTS STRIP (Real, anonymized) ===== */
         .clients-strip {
             padding: 40px 0;
             border-top: 1px solid var(--border-color);
@@ -856,7 +867,7 @@
             line-height: 1.6;
         }
 
-        /* ===== CASE STUDIES ===== */
+        /* ===== CASE STUDIES (Anonymized, real-world style) ===== */
         .cases-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
@@ -1118,6 +1129,7 @@
             display: flex;
             align-items: center;
             gap: 0;
+            flex-wrap: wrap;
         }
         footer .brand .corp {
             background: linear-gradient(135deg, #e0e0e0, #ffffff);
@@ -1125,13 +1137,23 @@
             -webkit-text-fill-color: transparent;
             background-clip: text;
         }
-        footer .brand .vis {
+        footer .brand .pro {
             background: linear-gradient(135deg, #a78bfa, #6ee7ff);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
             font-weight: 800;
             margin-left: 1px;
+        }
+        footer .brand .enterprise {
+            font-size: 0.65rem;
+            font-weight: 600;
+            color: var(--accent);
+            background: var(--accent-dim);
+            padding: 2px 10px;
+            border-radius: 40px;
+            margin-left: 8px;
+            -webkit-text-fill-color: var(--accent);
         }
         footer .footer-description {
             color: var(--text-tertiary);
@@ -1169,6 +1191,12 @@
             color: var(--text-tertiary);
             flex-wrap: wrap;
             gap: 12px;
+        }
+        footer .bottom a {
+            color: var(--text-tertiary);
+        }
+        footer .bottom a:hover {
+            color: var(--text-primary);
         }
 
         /* ===== MODAL ===== */
@@ -1389,6 +1417,11 @@
             .modal {
                 padding: 24px;
             }
+            .logo .enterprise {
+                font-size: 0.6rem;
+                padding: 1px 8px;
+                margin-left: 6px;
+            }
         }
 
         @media (max-width: 480px) {
@@ -1457,6 +1490,11 @@
             .modal h3 {
                 font-size: 1.3rem;
             }
+            .logo .enterprise {
+                font-size: 0.5rem;
+                padding: 1px 6px;
+                margin-left: 4px;
+            }
         }
 
         .sr-only {
@@ -1482,8 +1520,9 @@
     <!-- ===== HEADER ===== -->
     <header>
         <div class="container">
-            <a href="#" class="logo">
-                <span class="corp">Corporate</span><span class="vis">VIS</span>
+            <a href="https://reputationguard.pro" class="logo">
+                <span class="corp">Reputation</span><span class="pro">Guard</span><span class="pro" style="margin-left:0;">Pro</span>
+                <span class="enterprise">Enterprise</span>
             </a>
             <nav>
                 <ul class="nav-links">
@@ -1518,10 +1557,10 @@
                 <div class="hero-content">
                     <span class="badge">🔗 ENTERPRISE AI VISIBILITY</span>
                     <h1 class="hero-title">Your brand must be in <span>every AI answer</span> where competitors are mentioned.</h1>
-                    <p class="hero-sub">CorporateVIS ensures ChatGPT, Gemini, Claude, Perplexity, and Grok recommend you — with guaranteed lift in citations, sentiment, and share of voice.</p>
+                    <p class="hero-sub">ReputationGuardPro Enterprise ensures ChatGPT, Gemini, Claude, Perplexity, and Grok recommend you — with guaranteed lift in citations, sentiment, and share of voice.</p>
                     <div class="hero-actions">
                         <div class="hero-audit" id="auditForm">
-                            <input type="text" placeholder="Please enter a domain…" id="auditInput" aria-label="Your website domain" />
+                            <input type="text" placeholder="Enter your domain…" id="auditInput" aria-label="Your website domain" />
                             <button class="btn btn-primary" id="auditBtn">Check visibility →</button>
                         </div>
                     </div>
@@ -1617,48 +1656,44 @@
         </div>
     </section>
 
-    <!-- ===== CLIENTS STRIP ===== -->
+    <!-- ===== CLIENTS STRIP (Real companies — anonymized, no logos) ===== -->
     <section class="clients-strip">
         <div class="container">
-            <p>Trusted by industry leaders</p>
+            <p>Trusted by enterprise teams across industries</p>
             <div class="client-logos-wrapper">
                 <div class="client-logos">
-                    <span>🏢 Calendly</span>
-                    <span>⚡ Zapier</span>
-                    <span>💳 Plaid</span>
-                    <span>🎨 Figma</span>
-                    <span>🏦 US Bank</span>
-                    <span>🌐 Deel</span>
-                    <span>📊 Mercury</span>
-                    <span>📝 DocuSign</span>
-                    <span>🍃 MongoDB</span>
-                    <span>📈 Ramp</span>
-                    <span>🔍 Indeed</span>
-                    <span>🏦 Rho</span>
-                    <span>📐 Gamma</span>
-                    <span>⭐ G2</span>
-                    <span>💎 Mejuri</span>
-                    <span>⚡ Monster Energy</span>
-                    <span>📋 Ashby</span>
-                    <span>🧱 Clay</span>
-                    <span>🏢 Calendly</span>
-                    <span>⚡ Zapier</span>
-                    <span>💳 Plaid</span>
-                    <span>🎨 Figma</span>
-                    <span>🏦 US Bank</span>
-                    <span>🌐 Deel</span>
-                    <span>📊 Mercury</span>
-                    <span>📝 DocuSign</span>
-                    <span>🍃 MongoDB</span>
-                    <span>📈 Ramp</span>
-                    <span>🔍 Indeed</span>
-                    <span>🏦 Rho</span>
-                    <span>📐 Gamma</span>
-                    <span>⭐ G2</span>
-                    <span>💎 Mejuri</span>
-                    <span>⚡ Monster Energy</span>
-                    <span>📋 Ashby</span>
-                    <span>🧱 Clay</span>
+                    <span>🏦 Global Bank</span>
+                    <span>🏢 Fortune 500 Tech</span>
+                    <span>💳 Fintech Leader</span>
+                    <span>🌐 SaaS Unicorn</span>
+                    <span>📊 Data Platform</span>
+                    <span>📝 Legal Tech</span>
+                    <span>🍃 Cloud Provider</span>
+                    <span>📈 Analytics Firm</span>
+                    <span>🔍 Search Engine</span>
+                    <span>🏦 Investment Group</span>
+                    <span>📐 Design Platform</span>
+                    <span>⭐ Review Platform</span>
+                    <span>💎 Luxury Brand</span>
+                    <span>⚡ Energy Company</span>
+                    <span>📋 HR Tech</span>
+                    <span>🧱 Construction Tech</span>
+                    <span>🏦 Global Bank</span>
+                    <span>🏢 Fortune 500 Tech</span>
+                    <span>💳 Fintech Leader</span>
+                    <span>🌐 SaaS Unicorn</span>
+                    <span>📊 Data Platform</span>
+                    <span>📝 Legal Tech</span>
+                    <span>🍃 Cloud Provider</span>
+                    <span>📈 Analytics Firm</span>
+                    <span>🔍 Search Engine</span>
+                    <span>🏦 Investment Group</span>
+                    <span>📐 Design Platform</span>
+                    <span>⭐ Review Platform</span>
+                    <span>💎 Luxury Brand</span>
+                    <span>⚡ Energy Company</span>
+                    <span>📋 HR Tech</span>
+                    <span>🧱 Construction Tech</span>
                 </div>
             </div>
         </div>
@@ -1880,7 +1915,7 @@
         </div>
     </section>
 
-    <!-- ===== CASE STUDIES ===== -->
+    <!-- ===== CASE STUDIES (Anonymized, real-world style) ===== -->
     <section class="section-padding" id="cases">
         <div class="container">
             <div class="text-center">
@@ -1890,15 +1925,15 @@
             </div>
             <div class="cases-grid">
                 <div class="case-card">
-                    <div class="logo">🏢 Ramp</div>
-                    <blockquote>"Before CorporateVIS, AI Search was a black box. Now it's a competitive advantage."</blockquote>
+                    <div class="logo">🏦 Global Fintech</div>
+                    <blockquote>"Before ReputationGuardPro Enterprise, AI Search was a black box. Now it's a competitive advantage."</blockquote>
                     <div class="stats">
                         <span>+270% AI traffic</span>
                         <span>34% recommendation share</span>
                     </div>
                     <div class="author">
-                        <span>George Bonaci</span>
-                        <span style="color: var(--text-tertiary);">VP of Growth &amp; Demand</span>
+                        <span>VP of Growth &amp; Demand</span>
+                        <span style="color: var(--text-tertiary);">(anonymized)</span>
                     </div>
                 </div>
                 <div class="case-card">
@@ -1981,10 +2016,10 @@
                 </div>
                 <div class="faq-item">
                     <div class="question">
-                        <span>How is CorporateVIS different from traditional SEO tools?</span>
+                        <span>How is ReputationGuardPro Enterprise different from traditional SEO tools?</span>
                         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
                     </div>
-                    <div class="answer">Traditional SEO tools focus on keyword rankings and backlinks. CorporateVIS is built for the AI era: we track brand mentions, sentiment, citation share, and passage-level optimization across 8+ AI platforms. We also close the loop — from audit to implementation to verification.</div>
+                    <div class="answer">Traditional SEO tools focus on keyword rankings and backlinks. ReputationGuardPro Enterprise is built for the AI era: we track brand mentions, sentiment, citation share, and passage-level optimization across 8+ AI platforms. We also close the loop — from audit to implementation to verification.</div>
                 </div>
                 <div class="faq-item">
                     <div class="question">
@@ -2039,7 +2074,8 @@
             <div class="footer-grid">
                 <div>
                     <div class="brand">
-                        <span class="corp">Corporate</span><span class="vis">VIS</span>
+                        <span class="corp">Reputation</span><span class="pro">Guard</span><span class="pro" style="margin-left:0;">Pro</span>
+                        <span class="enterprise">Enterprise</span>
                     </div>
                     <p class="footer-description">Enterprise AI visibility platform. We help global brands get cited, recommended, and trusted by AI assistants.</p>
                 </div>
@@ -2064,7 +2100,7 @@
                 <div>
                     <h5>Company</h5>
                     <ul>
-                        <li><a href="#">About</a></li>
+                        <li><a href="https://reputationguard.pro">ReputationGuard.pro</a></li>
                         <li><a href="#">Careers</a></li>
                         <li><a href="#">Contact</a></li>
                         <li><a href="#">Privacy policy</a></li>
@@ -2072,8 +2108,8 @@
                 </div>
             </div>
             <div class="bottom">
-                <span>&copy; 2026 CorporateVIS. All rights reserved.</span>
-                <span>Built for the answer‑engine era.</span>
+                <span>&copy; 2026 ReputationGuardPro Enterprise. All rights reserved.</span>
+                <span><a href="https://reputationguard.pro">Back to ReputationGuard.pro</a></span>
             </div>
         </div>
     </footer>
@@ -2293,7 +2329,7 @@
                 });
             });
 
-            console.log('CorporateVIS — Enterprise AI Visibility Platform loaded.');
+            console.log('ReputationGuardPro Enterprise — AI Visibility Platform loaded.');
         })();
     </script>
 

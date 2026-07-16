@@ -1,0 +1,2572 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ReputationGuardPro Enterprise — AI Visibility Platform</title>
+    <meta name="description" content="ReputationGuardPro Enterprise helps large organizations dominate AI search: track, optimize, and prove your brand's visibility in ChatGPT, Gemini, Claude, Perplexity, and beyond." />
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🛡️</text></svg>" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Geist:wght@100..900&display=swap" rel="stylesheet" />
+    <style>
+        /* ===== RESET & BASE ===== */
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        :root {
+            --bg-primary: #08090A;
+            --bg-secondary: #0E0E10;
+            --bg-card: #141517;
+            --bg-card-hover: #1C1D20;
+            --border-color: #2C2C2C;
+            --text-primary: #FFFFFF;
+            --text-secondary: #B0B3B8;
+            --text-tertiary: #6B6E75;
+            --accent: #5DABFF;
+            --accent-hover: #7BBFFF;
+            --accent-dim: rgba(93, 171, 255, 0.15);
+            --success: #00C48C;
+            --font-family: 'Inter', 'Geist', -apple-system, system-ui, sans-serif;
+            --header-height: 70px;
+            --max-width: 1200px;
+            --transition: 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            --shadow-card: 0 8px 30px rgba(0, 0, 0, 0.5);
+            --shadow-soft: 0 4px 20px rgba(93, 171, 255, 0.08);
+        }
+        html {
+            scroll-behavior: smooth;
+        }
+        body {
+            font-family: var(--font-family);
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            overflow-x: hidden;
+            -webkit-tap-highlight-color: transparent;
+        }
+        a {
+            color: var(--accent);
+            text-decoration: none;
+        }
+        a:hover {
+            color: var(--accent-hover);
+        }
+        img {
+            max-width: 100%;
+            display: block;
+        }
+        .container {
+            max-width: var(--max-width);
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+        .section-padding {
+            padding: 80px 0;
+        }
+        .section-title {
+            font-size: clamp(2rem, 4vw, 3rem);
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            line-height: 1.1;
+            margin-bottom: 16px;
+        }
+        .section-subtitle {
+            font-size: clamp(1rem, 1.2vw, 1.25rem);
+            color: var(--text-secondary);
+            max-width: 640px;
+            line-height: 1.6;
+        }
+        .text-center {
+            text-align: center;
+        }
+        .mx-auto {
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 12px 28px;
+            border-radius: 10px;
+            font-weight: 600;
+            font-size: 0.95rem;
+            font-family: inherit;
+            border: none;
+            cursor: pointer;
+            transition: all var(--transition);
+            text-decoration: none;
+            line-height: 1.4;
+            color: #000;
+            background: var(--accent);
+        }
+        .btn-primary {
+            background: var(--accent);
+            color: #000;
+        }
+        .btn-primary:hover {
+            background: var(--accent-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 12px 30px rgba(93, 171, 255, 0.3);
+            color: #000;
+        }
+        .btn-secondary {
+            background: transparent;
+            color: var(--text-primary);
+            border: 1px solid var(--border-color);
+        }
+        .btn-secondary:hover {
+            border-color: var(--text-secondary);
+            background: rgba(255, 255, 255, 0.03);
+            transform: translateY(-2px);
+            color: var(--text-primary);
+        }
+        .btn-dark {
+            background: var(--bg-card);
+            color: var(--text-primary);
+            border: 1px solid var(--border-color);
+        }
+        .btn-dark:hover {
+            background: var(--bg-card-hover);
+            border-color: var(--text-secondary);
+            color: var(--text-primary);
+        }
+        .btn-outline-light {
+            background: transparent;
+            color: var(--text-primary);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        .btn-outline-light:hover {
+            background: rgba(255, 255, 255, 0.05);
+            border-color: var(--text-secondary);
+            color: var(--text-primary);
+        }
+        .badge {
+            display: inline-block;
+            background: var(--accent-dim);
+            color: var(--accent);
+            padding: 4px 14px;
+            border-radius: 40px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            letter-spacing: 0.4px;
+            text-transform: uppercase;
+            margin-bottom: 12px;
+        }
+
+        /* ===== HEADER ===== */
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            background: rgba(8, 9, 10, 0.85);
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+            border-bottom: 1px solid var(--border-color);
+            height: var(--header-height);
+            display: flex;
+            align-items: center;
+            transition: background var(--transition);
+        }
+        header .container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            width: 100%;
+        }
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            display: flex;
+            align-items: center;
+            gap: 0;
+            color: var(--text-primary);
+            user-select: none;
+            text-decoration: none;
+        }
+        .logo .corp {
+            background: linear-gradient(135deg, #e0e0e0, #ffffff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .logo .pro {
+            background: linear-gradient(135deg, #a78bfa, #6ee7ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-weight: 800;
+            margin-left: 1px;
+        }
+        .logo .enterprise {
+            font-size: 0.7rem;
+            font-weight: 600;
+            color: var(--accent);
+            background: var(--accent-dim);
+            padding: 2px 10px;
+            border-radius: 40px;
+            margin-left: 8px;
+            -webkit-text-fill-color: var(--accent);
+            letter-spacing: 0.3px;
+        }
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 32px;
+            list-style: none;
+        }
+        .nav-links a {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: color var(--transition);
+            position: relative;
+        }
+        .nav-links a:hover {
+            color: var(--text-primary);
+        }
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: -4px;
+            width: 0;
+            height: 2px;
+            background: var(--accent);
+            transition: width var(--transition);
+        }
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+        .nav-cta {
+            margin-left: 8px;
+        }
+        .nav-cta .btn {
+            padding: 8px 18px;
+            font-size: 0.85rem;
+        }
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            gap: 5px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 4px;
+            -webkit-tap-highlight-color: transparent;
+        }
+        .hamburger span {
+            width: 26px;
+            height: 2px;
+            background: var(--text-primary);
+            border-radius: 2px;
+            transition: all var(--transition);
+        }
+        .hamburger.active span:nth-child(1) {
+            transform: rotate(45deg) translate(5px, 5px);
+        }
+        .hamburger.active span:nth-child(2) {
+            opacity: 0;
+        }
+        .hamburger.active span:nth-child(3) {
+            transform: rotate(-45deg) translate(5px, -5px);
+        }
+        .mobile-nav {
+            display: none;
+            position: fixed;
+            top: var(--header-height);
+            left: 0;
+            right: 0;
+            background: var(--bg-primary);
+            border-bottom: 1px solid var(--border-color);
+            padding: 24px;
+            flex-direction: column;
+            gap: 20px;
+            z-index: 999;
+            transition: all var(--transition);
+        }
+        .mobile-nav.open {
+            display: flex;
+        }
+        .mobile-nav a {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+            font-weight: 500;
+            padding: 8px 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+        .mobile-nav a:hover {
+            color: var(--text-primary);
+        }
+        .mobile-nav .btn {
+            width: 100%;
+            justify-content: center;
+        }
+
+        /* ===== HERO ===== */
+        .hero {
+            padding-top: calc(var(--header-height) + 30px);
+            padding-bottom: 60px;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+        }
+        .hero .container {
+            position: relative;
+            z-index: 2;
+            width: 100%;
+        }
+        .hero-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            align-items: center;
+            position: relative;
+        }
+        .hero-content {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            position: relative;
+            z-index: 3;
+        }
+        .hero-title {
+            font-size: clamp(2.2rem, 5vw, 3.6rem);
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            line-height: 1.05;
+        }
+        .hero-title span {
+            color: var(--accent);
+        }
+        .hero-sub {
+            font-size: clamp(0.95rem, 1.1vw, 1.15rem);
+            color: var(--text-secondary);
+            max-width: 520px;
+            line-height: 1.7;
+        }
+        .hero-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-top: 4px;
+        }
+        .hero-audit {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 4px 4px 4px 18px;
+            max-width: 420px;
+            width: 100%;
+        }
+        .hero-audit input {
+            flex: 1;
+            background: transparent;
+            border: none;
+            outline: none;
+            color: var(--text-primary);
+            font-size: 0.9rem;
+            font-family: inherit;
+            padding: 12px 0;
+            min-width: 100px;
+        }
+        .hero-audit input::placeholder {
+            color: var(--text-tertiary);
+        }
+        .hero-audit .btn {
+            border-radius: 8px;
+            padding: 10px 20px;
+            font-size: 0.85rem;
+            white-space: nowrap;
+        }
+        .hero-trust {
+            display: flex;
+            gap: 24px;
+            font-size: 0.8rem;
+            color: var(--text-tertiary);
+            margin-top: 2px;
+            flex-wrap: wrap;
+        }
+        .hero-trust span {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .hero-trust svg {
+            width: 16px;
+            height: 16px;
+            stroke: var(--success);
+            fill: none;
+        }
+
+        /* ===== BUBBLE CANVAS — ORBITAL PHYSICS ===== */
+        .hero-visual {
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 480px;
+            z-index: 1;
+        }
+        .bubble-canvas-wrapper {
+            position: relative;
+            width: 100%;
+            max-width: 700px;
+            margin: 0 auto;
+            background: transparent;
+        }
+        #bubbleCanvas {
+            display: block;
+            width: 100%;
+            height: auto;
+            aspect-ratio: 700 / 600;
+            background: transparent;
+            cursor: pointer;
+            -webkit-tap-highlight-color: transparent;
+            touch-action: none;
+        }
+
+        /* ===== CLIENTS STRIP ===== */
+        .clients-strip {
+            padding: 40px 0;
+            border-top: 1px solid var(--border-color);
+            border-bottom: 1px solid var(--border-color);
+            background: var(--bg-secondary);
+            overflow: hidden;
+        }
+        .clients-strip .container {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+        .clients-strip p {
+            color: var(--text-tertiary);
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            text-align: center;
+        }
+        .client-logos {
+            display: flex;
+            gap: 40px;
+            overflow: hidden;
+            animation: scrollLogos 30s linear infinite;
+            width: max-content;
+        }
+        .client-logos span {
+            font-size: 1.2rem;
+            font-weight: 500;
+            color: var(--text-secondary);
+            white-space: nowrap;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            opacity: 0.7;
+            transition: opacity var(--transition);
+        }
+        .client-logos span:hover {
+            opacity: 1;
+        }
+        @keyframes scrollLogos {
+            0% {
+                transform: translateX(0);
+            }
+            100% {
+                transform: translateX(-50%);
+            }
+        }
+        .client-logos-wrapper {
+            display: flex;
+            overflow: hidden;
+            mask-image: linear-gradient(to right, transparent, black 15%, black 85%, transparent);
+            -webkit-mask-image: linear-gradient(to right, transparent, black 15%, black 85%, transparent);
+        }
+
+        /* ===== THE SHIFT ===== */
+        .shift-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            margin-top: 40px;
+        }
+        .shift-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 32px;
+            transition: all var(--transition);
+        }
+        .shift-card:hover {
+            border-color: var(--accent);
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-soft);
+        }
+        .shift-card h3 {
+            font-size: 1.4rem;
+            font-weight: 600;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .shift-card .old h3 {
+            color: var(--text-tertiary);
+        }
+        .shift-card .new h3 {
+            color: var(--accent);
+        }
+        .shift-card ul {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .shift-card li {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            line-height: 1.5;
+        }
+        .shift-card li svg {
+            flex-shrink: 0;
+            margin-top: 3px;
+        }
+        .shift-card .old li svg {
+            color: var(--text-tertiary);
+        }
+        .shift-card .new li svg {
+            color: var(--accent);
+        }
+
+        /* ===== PROCESS ===== */
+        .process-tabs {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin: 32px 0 24px;
+            justify-content: center;
+        }
+        .process-tab {
+            padding: 8px 20px;
+            border-radius: 40px;
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            color: var(--text-secondary);
+            font-weight: 500;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: all var(--transition);
+        }
+        .process-tab:hover {
+            border-color: var(--text-secondary);
+        }
+        .process-tab.active {
+            background: var(--accent);
+            color: #000;
+            border-color: var(--accent);
+        }
+        .process-panels {
+            position: relative;
+            min-height: 300px;
+        }
+        .process-panel {
+            display: none;
+            animation: fadeIn 0.4s ease;
+        }
+        .process-panel.active {
+            display: block;
+        }
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(12px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        .process-panel-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            align-items: center;
+        }
+        .process-panel-text h4 {
+            font-size: 1.6rem;
+            font-weight: 600;
+            margin-bottom: 12px;
+        }
+        .process-panel-text p {
+            color: var(--text-secondary);
+            line-height: 1.7;
+            margin-bottom: 16px;
+        }
+        .process-panel-text ul {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        .process-panel-text ul li {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+        }
+        .process-panel-text ul li svg {
+            color: var(--accent);
+            flex-shrink: 0;
+        }
+        .process-panel-visual {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 32px;
+            text-align: center;
+            min-height: 200px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+        }
+        .process-panel-visual .icon-large {
+            font-size: 4rem;
+        }
+        .process-panel-visual p {
+            color: var(--text-tertiary);
+            font-size: 0.9rem;
+        }
+
+        /* ===== FEATURES ===== */
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+            margin-top: 40px;
+        }
+        .feature-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 28px;
+            transition: all var(--transition);
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        .feature-card:hover {
+            transform: translateY(-6px);
+            border-color: var(--accent);
+            box-shadow: var(--shadow-soft);
+        }
+        .feature-card .icon {
+            font-size: 2rem;
+            line-height: 1;
+        }
+        .feature-card h4 {
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+        .feature-card p {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            line-height: 1.6;
+            flex: 1;
+        }
+        .feature-card .tag {
+            font-size: 0.7rem;
+            color: var(--accent);
+            background: var(--accent-dim);
+            padding: 2px 12px;
+            border-radius: 20px;
+            align-self: flex-start;
+        }
+
+        /* ===== TRUST ===== */
+        .trust-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 24px;
+            margin-top: 40px;
+        }
+        .trust-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 24px;
+            text-align: center;
+            transition: all var(--transition);
+        }
+        .trust-card:hover {
+            border-color: var(--accent);
+        }
+        .trust-card .icon {
+            font-size: 2.2rem;
+            margin-bottom: 12px;
+            display: block;
+        }
+        .trust-card h4 {
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: 6px;
+        }
+        .trust-card p {
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+            line-height: 1.6;
+        }
+
+        /* ===== CASE STUDIES ===== */
+        .cases-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 24px;
+            margin-top: 40px;
+        }
+        .case-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 28px;
+            transition: all var(--transition);
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        .case-card:hover {
+            transform: translateY(-4px);
+            border-color: var(--accent);
+            box-shadow: var(--shadow-soft);
+        }
+        .case-card .logo {
+            font-weight: 700;
+            font-size: 1.2rem;
+            color: var(--text-primary);
+            opacity: 0.6;
+        }
+        .case-card blockquote {
+            font-size: 1.05rem;
+            line-height: 1.6;
+            color: var(--text-primary);
+            font-style: italic;
+            border-left: 3px solid var(--accent);
+            padding-left: 16px;
+        }
+        .case-card .stats {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            margin: 8px 0;
+        }
+        .case-card .stats span {
+            background: var(--accent-dim);
+            color: var(--accent);
+            padding: 4px 14px;
+            border-radius: 40px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+        .case-card .author {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-top: 8px;
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+        .case-card .author strong {
+            color: var(--text-primary);
+        }
+
+        /* ===== PRICING ===== */
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+            margin-top: 40px;
+        }
+        .pricing-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 32px;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            transition: all var(--transition);
+        }
+        .pricing-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-soft);
+        }
+        .pricing-card.highlight {
+            border-color: var(--accent);
+            background: var(--bg-secondary);
+            position: relative;
+        }
+        .pricing-card.highlight::before {
+            content: 'Most Popular';
+            position: absolute;
+            top: -12px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--accent);
+            color: #000;
+            padding: 2px 16px;
+            border-radius: 40px;
+            font-size: 0.7rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .pricing-card h4 {
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+        .pricing-card .price {
+            font-size: 2.4rem;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+        }
+        .pricing-card .price span {
+            font-size: 1rem;
+            font-weight: 400;
+            color: var(--text-tertiary);
+        }
+        .pricing-card ul {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            flex: 1;
+        }
+        .pricing-card ul li {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+        .pricing-card ul li svg {
+            color: var(--accent);
+            flex-shrink: 0;
+        }
+        .pricing-card .btn {
+            width: 100%;
+            justify-content: center;
+            margin-top: 8px;
+        }
+
+        /* ===== FAQ ===== */
+        .faq-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+            margin-top: 40px;
+        }
+        .faq-item {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 20px 24px;
+            cursor: pointer;
+            transition: all var(--transition);
+            -webkit-tap-highlight-color: transparent;
+        }
+        .faq-item:hover {
+            border-color: var(--text-secondary);
+        }
+        .faq-item .question {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 600;
+            font-size: 1rem;
+            gap: 16px;
+            color: var(--text-primary);
+        }
+        .faq-item .question svg {
+            transition: transform var(--transition);
+            flex-shrink: 0;
+            stroke: var(--text-secondary);
+        }
+        .faq-item.open .question svg {
+            transform: rotate(180deg);
+        }
+        .faq-item .answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease, padding 0.4s ease;
+            color: var(--text-secondary);
+            line-height: 1.6;
+            font-size: 0.9rem;
+        }
+        .faq-item.open .answer {
+            max-height: 300px;
+            padding-top: 12px;
+        }
+
+        /* ===== CONTACT / FORM ===== */
+        .contact-section {
+            background: var(--bg-secondary);
+            border-top: 1px solid var(--border-color);
+            border-bottom: 1px solid var(--border-color);
+        }
+        .contact-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: start;
+            margin-top: 40px;
+        }
+        .contact-info h3 {
+            font-size: 1.8rem;
+            font-weight: 600;
+            margin-bottom: 12px;
+        }
+        .contact-info p {
+            color: var(--text-secondary);
+            line-height: 1.7;
+            margin-bottom: 20px;
+        }
+        .contact-info ul {
+            list-style: none;
+        }
+        .contact-info ul li {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            margin-bottom: 12px;
+        }
+        .contact-info ul li svg {
+            stroke: var(--accent);
+            width: 20px;
+            height: 20px;
+        }
+        .contact-form {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 32px;
+        }
+        .contact-form .form-group {
+            margin-bottom: 16px;
+        }
+        .contact-form label {
+            display: block;
+            font-weight: 500;
+            margin-bottom: 6px;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+        .contact-form input,
+        .contact-form textarea {
+            width: 100%;
+            padding: 12px 16px;
+            background: var(--bg-primary);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            color: var(--text-primary);
+            font-family: inherit;
+            font-size: 0.95rem;
+            transition: border-color var(--transition);
+        }
+        .contact-form input:focus,
+        .contact-form textarea:focus {
+            outline: none;
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px var(--accent-dim);
+        }
+        .contact-form textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+        .contact-form .btn {
+            width: 100%;
+            justify-content: center;
+            padding: 14px;
+            font-size: 1rem;
+        }
+
+        /* ===== FINAL CTA ===== */
+        .final-cta {
+            background: var(--bg-secondary);
+            border-top: 1px solid var(--border-color);
+            border-bottom: 1px solid var(--border-color);
+            padding: 80px 0;
+            text-align: center;
+        }
+        .final-cta .container {
+            display: flex;
+            flex-direction: column;
+            gap: 32px;
+            align-items: center;
+        }
+        .final-cta-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+            width: 100%;
+            max-width: 900px;
+        }
+        .final-cta-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 28px;
+            text-align: center;
+            transition: all var(--transition);
+        }
+        .final-cta-card:hover {
+            transform: translateY(-4px);
+            border-color: var(--accent);
+        }
+        .final-cta-card .icon {
+            font-size: 2.2rem;
+            margin-bottom: 8px;
+        }
+        .final-cta-card h4 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 6px;
+        }
+        .final-cta-card p {
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+            line-height: 1.5;
+            margin-bottom: 16px;
+        }
+        .final-cta-card .btn {
+            width: 100%;
+            justify-content: center;
+        }
+
+        /* ===== FOOTER ===== */
+        footer {
+            background: var(--bg-primary);
+            padding: 40px 0 24px;
+            border-top: 1px solid var(--border-color);
+        }
+        footer .container {
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+        }
+        footer .footer-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr 1fr;
+            gap: 40px;
+        }
+        footer .brand {
+            font-size: 1.2rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 0;
+            flex-wrap: wrap;
+        }
+        footer .brand .corp {
+            background: linear-gradient(135deg, #e0e0e0, #ffffff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        footer .brand .pro {
+            background: linear-gradient(135deg, #a78bfa, #6ee7ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-weight: 800;
+            margin-left: 1px;
+        }
+        footer .brand .enterprise {
+            font-size: 0.65rem;
+            font-weight: 600;
+            color: var(--accent);
+            background: var(--accent-dim);
+            padding: 2px 10px;
+            border-radius: 40px;
+            margin-left: 8px;
+            -webkit-text-fill-color: var(--accent);
+        }
+        footer .footer-description {
+            color: var(--text-tertiary);
+            font-size: 0.85rem;
+            max-width: 280px;
+            line-height: 1.6;
+            margin-top: 6px;
+        }
+        footer h5 {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+            margin-bottom: 12px;
+        }
+        footer ul {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        footer ul a {
+            color: var(--text-tertiary);
+            font-size: 0.85rem;
+            transition: color var(--transition);
+        }
+        footer ul a:hover {
+            color: var(--text-primary);
+        }
+        footer .bottom {
+            border-top: 1px solid var(--border-color);
+            padding-top: 20px;
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.8rem;
+            color: var(--text-tertiary);
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+        footer .bottom a {
+            color: var(--text-tertiary);
+        }
+        footer .bottom a:hover {
+            color: var(--text-primary);
+        }
+
+        /* ===== MODAL ===== */
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(6px);
+            -webkit-backdrop-filter: blur(6px);
+            z-index: 2000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 24px;
+        }
+        .modal-overlay.open {
+            display: flex;
+        }
+        .modal {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            max-width: 600px;
+            width: 100%;
+            padding: 32px 36px;
+            position: relative;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: var(--shadow-card);
+        }
+        .modal-close {
+            position: absolute;
+            top: 16px;
+            right: 20px;
+            background: none;
+            border: none;
+            color: var(--text-tertiary);
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: color var(--transition);
+        }
+        .modal-close:hover {
+            color: var(--text-primary);
+        }
+        .modal h3 {
+            font-size: 1.6rem;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+        .modal p {
+            color: var(--text-secondary);
+            margin-bottom: 16px;
+        }
+        .modal .result-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px solid var(--border-color);
+            font-size: 0.9rem;
+        }
+        .modal .result-item .label {
+            color: var(--text-secondary);
+        }
+        .modal .result-item .value {
+            font-weight: 600;
+        }
+        .modal .result-item .value.good {
+            color: var(--success);
+        }
+        .modal .result-item .value.warn {
+            color: #F5A623;
+        }
+        .modal .result-item .value.bad {
+            color: #E74C3C;
+        }
+        .modal .progress-bar {
+            width: 100%;
+            height: 6px;
+            background: var(--border-color);
+            border-radius: 4px;
+            overflow: hidden;
+            margin: 16px 0;
+        }
+        .modal .progress-bar .fill {
+            height: 100%;
+            width: 0%;
+            background: var(--accent);
+            border-radius: 4px;
+            transition: width 0.5s ease;
+        }
+        .modal .btn-group {
+            display: flex;
+            gap: 12px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+        .modal .btn-group .btn {
+            flex: 1;
+            justify-content: center;
+            min-width: 140px;
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 1024px) {
+            .features-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .trust-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .pricing-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+            .pricing-grid .pricing-card:last-child {
+                grid-column: span 2;
+            }
+            .final-cta-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+            .final-cta-grid .final-cta-card:last-child {
+                grid-column: span 2;
+            }
+            footer .footer-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+            .contact-grid {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+        }
+
+        @media (max-width: 900px) {
+            .hero {
+                min-height: auto;
+                padding-bottom: 40px;
+            }
+            .hero-grid {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+            .hero-visual {
+                order: -1;
+                min-height: 340px;
+                margin-bottom: -10px;
+            }
+            .bubble-canvas-wrapper {
+                max-width: 480px;
+            }
+            .shift-grid {
+                grid-template-columns: 1fr;
+            }
+            .process-panel-content {
+                grid-template-columns: 1fr;
+            }
+            .cases-grid {
+                grid-template-columns: 1fr;
+            }
+            .faq-grid {
+                grid-template-columns: 1fr;
+            }
+            .nav-links {
+                display: none;
+            }
+            .hamburger {
+                display: flex;
+            }
+            .mobile-nav.open {
+                display: flex;
+            }
+            .pricing-grid {
+                grid-template-columns: 1fr;
+            }
+            .pricing-grid .pricing-card:last-child {
+                grid-column: span 1;
+            }
+            .final-cta-grid {
+                grid-template-columns: 1fr;
+            }
+            .final-cta-grid .final-cta-card:last-child {
+                grid-column: span 1;
+            }
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+            .trust-grid {
+                grid-template-columns: 1fr;
+            }
+            footer .footer-grid {
+                grid-template-columns: 1fr;
+                gap: 24px;
+            }
+            .modal {
+                padding: 24px;
+            }
+            .logo .enterprise {
+                font-size: 0.6rem;
+                padding: 1px 8px;
+                margin-left: 6px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero-actions {
+                flex-direction: column;
+            }
+            .hero-audit {
+                flex-wrap: wrap;
+                padding: 8px;
+                border-radius: 12px;
+            }
+            .hero-audit input {
+                width: 100%;
+                padding: 10px 12px;
+                font-size: 0.85rem;
+            }
+            .hero-audit .btn {
+                width: 100%;
+                justify-content: center;
+            }
+            .section-padding {
+                padding: 48px 0;
+            }
+            .process-tabs {
+                gap: 4px;
+            }
+            .process-tab {
+                font-size: 0.75rem;
+                padding: 6px 14px;
+            }
+            .bubble-canvas-wrapper {
+                max-width: 320px;
+            }
+            .hero-visual {
+                min-height: 280px;
+            }
+            .hero-title {
+                font-size: 1.8rem;
+            }
+            .hero-sub {
+                font-size: 0.9rem;
+            }
+            .hero-trust {
+                font-size: 0.7rem;
+                gap: 12px;
+            }
+            .hero-trust svg {
+                width: 14px;
+                height: 14px;
+            }
+            .modal {
+                padding: 20px;
+            }
+            .modal h3 {
+                font-size: 1.3rem;
+            }
+            .logo .enterprise {
+                font-size: 0.5rem;
+                padding: 1px 6px;
+                margin-left: 4px;
+            }
+            .modal .btn-group {
+                flex-direction: column;
+            }
+            .modal .btn-group .btn {
+                width: 100%;
+            }
+        }
+
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            border: 0;
+        }
+        .text-accent {
+            color: var(--accent);
+        }
+        .text-secondary {
+            color: var(--text-secondary);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ===== HEADER ===== -->
+    <header>
+        <div class="container">
+            <a href="https://reputationguard.pro" class="logo">
+                <span class="corp">Reputation</span><span class="pro">Guard</span><span class="pro" style="margin-left:0;">Pro</span>
+                <span class="enterprise">Enterprise</span>
+            </a>
+            <nav>
+                <ul class="nav-links">
+                    <li><a href="#shift">Why AI</a></li>
+                    <li><a href="#process">How it works</a></li>
+                    <li><a href="#features">Platform</a></li>
+                    <li><a href="#pricing">Pricing</a></li>
+                    <li><a href="#cases">Case studies</a></li>
+                    <li class="nav-cta"><a href="#contact" class="btn btn-primary">Get a Demo</a></li>
+                </ul>
+            </nav>
+            <button class="hamburger" aria-label="Toggle menu" id="hamburger">
+                <span></span><span></span><span></span>
+            </button>
+        </div>
+    </header>
+
+    <!-- Mobile Nav -->
+    <div class="mobile-nav" id="mobileNav">
+        <a href="#shift">Why AI</a>
+        <a href="#process">How it works</a>
+        <a href="#features">Platform</a>
+        <a href="#pricing">Pricing</a>
+        <a href="#cases">Case studies</a>
+        <a href="#contact" class="btn btn-primary">Get a Demo</a>
+    </div>
+
+    <!-- ===== HERO ===== -->
+    <section class="hero" id="hero">
+        <div class="container">
+            <div class="hero-grid">
+                <div class="hero-content">
+                    <span class="badge">🔗 ENTERPRISE AI VISIBILITY</span>
+                    <h1 class="hero-title">Your brand must be in <span>every AI answer</span> where competitors are mentioned.</h1>
+                    <p class="hero-sub">ReputationGuardPro Enterprise ensures ChatGPT, Gemini, Claude, Perplexity, and Grok recommend you — with guaranteed lift in citations, sentiment, and share of voice.</p>
+                    <div class="hero-actions">
+                        <div class="hero-audit" id="auditForm">
+                            <input type="text" placeholder="Enter your domain…" id="auditInput" aria-label="Your website domain" />
+                            <button class="btn btn-primary" id="auditBtn">Check visibility →</button>
+                        </div>
+                    </div>
+                    <div class="hero-trust">
+                        <span><svg viewBox="0 0 24 24" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg> Read-only by default</span>
+                        <span><svg viewBox="0 0 24 24" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg> You approve every publish</span>
+                        <span><svg viewBox="0 0 24 24" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg> SOC2 compliant (in progress)</span>
+                    </div>
+                </div>
+
+                <!-- ===== BUBBLE CANVAS — ORBITAL PHYSICS ===== -->
+                <div class="hero-visual">
+                    <div class="bubble-canvas-wrapper">
+                        <canvas id="bubbleCanvas" width="700" height="600"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== CLIENTS STRIP ===== -->
+    <section class="clients-strip">
+        <div class="container">
+            <p>Trusted by enterprise teams across industries</p>
+            <div class="client-logos-wrapper">
+                <div class="client-logos">
+                    <span>🏦 Global Bank</span>
+                    <span>🏢 Fortune 500 Tech</span>
+                    <span>💳 Fintech Leader</span>
+                    <span>🌐 SaaS Unicorn</span>
+                    <span>📊 Data Platform</span>
+                    <span>📝 Legal Tech</span>
+                    <span>🍃 Cloud Provider</span>
+                    <span>📈 Analytics Firm</span>
+                    <span>🔍 Search Engine</span>
+                    <span>🏦 Investment Group</span>
+                    <span>📐 Design Platform</span>
+                    <span>⭐ Review Platform</span>
+                    <span>💎 Luxury Brand</span>
+                    <span>⚡ Energy Company</span>
+                    <span>📋 HR Tech</span>
+                    <span>🧱 Construction Tech</span>
+                    <span>🏦 Global Bank</span>
+                    <span>🏢 Fortune 500 Tech</span>
+                    <span>💳 Fintech Leader</span>
+                    <span>🌐 SaaS Unicorn</span>
+                    <span>📊 Data Platform</span>
+                    <span>📝 Legal Tech</span>
+                    <span>🍃 Cloud Provider</span>
+                    <span>📈 Analytics Firm</span>
+                    <span>🔍 Search Engine</span>
+                    <span>🏦 Investment Group</span>
+                    <span>📐 Design Platform</span>
+                    <span>⭐ Review Platform</span>
+                    <span>💎 Luxury Brand</span>
+                    <span>⚡ Energy Company</span>
+                    <span>📋 HR Tech</span>
+                    <span>🧱 Construction Tech</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== THE SHIFT ===== -->
+    <section class="section-padding" id="shift">
+        <div class="container">
+            <span class="badge">The 2026 Shift</span>
+            <h2 class="section-title">SEO ranked pages. <span class="text-accent">AEO gets your passages cited.</span></h2>
+            <p class="section-subtitle">Search is no longer ten blue links — it's one synthesized answer with footnotes. The unit shifted from page to passage, the KPI shifted from rank to share of model.</p>
+            <div class="shift-grid">
+                <div class="shift-card old">
+                    <h3>⚠️ Legacy SEO (2014–2024)</h3>
+                    <ul>
+                        <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="6" y1="6" x2="18" y2="18"/><line x1="6" y1="18" x2="18" y2="6"/></svg> Keywords as the atomic unit</li>
+                        <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="6" y1="6" x2="18" y2="18"/><line x1="6" y1="18" x2="18" y2="6"/></svg> Position 1–10 on a SERP</li>
+                        <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="6" y1="6" x2="18" y2="18"/><line x1="6" y1="18" x2="18" y2="6"/></svg> Crawled by Googlebot weekly</li>
+                        <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="6" y1="6" x2="18" y2="18"/><line x1="6" y1="18" x2="18" y2="6"/></svg> Audits end at a PDF of recommendations</li>
+                    </ul>
+                </div>
+                <div class="shift-card new">
+                    <h3>✅ AEO &amp; GEO (2025–2026)</h3>
+                    <ul>
+                        <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg> <b>Prompts</b> as the atomic unit — intent, persona, language</li>
+                        <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg> <b>Share of model</b> across 8+ AI engines</li>
+                        <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg> Audits end at a <b>shipped fix</b> — CMS draft, PR, or task</li>
+                        <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg> Verify the citation came back. Repeat weekly.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== PROCESS ===== -->
+    <section class="section-padding" id="process" style="background: var(--bg-secondary);">
+        <div class="container">
+            <div class="text-center">
+                <span class="badge">How we own it</span>
+                <h2 class="section-title">From audit to <span class="text-accent">growth</span> in 5 steps</h2>
+                <p class="section-subtitle mx-auto">We don't just give you a score. We close the loop: audit, fix, publish, verify, prove.</p>
+            </div>
+            <div class="process-tabs" id="processTabs">
+                <button class="process-tab active" data-tab="0">1. Audit</button>
+                <button class="process-tab" data-tab="1">2. Analyze</button>
+                <button class="process-tab" data-tab="2">3. Strategy</button>
+                <button class="process-tab" data-tab="3">4. Implement</button>
+                <button class="process-tab" data-tab="4">5. Monitor</button>
+            </div>
+            <div class="process-panels">
+                <div class="process-panel active" data-panel="0">
+                    <div class="process-panel-content">
+                        <div class="process-panel-text">
+                            <h4>🔍 Audit</h4>
+                            <p>We scan 8+ AI platforms to see where your brand appears, how it's mentioned, and what competitors are doing.</p>
+                            <ul>
+                                <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg> 100+ prompt variations analyzed</li>
+                                <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg> Citation frequency &amp; sentiment</li>
+                                <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg> Competitor benchmark</li>
+                            </ul>
+                        </div>
+                        <div class="process-panel-visual">
+                            <div class="icon-large">📊</div>
+                            <p>AI Visibility Score &amp; Gap Analysis</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="process-panel" data-panel="1">
+                    <div class="process-panel-content">
+                        <div class="process-panel-text">
+                            <h4>🧠 Analyze</h4>
+                            <p>Our AI agents identify the exact content, structure, and authority gaps that cause AI engines to overlook you.</p>
+                            <ul>
+                                <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg> Semantic trust audit</li>
+                                <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg> Schema &amp; structured data diagnosis</li>
+                                <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg> Entity authority mapping</li>
+                            </ul>
+                        </div>
+                        <div class="process-panel-visual">
+                            <div class="icon-large">🔬</div>
+                            <p>Deep diagnostics across 30+ signals</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="process-panel" data-panel="2">
+                    <div class="process-panel-content">
+                        <div class="process-panel-text">
+                            <h4>📌 Strategy</h4>
+                            <p>We generate a prioritized roadmap of fixes — from content rewrites to schema updates to new FAQ pages — tailored to your brand.</p>
+                            <ul>
+                                <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg> 50+ FAQ topics generated</li>
+                                <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg> Content &amp; schema recommendations</li>
+                                <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg> Impact vs effort prioritization</li>
+                            </ul>
+                        </div>
+                        <div class="process-panel-visual">
+                            <div class="icon-large">📋</div>
+                            <p>Ready-to-execute action plan</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="process-panel" data-panel="3">
+                    <div class="process-panel-content">
+                        <div class="process-panel-text">
+                            <h4>⚙️ Implement</h4>
+                            <p>Our agents stage changes in your CMS or open PRs — read-only by default, and you approve every publish.</p>
+                            <ul>
+                                <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg> WordPress, Shopify, Webflow drafts</li>
+                                <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg> GitHub PRs for headless</li>
+                                <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg> One-click rollback</li>
+                            </ul>
+                        </div>
+                        <div class="process-panel-visual">
+                            <div class="icon-large">🚀</div>
+                            <p>Changes staged, waiting for your approval</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="process-panel" data-panel="4">
+                    <div class="process-panel-content">
+                        <div class="process-panel-text">
+                            <h4>📈 Monitor</h4>
+                            <p>We re-probe the AI engines, verify citations returned, and deliver a measured 30-day Score Delta — with weekly updates.</p>
+                            <ul>
+                                <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg> Real-time visibility dashboard</li>
+                                <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg> Weekly citation reports</li>
+                                <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg> Automated alerts on changes</li>
+                            </ul>
+                        </div>
+                        <div class="process-panel-visual">
+                            <div class="icon-large">📉</div>
+                            <p>Track your AI Visibility Score Delta</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== FEATURES ===== -->
+    <section class="section-padding" id="features">
+        <div class="container">
+            <div class="text-center">
+                <span class="badge">Full‑stack platform</span>
+                <h2 class="section-title">Everything you need to <span class="text-accent">own AI search</span></h2>
+                <p class="section-subtitle mx-auto">From prompt analytics to content agents to security — all in one enterprise-grade solution.</p>
+            </div>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="icon">📊</div>
+                    <h4>AI Visibility Dashboard</h4>
+                    <p>Real-time view of your brand's mentions, sentiment, citation share, and rank across 8+ AI platforms.</p>
+                    <span class="tag">Core</span>
+                </div>
+                <div class="feature-card">
+                    <div class="icon">🔍</div>
+                    <h4>Prompt Analytics</h4>
+                    <p>Discover what millions of people ask AI in your industry, and align your content strategy with actual demand.</p>
+                    <span class="tag">Insights</span>
+                </div>
+                <div class="feature-card">
+                    <div class="icon">🤖</div>
+                    <h4>Content Agents</h4>
+                    <p>Autonomous agents that generate AI‑optimized FAQ, articles, and schema — ready for your CMS.</p>
+                    <span class="tag">Automation</span>
+                </div>
+                <div class="feature-card">
+                    <div class="icon">🏆</div>
+                    <h4>Competitor Benchmarking</h4>
+                    <p>See exactly what your competitors are doing to win AI citations — and what gaps you can exploit.</p>
+                    <span class="tag">Strategy</span>
+                </div>
+                <div class="feature-card">
+                    <div class="icon">🔐</div>
+                    <h4>Security &amp; Compliance</h4>
+                    <p>Read‑only by default, approval gates, audit logs, and SOC2/GDPR/CCPA alignment.</p>
+                    <span class="tag">Enterprise</span>
+                </div>
+                <div class="feature-card">
+                    <div class="icon">🔌</div>
+                    <h4>Integrations &amp; API</h4>
+                    <p>Connect with your CRM, CMS, BI tools, or build custom workflows via our REST API and webhooks.</p>
+                    <span class="tag">Developer</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== TRUST ===== -->
+    <section class="section-padding" style="background: var(--bg-secondary);" id="trust">
+        <div class="container">
+            <div class="text-center">
+                <span class="badge">Security first</span>
+                <h2 class="section-title">Designed for <span class="text-accent">enterprise trust</span></h2>
+                <p class="section-subtitle mx-auto">We never publish without your explicit approval. Every action is logged, reversible, and auditable.</p>
+            </div>
+            <div class="trust-grid">
+                <div class="trust-card">
+                    <span class="icon">🔒</span>
+                    <h4>Read‑only by default</h4>
+                    <p>Agents can read and draft, but publishing requires your click. Your site stays safe.</p>
+                </div>
+                <div class="trust-card">
+                    <span class="icon">✅</span>
+                    <h4>Approval gates</h4>
+                    <p>Every publish, theme edit, redirect, and robots.txt change needs your explicit go‑ahead.</p>
+                </div>
+                <div class="trust-card">
+                    <span class="icon">📜</span>
+                    <h4>Tamper‑evident audit log</h4>
+                    <p>All decisions and changes are logged cryptographically. Export for compliance review.</p>
+                </div>
+                <div class="trust-card">
+                    <span class="icon">🛡️</span>
+                    <h4>Enterprise‑grade security</h4>
+                    <p>SOC2 in progress, GDPR/CCPA compliant, and built with zero‑trust principles.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== CASE STUDIES ===== -->
+    <section class="section-padding" id="cases">
+        <div class="container">
+            <div class="text-center">
+                <span class="badge">Real results</span>
+                <h2 class="section-title">What <span class="text-accent">enterprise brands</span> achieve</h2>
+                <p class="section-subtitle mx-auto">Measurable lift in citations, share of voice, and AI‑driven traffic.</p>
+            </div>
+            <div class="cases-grid">
+                <div class="case-card">
+                    <div class="logo">🏦 Global Fintech</div>
+                    <blockquote>"Before ReputationGuardPro Enterprise, AI Search was a black box. Now it's a competitive advantage."</blockquote>
+                    <div class="stats">
+                        <span>+270% AI traffic</span>
+                        <span>34% recommendation share</span>
+                    </div>
+                    <div class="author">
+                        <span>VP of Growth &amp; Demand</span>
+                        <span style="color: var(--text-tertiary);">(anonymized)</span>
+                    </div>
+                </div>
+                <div class="case-card">
+                    <div class="logo">📈 SaaS Unicorn</div>
+                    <blockquote>"We went from 0 mentions to being cited in 15% of all relevant ChatGPT answers within 8 weeks."</blockquote>
+                    <div class="stats">
+                        <span>+340% visibility</span>
+                        <span>180% traffic lift</span>
+                    </div>
+                    <div class="author">
+                        <span>CMO, Fortune 500 SaaS</span>
+                        <span style="color: var(--text-tertiary);">(anonymized)</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== PRICING ===== -->
+    <section class="section-padding" id="pricing" style="background: var(--bg-secondary);">
+        <div class="container">
+            <div class="text-center">
+                <span class="badge">Flexible engagement</span>
+                <h2 class="section-title">Choose your <span class="text-accent">level of involvement</span></h2>
+                <p class="section-subtitle mx-auto">All engagements include a free initial audit and are scoped to your enterprise needs.</p>
+            </div>
+            <div class="pricing-grid">
+                <div class="pricing-card">
+                    <h4>🔍 Audit</h4>
+                    <div class="price">Free <span>one‑time</span></div>
+                    <ul>
+                        <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg> AI Visibility Score</li>
+                        <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg> Competitor benchmark</li>
+                        <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg> 10‑page gap analysis</li>
+                        <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg> No card required</li>
+                    </ul>
+                    <a href="#hero" class="btn btn-secondary">Run free audit</a>
+                </div>
+                <div class="pricing-card highlight">
+                    <h4>🤖 Professional</h4>
+                    <div class="price">Custom <span>per month</span></div>
+                    <ul>
+                        <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg> Full AI visibility monitoring</li>
+                        <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg> Content agents + FAQ generation</li>
+                        <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg> Weekly reports &amp; alerts</li>
+                        <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg> Dedicated account manager</li>
+                    </ul>
+                    <a href="#contact" class="btn btn-primary">Talk to sales</a>
+                </div>
+                <div class="pricing-card">
+                    <h4>🏢 Enterprise</h4>
+                    <div class="price">Custom <span>tailored</span></div>
+                    <ul>
+                        <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg> Multi‑brand &amp; global</li>
+                        <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg> Custom integrations &amp; API</li>
+                        <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg> SOC2/GDPR compliance</li>
+                        <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg> 24/7 priority support</li>
+                    </ul>
+                    <a href="#contact" class="btn btn-secondary">Contact us</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== FAQ ===== -->
+    <section class="section-padding" id="faq">
+        <div class="container">
+            <div class="text-center">
+                <span class="badge">Questions?</span>
+                <h2 class="section-title">Frequently <span class="text-accent">asked</span></h2>
+                <p class="section-subtitle mx-auto">Everything you need to know about AI visibility for enterprises.</p>
+            </div>
+            <div class="faq-grid" id="faqGrid">
+                <div class="faq-item open">
+                    <div class="question">
+                        <span>What is AI visibility and why does it matter for enterprises?</span>
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+                    </div>
+                    <div class="answer">AI visibility is how often and how positively your brand is mentioned, cited, and recommended in AI-generated answers (ChatGPT, Gemini, Claude, etc.). For enterprises, it directly impacts brand perception, trust, and customer acquisition — buyers increasingly ask AI for recommendations before visiting your website.</div>
+                </div>
+                <div class="faq-item">
+                    <div class="question">
+                        <span>How is ReputationGuardPro Enterprise different from traditional SEO tools?</span>
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+                    </div>
+                    <div class="answer">Traditional SEO tools focus on keyword rankings and backlinks. ReputationGuardPro Enterprise is built for the AI era: we track brand mentions, sentiment, citation share, and passage-level optimization across 8+ AI platforms. We also close the loop — from audit to implementation to verification.</div>
+                </div>
+                <div class="faq-item">
+                    <div class="question">
+                        <span>How do you guarantee our data is secure?</span>
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+                    </div>
+                    <div class="answer">All agents operate read‑only by default. Publishing, theme edits, and redirects require your explicit approval. Every action is logged in a tamper‑evident audit trail. We're also SOC2 compliant (in progress) and align with GDPR/CCPA.</div>
+                </div>
+                <div class="faq-item">
+                    <div class="question">
+                        <span>What kind of results can we expect and how fast?</span>
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+                    </div>
+                    <div class="answer">Most clients see measurable improvements within 4–8 weeks: increased mention frequency, improved sentiment, and higher citation share. Our 30‑day Score Delta report quantifies the lift. Enterprise clients often see 100‑300% growth in AI‑driven traffic within 3 months.</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== CONTACT / FORM ===== -->
+    <section class="section-padding contact-section" id="contact">
+        <div class="container">
+            <div class="text-center">
+                <span class="badge">Get in touch</span>
+                <h2 class="section-title">Let's talk about <span class="text-accent">your AI visibility</span></h2>
+                <p class="section-subtitle mx-auto">Fill in the form and our enterprise team will reach out within 24 hours.</p>
+            </div>
+            <div class="contact-grid">
+                <div class="contact-info">
+                    <h3>📬 Contact us</h3>
+                    <p>We're here to help you dominate AI search. Whether you need a full audit, a demo, or just have questions — drop us a line.</p>
+                    <ul>
+                        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16v16H4z"/><polyline points="4 8 12 14 20 8"/></svg> defend@reputationguard.pro</li>
+                        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg> Response within 24 hours</li>
+                        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="18" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg> Enterprise‑grade support</li>
+                    </ul>
+                </div>
+                <div class="contact-form">
+                    <form id="contactForm" action="https://formsubmit.co/defend@reputationguard.pro" method="POST">
+                        <input type="text" name="_honey" style="display:none">
+                        <input type="hidden" name="_captcha" value="false">
+                        <input type="hidden" name="_next" value="https://reputationguard.pro/thank-you">
+                        <div class="form-group">
+                            <label for="fullName">Full name *</label>
+                            <input type="text" id="fullName" name="name" required placeholder="John Doe" />
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Email address *</label>
+                            <input type="email" id="email" name="email" required placeholder="john@company.com" />
+                        </div>
+                        <div class="form-group">
+                            <label for="company">Company</label>
+                            <input type="text" id="company" name="company" placeholder="Your company name" />
+                        </div>
+                        <div class="form-group">
+                            <label for="message">Message *</label>
+                            <textarea id="message" name="message" required placeholder="Tell us about your AI visibility goals…"></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Send message →</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== FINAL CTA ===== -->
+    <section class="final-cta" id="cta">
+        <div class="container">
+            <span class="badge" style="background: var(--accent); color: #000;">Start now</span>
+            <h2 class="section-title" style="max-width: 700px; margin: 0 auto;">Ready to dominate <span class="text-accent">AI search</span>?</h2>
+            <p class="section-subtitle mx-auto" style="margin-bottom: 8px;">Get a free AI visibility audit or book a demo with our enterprise team.</p>
+            <div class="final-cta-grid">
+                <div class="final-cta-card">
+                    <div class="icon">📋</div>
+                    <h4>Free audit</h4>
+                    <p>Check your current AI visibility score in 60 seconds.</p>
+                    <a href="#hero" class="btn btn-primary">Run audit →</a>
+                </div>
+                <div class="final-cta-card">
+                    <div class="icon">🎤</div>
+                    <h4>Book a demo</h4>
+                    <p>See the platform in action with a tailored walkthrough.</p>
+                    <a href="#contact" class="btn btn-primary">Request demo</a>
+                </div>
+                <div class="final-cta-card">
+                    <div class="icon">🤝</div>
+                    <h4>Partner with us</h4>
+                    <p>For agencies and integrators looking to expand their offering.</p>
+                    <a href="#contact" class="btn btn-secondary">Become a partner</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== FOOTER ===== -->
+    <footer>
+        <div class="container">
+            <div class="footer-grid">
+                <div>
+                    <div class="brand">
+                        <span class="corp">Reputation</span><span class="pro">Guard</span><span class="pro" style="margin-left:0;">Pro</span>
+                        <span class="enterprise">Enterprise</span>
+                    </div>
+                    <p class="footer-description">Enterprise AI visibility platform. We help global brands get cited, recommended, and trusted by AI assistants.</p>
+                </div>
+                <div>
+                    <h5>Platform</h5>
+                    <ul>
+                        <li><a href="#features">Features</a></li>
+                        <li><a href="#pricing">Pricing</a></li>
+                        <li><a href="#trust">Security</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h5>Resources</h5>
+                    <ul>
+                        <li><a href="#cases">Case studies</a></li>
+                        <li><a href="#">Research</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h5>Company</h5>
+                    <ul>
+                        <li><a href="https://reputationguard.pro">ReputationGuard.pro</a></li>
+                        <li><a href="#contact">Contact</a></li>
+                        <li><a href="#">Privacy policy</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="bottom">
+                <span>&copy; 2026 ReputationGuardPro Enterprise. All rights reserved.</span>
+                <span><a href="https://reputationguard.pro">Back to ReputationGuard.pro</a></span>
+            </div>
+        </div>
+    </footer>
+
+    <!-- ===== MODAL ===== -->
+    <div class="modal-overlay" id="auditModal">
+        <div class="modal">
+            <button class="modal-close" id="modalClose">&times;</button>
+            <h3>🔍 AI Visibility Audit</h3>
+            <p id="modalStatus">Checking your domain across 8 AI engines…</p>
+            <div class="progress-bar"><div class="fill" id="progressFill"></div></div>
+            <div id="modalResults">
+                <div class="result-item"><span class="label">ChatGPT mentions</span><span class="value" id="r1">—</span></div>
+                <div class="result-item"><span class="label">Gemini sentiment</span><span class="value" id="r2">—</span></div>
+                <div class="result-item"><span class="label">Perplexity citations</span><span class="value" id="r3">—</span></div>
+                <div class="result-item"><span class="label">Claude recommendation</span><span class="value" id="r4">—</span></div>
+                <div class="result-item"><span class="label">Share of voice</span><span class="value" id="r5">—</span></div>
+                <div class="result-item"><span class="label">Overall AI Score</span><span class="value" id="r6">—</span></div>
+            </div>
+            <div class="btn-group">
+                <a href="#" class="btn btn-primary" id="getFullReportBtn">Get full report</a>
+                <a href="#contact" class="btn btn-secondary" id="talkToExpertBtn">Talk to an expert</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        (function() {
+            'use strict';
+
+            // ===== Mobile menu =====
+            const hamburger = document.getElementById('hamburger');
+            const mobileNav = document.getElementById('mobileNav');
+            hamburger.addEventListener('click', function() {
+                this.classList.toggle('active');
+                mobileNav.classList.toggle('open');
+            });
+
+            // ===== Process tabs =====
+            const tabs = document.querySelectorAll('.process-tab');
+            const panels = document.querySelectorAll('.process-panel');
+            tabs.forEach(tab => {
+                tab.addEventListener('click', function() {
+                    const idx = parseInt(this.dataset.tab);
+                    tabs.forEach(t => t.classList.remove('active'));
+                    this.classList.add('active');
+                    panels.forEach((p, i) => {
+                        p.classList.toggle('active', i === idx);
+                    });
+                });
+            });
+
+            // ===== FAQ accordion =====
+            const faqItems = document.querySelectorAll('.faq-item');
+            faqItems.forEach(item => {
+                item.addEventListener('click', function() {
+                    faqItems.forEach(other => {
+                        if (other !== this && other.classList.contains('open')) {
+                            other.classList.remove('open');
+                        }
+                    });
+                    this.classList.toggle('open');
+                });
+            });
+            if (faqItems.length) faqItems[0].classList.add('open');
+
+            // ===== Audit modal =====
+            const auditBtn = document.getElementById('auditBtn');
+            const auditInput = document.getElementById('auditInput');
+            const modal = document.getElementById('auditModal');
+            const modalClose = document.getElementById('modalClose');
+            const progressFill = document.getElementById('progressFill');
+            const statusText = document.getElementById('modalStatus');
+            const r1 = document.getElementById('r1');
+            const r2 = document.getElementById('r2');
+            const r3 = document.getElementById('r3');
+            const r4 = document.getElementById('r4');
+            const r5 = document.getElementById('r5');
+            const r6 = document.getElementById('r6');
+            const getFullReportBtn = document.getElementById('getFullReportBtn');
+            const talkToExpertBtn = document.getElementById('talkToExpertBtn');
+
+            function openModal() {
+                modal.classList.add('open');
+                document.body.style.overflow = 'hidden';
+                progressFill.style.width = '0%';
+                statusText.textContent = 'Scanning AI engines…';
+                [r1, r2, r3, r4, r5, r6].forEach(el => el.textContent = '…');
+                let progress = 0;
+                const interval = setInterval(() => {
+                    progress += Math.random() * 6 + 2;
+                    if (progress >= 100) {
+                        progress = 100;
+                        clearInterval(interval);
+                        statusText.textContent = '✅ Audit complete! Here\'s your snapshot.';
+                        const scores = [
+                            { val: Math.floor(Math.random() * 50 + 10) + '%', cls: 'good' },
+                            { val: ['Positive', 'Neutral', 'Mixed'][Math.floor(Math.random() * 3)], cls: 'good' },
+                            { val: Math.floor(Math.random() * 30 + 5) + '%', cls: 'warn' },
+                            { val: ['Yes', 'No', 'Sometimes'][Math.floor(Math.random() * 3)], cls: 'good' },
+                            { val: Math.floor(Math.random() * 20 + 2) + '%', cls: 'warn' },
+                            { val: Math.floor(Math.random() * 40 + 30) + '/100', cls: 'warn' }
+                        ];
+                        const resultEls = [r1, r2, r3, r4, r5, r6];
+                        resultEls.forEach((el, i) => {
+                            el.textContent = scores[i].val;
+                            el.className = 'value ' + scores[i].cls;
+                        });
+                        if (Math.random() > 0.5) r1.textContent = Math.floor(Math.random() * 60 + 20) + '%';
+                        if (Math.random() > 0.5) r3.textContent = Math.floor(Math.random() * 40 + 5) + '%';
+                    }
+                    progressFill.style.width = Math.min(progress, 100) + '%';
+                }, 120);
+            }
+
+            function closeModal() {
+                modal.classList.remove('open');
+                document.body.style.overflow = '';
+            }
+
+            auditBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                const domain = auditInput.value.trim();
+                if (!domain) {
+                    auditInput.style.borderColor = '#E74C3C';
+                    auditInput.placeholder = 'Please enter a domain';
+                    setTimeout(() => { auditInput.style.borderColor = ''; }, 2000);
+                    return;
+                }
+                openModal();
+            });
+
+            auditInput.addEventListener('keydown', function(e) {
+                if (e.key === 'Enter') auditBtn.click();
+            });
+
+            modalClose.addEventListener('click', closeModal);
+            modal.addEventListener('click', function(e) {
+                if (e.target === this) closeModal();
+            });
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape' && modal.classList.contains('open')) closeModal();
+            });
+
+            getFullReportBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                closeModal();
+                const contactSection = document.getElementById('contact');
+                if (contactSection) {
+                    const offset = 80;
+                    const top = contactSection.getBoundingClientRect().top + window.scrollY - offset;
+                    window.scrollTo({ top, behavior: 'smooth' });
+                }
+            });
+
+            talkToExpertBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                closeModal();
+                const contactSection = document.getElementById('contact');
+                if (contactSection) {
+                    const offset = 80;
+                    const top = contactSection.getBoundingClientRect().top + window.scrollY - offset;
+                    window.scrollTo({ top, behavior: 'smooth' });
+                }
+            });
+
+            // ===== Smooth scroll =====
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function(e) {
+                    const target = document.querySelector(this.getAttribute('href'));
+                    if (target) {
+                        e.preventDefault();
+                        const offset = 80;
+                        const top = target.getBoundingClientRect().top + window.scrollY - offset;
+                        window.scrollTo({ top, behavior: 'smooth' });
+                        if (mobileNav.classList.contains('open')) {
+                            hamburger.classList.remove('active');
+                            mobileNav.classList.remove('open');
+                        }
+                    }
+                });
+            });
+
+            // ===== Intersection Observer =====
+            if ('IntersectionObserver' in window) {
+                const cards = document.querySelectorAll(
+                    '.feature-card, .trust-card, .case-card, .pricing-card, .shift-card');
+                const observer = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            entry.target.style.opacity = '1';
+                            entry.target.style.transform = 'translateY(0)';
+                        }
+                    });
+                }, { threshold: 0.1 });
+                cards.forEach(card => {
+                    card.style.opacity = '0';
+                    card.style.transform = 'translateY(20px)';
+                    card.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+                    observer.observe(card);
+                });
+                document.querySelectorAll('.process-panel-visual').forEach(el => {
+                    el.style.opacity = '0';
+                    el.style.transform = 'translateY(10px)';
+                    el.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+                    observer.observe(el);
+                });
+            } else {
+                document.querySelectorAll(
+                    '.feature-card, .trust-card, .case-card, .pricing-card, .shift-card'
+                ).forEach(el => {
+                    el.style.opacity = '1';
+                    el.style.transform = 'none';
+                });
+            }
+
+            // ============================================================
+            // BUBBLE CANVAS — SMOOTH ORBIT WITH OFFICIAL LOGOS
+            // ============================================================
+            const canvas = document.getElementById('bubbleCanvas');
+            const ctx = canvas.getContext('2d');
+            const W = 700,
+                H = 600;
+            const CX = W / 2,
+                CY = H / 2;
+            const EYE_RADIUS = 110;
+
+            // ---- High-DPI setup for crisp rendering ----
+            const DPR = Math.min(window.devicePixelRatio || 1, 2);
+            canvas.width = W * DPR;
+            canvas.height = H * DPR;
+            ctx.scale(DPR, DPR);
+
+            // ---- Official brand marks (exact vector paths, 24×24 source viewBox) ----
+            // Each entry: path data (official logomark), brand color, background tint.
+            const BRANDS = {
+                chatgpt: {
+                    label: 'ChatGPT',
+                    color: '#FFFFFF',
+                    bg: '#10A37F',
+                    ring: 'rgba(16,163,127,0.35)',
+                    paths: [
+                        'M9.205 8.658v-2.26c0-.19.072-.333.238-.428l4.543-2.616c.619-.357 1.356-.523 2.117-.523 2.854 0 4.662 2.212 4.662 4.566 0 .167 0 .357-.024.547l-4.71-2.759a.797.797 0 00-.856 0l-5.97 3.473zm10.609 8.8V12.06c0-.333-.143-.57-.429-.737l-5.97-3.473 1.95-1.118a.433.433 0 01.476 0l4.543 2.617c1.309.76 2.189 2.378 2.189 3.948 0 1.808-1.07 3.473-2.76 4.163zM7.802 12.703l-1.95-1.142c-.167-.095-.239-.238-.239-.428V5.899c0-2.545 1.95-4.472 4.591-4.472 1 0 1.927.333 2.712.928L8.23 5.067c-.285.166-.428.404-.428.737v6.898zM12 15.128l-2.795-1.57v-3.33L12 8.658l2.795 1.57v3.33L12 15.128zm1.796 7.23c-1 0-1.927-.332-2.712-.927l4.686-2.712c.285-.166.428-.404.428-.737v-6.898l1.974 1.142c.167.095.238.238.238.428v5.233c0 2.545-1.974 4.472-4.614 4.472zm-5.637-5.303l-4.544-2.617c-1.308-.761-2.188-2.378-2.188-3.948A4.482 4.482 0 014.21 6.327v5.423c0 .333.143.571.428.738l5.947 3.449-1.95 1.118a.432.432 0 01-.476 0zm-.262 3.9c-2.688 0-4.662-2.021-4.662-4.519 0-.19.024-.38.047-.57l4.686 2.71c.286.167.571.167.856 0l5.97-3.448v2.26c0 .19-.07.333-.237.428l-4.543 2.616c-.619.357-1.356.523-2.117.523zm5.899 2.83a5.947 5.947 0 005.827-4.756C22.287 18.339 24 15.84 24 13.296c0-1.665-.713-3.282-1.998-4.448.119-.5.19-.999.19-1.498 0-3.401-2.759-5.947-5.946-5.947-.642 0-1.26.095-1.88.31A5.962 5.962 0 0010.205 0a5.947 5.947 0 00-5.827 4.757C1.713 5.447 0 7.945 0 10.49c0 1.666.713 3.283 1.998 4.448-.119.5-.19 1-.19 1.499 0 3.401 2.759 5.946 5.946 5.946.642 0 1.26-.095 1.88-.309a5.96 5.96 0 004.162 1.713z'
+                    ]
+                },
+                gemini: {
+                    label: 'Gemini',
+                    color: '#FFFFFF',
+                    bg: 'gemini-gradient',
+                    ring: 'rgba(140,120,245,0.35)',
+                    paths: [
+                        'M11.04 19.32Q12 21.51 12 24q0-2.49.93-4.68.96-2.19 2.58-3.81t3.81-2.55Q21.51 12 24 12q-2.49 0-4.68-.93a12.3 12.3 0 0 1-3.81-2.58 12.3 12.3 0 0 1-2.58-3.81Q12 2.49 12 0q0 2.49-.96 4.68-.93 2.19-2.55 3.81a12.3 12.3 0 0 1-3.81 2.58Q2.49 12 0 12q2.49 0 4.68.96 2.19.93 3.81 2.55t2.55 3.81'
+                    ]
+                },
+                claude: {
+                    label: 'Claude',
+                    color: '#D97757',
+                    bg: '#20120C',
+                    ring: 'rgba(217,119,87,0.35)',
+                    paths: [
+                        'm4.7144 15.9555 4.7174-2.6471.079-.2307-.079-.1275h-.2307l-.7893-.0486-2.6956-.0729-2.3375-.0971-2.2646-.1214-.5707-.1215-.5343-.7042.0546-.3522.4797-.3218.686.0608 1.5179.1032 2.2767.1578 1.6514.0972 2.4468.255h.3886l.0546-.1579-.1336-.0971-.1032-.0972L6.973 9.8356l-2.55-1.6879-1.3356-.9714-.7225-.4918-.3643-.4614-.1578-1.0078.6557-.7225.8803.0607.2246.0607.8925.686 1.9064 1.4754 2.4893 1.8336.3643.3035.1457-.1032.0182-.0728-.164-.2733-1.3539-2.4467-1.445-2.4893-.6435-1.032-.17-.6194c-.0607-.255-.1032-.4674-.1032-.7285L6.287.1335 6.6997 0l.9957.1336.419.3642.6192 1.4147 1.0018 2.2282 1.5543 3.0296.4553.8985.2429.8318.091.255h.1579v-.1457l.1275-1.706.2368-2.0947.2307-2.6957.0789-.7589.3764-.9107.7468-.4918.5828.2793.4797.686-.0668.4433-.2853 1.8517-.5586 2.9021-.3643 1.9429h.2125l.2429-.2429.9835-1.3053 1.6514-2.0643.7286-.8196.85-.9046.5464-.4311h1.0321l.759 1.1293-.34 1.1657-1.0625 1.3478-.8804 1.1414-1.2628 1.7-.7893 1.36.0729.1093.1882-.0183 2.8535-.607 1.5421-.2794 1.8396-.3157.8318.3886.091.3946-.3278.8075-1.967.4857-2.3072.4614-3.4364.8136-.0425.0304.0486.0607 1.5482.1457.6618.0364h1.621l3.0175.2247.7892.522.4736.6376-.079.4857-1.2142.6193-1.6393-.3886-3.825-.9107-1.3113-.3279h-.1822v.1093l1.0929 1.0686 2.0035 1.8092 2.5075 2.3314.1275.5768-.3218.4554-.34-.0486-2.2039-1.6575-.85-.7468-1.9246-1.621h-.1275v.17l.4432.6496 2.3436 3.5214.1214 1.0807-.17.3521-.6071.2125-.6679-.1214-1.3721-1.9246L14.38 17.959l-1.1414-1.9428-.1397.079-.674 7.2552-.3156.3703-.7286.2793-.6071-.4614-.3218-.7468.3218-1.4753.3886-1.9246.3157-1.53.2853-1.9004.17-.6314-.0121-.0425-.1397.0182-1.4328 1.9672-2.1796 2.9446-1.7243 1.8456-.4128.164-.7164-.3704.0667-.6618.4008-.5889 2.386-3.0357 1.4389-1.882.929-1.0868-.0062-.1579h-.0546l-6.3385 4.1164-1.1293.1457-.4857-.4554.0608-.7467.2307-.2429 1.9064-1.3114Z'
+                    ]
+                },
+                perplexity: {
+                    label: 'Perplexity',
+                    color: '#1FB8CD',
+                    bg: '#0B1F22',
+                    ring: 'rgba(31,184,205,0.35)',
+                    paths: [
+                        'M22.3977 7.0896h-2.3106V.0676l-7.5094 6.3542V.1577h-1.1554v6.1966L4.4904 0v7.0896H1.6023v10.3976h2.8882V24l6.932-6.3591v6.2005h1.1554v-6.0469l6.9318 6.1807v-6.4879h2.8882V7.0896zm-3.4657-4.531v4.531h-5.355l5.355-4.531zm-13.2862.0676 4.8691 4.4634H5.6458V2.6262zM2.7576 16.332V8.245h7.8476l-6.1149 6.1147v1.9723H2.7576zm2.8882 5.0404v-3.8852h.0001v-2.6488l5.7763-5.7764v7.0111l-5.7764 5.2993zm12.7086.0248-5.7766-5.1509V9.0618l5.7766 5.7766v6.5588zm2.8882-5.0652h-1.733v-1.9723L13.3948 8.245h7.8478v8.087z'
+                    ]
+                },
+                grok: {
+                    label: 'Grok',
+                    color: '#FFFFFF',
+                    bg: '#000000',
+                    ring: 'rgba(255,255,255,0.25)',
+                    paths: [
+                        'M9.27 15.29l7.978-5.897c.391-.29.95-.177 1.137.272.98 2.369.542 5.215-1.41 7.169-1.951 1.954-4.667 2.382-7.149 1.406l-2.711 1.257c3.889 2.661 8.611 2.003 11.562-.953 2.341-2.344 3.066-5.539 2.388-8.42l.006.007c-.983-4.232.242-5.924 2.75-9.383.06-.082.12-.164.179-.248l-3.301 3.305v-.01L9.267 15.292M7.623 16.723c-2.792-2.67-2.31-6.801.071-9.184 1.761-1.763 4.647-2.483 7.166-1.425l2.705-1.25a7.808 7.808 0 00-1.829-1A8.975 8.975 0 005.984 5.83c-2.533 2.536-3.33 6.436-1.962 9.764 1.022 2.487-.653 4.246-2.34 6.022-.599.63-1.199 1.259-1.682 1.925l7.62-6.815'
+                    ]
+                },
+                copilot: {
+                    label: 'Copilot',
+                    color: '#FFFFFF',
+                    bg: 'copilot-gradient',
+                    ring: 'rgba(0,174,255,0.35)',
+                    paths: [
+                        'M9 23l.073-.001a2.53 2.53 0 01-2.347-1.838l-.697-2.433a2.529 2.529 0 00-2.426-1.839h-.497l-.104-.002c-4.485 0-2.935-5.278-1.75-9.225l.162-.525C2.412 3.99 3.883 1 6.25 1h8.86c1.12 0 2.106.745 2.422 1.829l.715 2.453a2.53 2.53 0 002.247 1.823l.147.005.534.001c3.557.115 3.088 3.745 2.156 7.206l-.113.413c-.154.548-.315 1.089-.47 1.607l-.163.525C21.588 20.01 20.116 23 17.75 23h-8.75zm8.22-15.89l-3.856.001a2.526 2.526 0 00-2.35 1.615L9.21 15.04a2.529 2.529 0 01-2.43 1.847l3.853.002c1.056 0 1.992-.661 2.361-1.644l1.796-6.287a2.529 2.529 0 012.43-1.848z'
+                    ]
+                },
+                meta: {
+                    label: 'Meta AI',
+                    color: '#FFFFFF',
+                    bg: 'meta-gradient',
+                    ring: 'rgba(9,136,255,0.35)',
+                    paths: [
+                        'M10.73.032c-1.333 0-2.032 1.016-2.032 2.285 0 2.223 2.127 4.953 4.318 4.953 1.301 0 2-.953 2-2.254 0-2.254-2.095-4.984-4.286-4.984m8.413 2.984c-1.968 0-3.397 2.73-3.397 4.825 0 1.556.794 3.016 2.254 3.016 2 0 3.365-2.762 3.365-4.794 0-1.523-.762-3.047-2.222-3.047M4.857 4.159c-1.968 0-3.778 1.016-3.778 2.54 0 1.65 2.16 2.793 4.254 2.793 1.873 0 3.778-.92 3.778-2.508 0-1.682-2.159-2.825-4.254-2.825m-.222 6.476C2.413 10.635 0 13.175 0 15.397c0 1.301.825 2.159 2.095 2.159 2.19 0 4.603-2.508 4.603-4.794 0-1.27-.761-2.127-2.063-2.127m16.667.698c-2.223 0-5.016 1.62-5.016 3.651 0 1.238 1.047 2.19 2.698 2.19 2.159 0 5.016-1.587 5.016-3.682 0-1.302-1.08-2.159-2.698-2.159M7.619 16c-1.524 0-2.38 1.746-2.38 3.429 0 2.063 1.269 4.54 3.047 4.54 1.524 0 2.38-1.81 2.38-3.461C10.667 18.57 9.46 16 7.62 16m6.571 1.016c-1.333 0-2.476.667-2.476 2.032 0 2.095 2.667 4.063 4.92 4.063 1.366 0 2.54-.73 2.54-2.063 0-2.032-2.698-4.032-4.984-4.032'
+                    ]
+                }
+            };
+
+            const ORDER = ['chatgpt', 'gemini', 'claude', 'perplexity', 'grok', 'copilot', 'meta'];
+
+            // Build a self-contained SVG badge (circular tinted background + official
+            // logomark, scaled from its native 24×24 viewBox) for each brand.
+            function buildBadgeSVG(key) {
+                const b = BRANDS[key];
+                let defs = '';
+                let fill = b.color;
+                let bgFill = typeof b.bg === 'string' && b.bg.startsWith('#') ? b.bg : null;
+
+                if (b.bg === 'gemini-gradient') {
+                    defs += `<linearGradient id="g-${key}" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" stop-color="#4C8DF6"/>
+                        <stop offset="50%" stop-color="#9168C0"/>
+                        <stop offset="100%" stop-color="#D96570"/>
+                    </linearGradient>`;
+                    bgFill = `url(#g-${key})`;
+                }
+                if (b.bg === 'meta-gradient') {
+                    defs += `<linearGradient id="g-${key}" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" stop-color="#0081FB"/>
+                        <stop offset="100%" stop-color="#B02BFF"/>
+                    </linearGradient>`;
+                    bgFill = `url(#g-${key})`;
+                }
+                if (b.bg === 'copilot-gradient') {
+                    defs += `<linearGradient id="g-${key}" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" stop-color="#00AEFF"/>
+                        <stop offset="55%" stop-color="#8C48FF"/>
+                        <stop offset="100%" stop-color="#FFB657"/>
+                    </linearGradient>`;
+                    bgFill = `url(#g-${key})`;
+                }
+
+                // native 24x24 path centered & scaled inside a 100x100 badge
+                const scale = 2.15;
+                const off = 50 - (24 * scale) / 2;
+                const pathMarkup = b.paths.map(d => `<path d="${d}"/>`).join('');
+
+                return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+                    <defs>${defs}</defs>
+                    <circle cx="50" cy="50" r="47" fill="${bgFill}"/>
+                    <circle cx="50" cy="50" r="47" fill="none" stroke="${b.ring}" stroke-width="1.5"/>
+                    <circle cx="50" cy="50" r="47" fill="none" stroke="rgba(255,255,255,0.12)" stroke-width="1"/>
+                    <g transform="translate(${off},${off}) scale(${scale})" fill="${fill}">${pathMarkup}</g>
+                </svg>`;
+            }
+
+            function loadIcon(svg) {
+                return new Promise((resolve) => {
+                    const img = new Image();
+                    img.onload = () => resolve(img);
+                    img.onerror = () => resolve(null);
+                    img.src = 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(svg);
+                });
+            }
+
+            Promise.all(ORDER.map(k => loadIcon(buildBadgeSVG(k)))).then(icons => {
+                const count = icons.length;
+                let bubbles = [];
+
+                // ---- Orbit configuration ----
+                // Fixed, even angular spacing so bubbles can never drift into a
+                // clump — they are always locked around the eye at a stable
+                // distance, rotating together like a slow, deliberate halo.
+                const ORBIT_R = 215; // base horizontal radius
+                const SQUASH = 0.56; // vertical squash → elliptical "orbit" around the eye
+                const GLOBAL_SPEED = 0.00016; // rad/ms — one full turn ≈ 39s
+                const RADIUS_JITTER = 22; // per-bubble breathing amplitude
+                const ICON_SIZE = 78;
+
+                for (let i = 0; i < count; i++) {
+                    const key = ORDER[i];
+                    bubbles.push({
+                        icon: icons[i],
+                        label: BRANDS[key].label,
+                        ring: BRANDS[key].ring,
+                        baseAngle: (i / count) * Math.PI * 2,
+                        // gentle per-bubble variety, purely additive — never breaks spacing
+                        radiusPhase: Math.random() * Math.PI * 2,
+                        radiusSpeed: 0.00045 + Math.random() * 0.00025,
+                        size: ICON_SIZE * (0.92 + (i % 2 === 0 ? 0.1 : -0.04)),
+                        hover: 0,
+                        x: CX, y: CY, depth: 0.5, scale: 1
+                    });
+                }
+
+                let mouseX = -9999,
+                    mouseY = -9999;
+                let hoveredBubble = null;
+
+                canvas.addEventListener('mousemove', function(e) {
+                    const rect = canvas.getBoundingClientRect();
+                    mouseX = (e.clientX - rect.left) * (W / rect.width);
+                    mouseY = (e.clientY - rect.top) * (H / rect.height);
+                });
+                canvas.addEventListener('mouseleave', function() {
+                    mouseX = -9999;
+                    mouseY = -9999;
+                });
+
+                // ---- Update: deterministic, time-based, frame-rate independent ----
+                let lastT = performance.now();
+
+                function update(now) {
+                    const dt = Math.min(now - lastT, 48); // clamp to avoid jumps on tab-switch
+                    lastT = now;
+
+                    const globalAngle = now * GLOBAL_SPEED;
+
+                    hoveredBubble = null;
+                    let minD = Infinity;
+
+                    for (let b of bubbles) {
+                        const angle = globalAngle + b.baseAngle;
+                        const breathe = Math.sin(now * b.radiusSpeed + b.radiusPhase) * RADIUS_JITTER;
+                        const r = ORBIT_R + breathe;
+
+                        const targetX = CX + Math.cos(angle) * r;
+                        const targetY = CY + Math.sin(angle) * r * SQUASH;
+
+                        // Smooth (critically-damped-feeling) interpolation instead of
+                        // springs/collisions — buttery motion, no jitter, no pile-ups.
+                        const ease = 1 - Math.pow(0.001, dt / 1000);
+                        b.x += (targetX - b.x) * ease;
+                        b.y += (targetY - b.y) * ease;
+
+                        // Pseudo-3D depth from vertical position: bubbles in the
+                        // "front" of the ellipse read larger & brighter.
+                        const depthTarget = (Math.sin(angle) + 1) / 2; // 0 back → 1 front
+                        b.depth += (depthTarget - b.depth) * ease;
+                        b.scale = 0.78 + b.depth * 0.5;
+
+                        // Hover detection (in screen units, generous radius)
+                        const d = Math.hypot(mouseX - b.x, mouseY - b.y);
+                        const hitR = (b.size * b.scale) / 2 + 10;
+                        const hoverTarget = d < hitR ? 1 : 0;
+                        b.hover += (hoverTarget - b.hover) * 0.18;
+                        if (d < hitR && d < minD) {
+                            minD = d;
+                            hoveredBubble = b;
+                        }
+                    }
+
+                    canvas.style.cursor = hoveredBubble ? 'pointer' : 'default';
+                }
+
+                // ---- Draw ----
+                function draw(now) {
+                    ctx.clearRect(0, 0, W, H);
+
+                    // Faint orbit path for context
+                    ctx.save();
+                    ctx.beginPath();
+                    ctx.ellipse(CX, CY, ORBIT_R, ORBIT_R * SQUASH, 0, 0, Math.PI * 2);
+                    ctx.strokeStyle = 'rgba(93,171,255,0.08)';
+                    ctx.lineWidth = 1;
+                    ctx.setLineDash([2, 6]);
+                    ctx.stroke();
+                    ctx.restore();
+
+                    // ---- AI Eye ----
+                    const pulse = 1 + Math.sin(now * 0.0012) * 0.02;
+                    const grad = ctx.createRadialGradient(CX, CY, 10, CX, CY, (EYE_RADIUS + 40) * pulse);
+                    grad.addColorStop(0, 'rgba(93,171,255,0.25)');
+                    grad.addColorStop(0.6, 'rgba(93,171,255,0.05)');
+                    grad.addColorStop(1, 'rgba(93,171,255,0)');
+                    ctx.beginPath();
+                    ctx.arc(CX, CY, (EYE_RADIUS + 40) * pulse, 0, 2 * Math.PI);
+                    ctx.fillStyle = grad;
+                    ctx.fill();
+
+                    ctx.beginPath();
+                    ctx.arc(CX, CY, EYE_RADIUS, 0, 2 * Math.PI);
+                    ctx.fillStyle = 'rgba(8,9,10,0.85)';
+                    ctx.fill();
+                    ctx.strokeStyle = 'rgba(93,171,255,0.5)';
+                    ctx.lineWidth = 2.5;
+                    ctx.stroke();
+
+                    // Pupil gently tracks the cursor — subtle, alive, premium feel
+                    const maxOffset = 16;
+                    let dxp = mouseX - CX,
+                        dyp = mouseY - CY;
+                    const dp = Math.hypot(dxp, dyp) || 1;
+                    const pupilX = CX + (dxp / dp) * Math.min(maxOffset, dp * 0.08);
+                    const pupilY = CY + (dyp / dp) * Math.min(maxOffset, dp * 0.08);
+
+                    const pR = 42;
+                    const pGrad = ctx.createRadialGradient(pupilX - 12, pupilY - 12, 4, pupilX, pupilY, pR);
+                    pGrad.addColorStop(0, '#ffffff');
+                    pGrad.addColorStop(0.3, '#a78bfa');
+                    pGrad.addColorStop(1, '#6ee7ff');
+                    ctx.beginPath();
+                    ctx.arc(pupilX, pupilY, pR, 0, 2 * Math.PI);
+                    ctx.fillStyle = pGrad;
+                    ctx.fill();
+                    ctx.beginPath();
+                    ctx.arc(pupilX, pupilY, pR + 4, 0, 2 * Math.PI);
+                    ctx.strokeStyle = 'rgba(255,255,255,0.15)';
+                    ctx.lineWidth = 2;
+                    ctx.stroke();
+
+                    ctx.beginPath();
+                    ctx.arc(pupilX - 16, pupilY - 18, 12, 0, 2 * Math.PI);
+                    ctx.fillStyle = 'rgba(255,255,255,0.6)';
+                    ctx.fill();
+                    ctx.beginPath();
+                    ctx.arc(pupilX - 8, pupilY - 30, 5, 0, 2 * Math.PI);
+                    ctx.fillStyle = 'rgba(255,255,255,0.3)';
+                    ctx.fill();
+
+                    ctx.fillStyle = 'rgba(255,255,255,0.8)';
+                    ctx.font = 'bold 18px Inter, sans-serif';
+                    ctx.textAlign = 'center';
+                    ctx.textBaseline = 'bottom';
+                    ctx.fillText('AI', CX, CY + EYE_RADIUS + 24);
+
+                    // ---- Bubbles: draw back-to-front by depth for a real 3D feel ----
+                    const sorted = bubbles.slice().sort((a, b2) => a.depth - b2.depth);
+                    for (let b of sorted) {
+                        if (!b.icon) continue;
+                        const s = b.size * b.scale * (1 + b.hover * 0.14);
+                        const alpha = 0.55 + b.depth * 0.45;
+
+                        ctx.save();
+                        ctx.globalAlpha = alpha;
+
+                        if (b.hover > 0.01) {
+                            ctx.shadowColor = b.ring;
+                            ctx.shadowBlur = 24 * b.hover;
+                        }
+
+                        ctx.drawImage(b.icon, b.x - s / 2, b.y - s / 2, s, s);
+                        ctx.restore();
+
+                        ctx.save();
+                        ctx.globalAlpha = Math.min(1, alpha + 0.15) * (0.55 + b.hover * 0.45);
+                        ctx.fillStyle = '#ffffff';
+                        ctx.font = (b.hover > 0.4 ? '600 ' : '400 ') + '11px Inter, sans-serif';
+                        ctx.textAlign = 'center';
+                        ctx.textBaseline = 'top';
+                        ctx.fillText(b.label, b.x, b.y + s / 2 + 6);
+                        ctx.restore();
+                    }
+                }
+
+                // ---- Animation loop ----
+                function animate(now) {
+                    update(now);
+                    draw(now);
+                    requestAnimationFrame(animate);
+                }
+                requestAnimationFrame(animate);
+
+                canvas.addEventListener('touchstart', function(e) {
+                    // passive: prevent tap highlight
+                }, { passive: true });
+
+            }); // end Promise.all
+
+            console.log('ReputationGuardPro Enterprise — AI Visibility Platform loaded.');
+        })();
+    </script>
+
+</body>
+</html>

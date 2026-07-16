@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>ReputationGuardPro Enterprise — AI Visibility for Enterprises</title>
+    <title>ReputationGuardPro Enterprise — AI Visibility Platform</title>
     <meta name="description" content="ReputationGuardPro Enterprise helps large organizations dominate AI search: track, optimize, and prove your brand's visibility in ChatGPT, Gemini, Claude, Perplexity, and beyond." />
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🛡️</text></svg>" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -49,6 +49,7 @@
             -webkit-font-smoothing: antialiased;
             -moz-osx-font-smoothing: grayscale;
             overflow-x: hidden;
+            -webkit-tap-highlight-color: transparent;
         }
         a {
             color: var(--accent);
@@ -263,6 +264,7 @@
             border: none;
             cursor: pointer;
             padding: 4px;
+            -webkit-tap-highlight-color: transparent;
         }
         .hamburger span {
             width: 26px;
@@ -413,7 +415,7 @@
             fill: none;
         }
 
-        /* ===== FLOATING BUBBLES WITH PHYSICS ===== */
+        /* ===== BUBBLE CANVAS ===== */
         .hero-visual {
             position: relative;
             display: flex;
@@ -425,19 +427,19 @@
         .bubble-canvas-wrapper {
             position: relative;
             width: 100%;
-            max-width: 560px;
-            aspect-ratio: 1/0.9;
+            max-width: 700px;
             margin: 0 auto;
-            border-radius: 50%;
-            background: radial-gradient(circle at center, rgba(93,171,255,0.03) 0%, transparent 70%);
+            background: transparent;
         }
         #bubbleCanvas {
             display: block;
             width: 100%;
-            height: 100%;
-            border-radius: 50%;
-            cursor: pointer;
+            height: auto;
+            aspect-ratio: 700 / 600;
             background: transparent;
+            cursor: pointer;
+            -webkit-tap-highlight-color: transparent;
+            touch-action: none;
         }
 
         /* ===== CLIENTS STRIP ===== */
@@ -482,8 +484,12 @@
             opacity: 1;
         }
         @keyframes scrollLogos {
-            0% { transform: translateX(0); }
-            100% { transform: translateX(-50%); }
+            0% {
+                transform: translateX(0);
+            }
+            100% {
+                transform: translateX(-50%);
+            }
         }
         .client-logos-wrapper {
             display: flex;
@@ -589,8 +595,14 @@
             display: block;
         }
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(12px); }
-            to { opacity: 1; transform: translateY(0); }
+            from {
+                opacity: 0;
+                transform: translateY(12px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
         .process-panel-content {
             display: grid;
@@ -880,6 +892,7 @@
             padding: 20px 24px;
             cursor: pointer;
             transition: all var(--transition);
+            -webkit-tap-highlight-color: transparent;
         }
         .faq-item:hover {
             border-color: var(--text-secondary);
@@ -914,7 +927,7 @@
             padding-top: 12px;
         }
 
-        /* ===== CONTACT / FORM SECTION ===== */
+        /* ===== CONTACT / FORM ===== */
         .contact-section {
             background: var(--bg-secondary);
             border-top: 1px solid var(--border-color);
@@ -1099,6 +1112,13 @@
             margin-left: 8px;
             -webkit-text-fill-color: var(--accent);
         }
+        footer .footer-description {
+            color: var(--text-tertiary);
+            font-size: 0.85rem;
+            max-width: 280px;
+            line-height: 1.6;
+            margin-top: 6px;
+        }
         footer h5 {
             font-size: 0.85rem;
             font-weight: 600;
@@ -1280,7 +1300,7 @@
                 margin-bottom: -10px;
             }
             .bubble-canvas-wrapper {
-                max-width: 380px;
+                max-width: 480px;
             }
             .shift-grid {
                 grid-template-columns: 1fr;
@@ -1364,10 +1384,10 @@
                 padding: 6px 14px;
             }
             .bubble-canvas-wrapper {
-                max-width: 280px;
+                max-width: 320px;
             }
             .hero-visual {
-                min-height: 260px;
+                min-height: 280px;
             }
             .hero-title {
                 font-size: 1.8rem;
@@ -1476,10 +1496,10 @@
                     </div>
                 </div>
 
-                <!-- ===== FLOATING BUBBLES WITH PHYSICS (Canvas) ===== -->
+                <!-- ===== BUBBLE CANVAS ===== -->
                 <div class="hero-visual">
                     <div class="bubble-canvas-wrapper">
-                        <canvas id="bubbleCanvas" width="600" height="540"></canvas>
+                        <canvas id="bubbleCanvas" width="700" height="600"></canvas>
                     </div>
                 </div>
             </div>
@@ -1869,7 +1889,7 @@
         </div>
     </section>
 
-    <!-- ===== CONTACT / FORM SECTION ===== -->
+    <!-- ===== CONTACT / FORM ===== -->
     <section class="section-padding contact-section" id="contact">
         <div class="container">
             <div class="text-center">
@@ -1889,11 +1909,8 @@
                 </div>
                 <div class="contact-form">
                     <form id="contactForm" action="https://formsubmit.co/defend@reputationguard.pro" method="POST">
-                        <!-- Honeypot -->
                         <input type="text" name="_honey" style="display:none">
-                        <!-- Disable Captcha -->
                         <input type="hidden" name="_captcha" value="false">
-                        <!-- Redirect after submit (optional) -->
                         <input type="hidden" name="_next" value="https://reputationguard.pro/thank-you">
                         <div class="form-group">
                             <label for="fullName">Full name *</label>
@@ -1947,7 +1964,7 @@
         </div>
     </section>
 
-    <!-- ===== FOOTER (updated) ===== -->
+    <!-- ===== FOOTER ===== -->
     <footer>
         <div class="container">
             <div class="footer-grid">
@@ -1956,7 +1973,7 @@
                         <span class="corp">Reputation</span><span class="pro">Guard</span><span class="pro" style="margin-left:0;">Pro</span>
                         <span class="enterprise">Enterprise</span>
                     </div>
-                    <p class="footer-description" style="color: var(--text-tertiary); font-size: 0.85rem; max-width: 280px; line-height: 1.6; margin-top: 6px;">Enterprise AI visibility platform. We help global brands get cited, recommended, and trusted by AI assistants.</p>
+                    <p class="footer-description">Enterprise AI visibility platform. We help global brands get cited, recommended, and trusted by AI assistants.</p>
                 </div>
                 <div>
                     <h5>Platform</h5>
@@ -1989,7 +2006,7 @@
         </div>
     </footer>
 
-    <!-- ===== AUDIT MODAL ===== -->
+    <!-- ===== MODAL ===== -->
     <div class="modal-overlay" id="auditModal">
         <div class="modal">
             <button class="modal-close" id="modalClose">&times;</button>
@@ -2015,9 +2032,7 @@
         (function() {
             'use strict';
 
-            // =============================================
-            // 1. MOBILE MENU
-            // =============================================
+            // ===== Mobile menu =====
             const hamburger = document.getElementById('hamburger');
             const mobileNav = document.getElementById('mobileNav');
             hamburger.addEventListener('click', function() {
@@ -2025,9 +2040,7 @@
                 mobileNav.classList.toggle('open');
             });
 
-            // =============================================
-            // 2. PROCESS TABS
-            // =============================================
+            // ===== Process tabs =====
             const tabs = document.querySelectorAll('.process-tab');
             const panels = document.querySelectorAll('.process-panel');
             tabs.forEach(tab => {
@@ -2041,13 +2054,10 @@
                 });
             });
 
-            // =============================================
-            // 3. FAQ ACCORDION (fixed)
-            // =============================================
+            // ===== FAQ accordion =====
             const faqItems = document.querySelectorAll('.faq-item');
             faqItems.forEach(item => {
                 item.addEventListener('click', function() {
-                    // Close others (optional, but nicer)
                     faqItems.forEach(other => {
                         if (other !== this && other.classList.contains('open')) {
                             other.classList.remove('open');
@@ -2056,12 +2066,9 @@
                     this.classList.toggle('open');
                 });
             });
-            // Open first by default
             if (faqItems.length) faqItems[0].classList.add('open');
 
-            // =============================================
-            // 4. AUDIT MODAL
-            // =============================================
+            // ===== Audit modal =====
             const auditBtn = document.getElementById('auditBtn');
             const auditInput = document.getElementById('auditInput');
             const modal = document.getElementById('auditModal');
@@ -2139,11 +2146,9 @@
                 if (e.key === 'Escape' && modal.classList.contains('open')) closeModal();
             });
 
-            // ---- Get full report: close modal and scroll to contact form ----
             getFullReportBtn.addEventListener('click', function(e) {
                 e.preventDefault();
                 closeModal();
-                // Scroll to contact form
                 const contactSection = document.getElementById('contact');
                 if (contactSection) {
                     const offset = 80;
@@ -2152,7 +2157,6 @@
                 }
             });
 
-            // ---- Talk to expert: close modal and scroll to contact form ----
             talkToExpertBtn.addEventListener('click', function(e) {
                 e.preventDefault();
                 closeModal();
@@ -2164,9 +2168,7 @@
                 }
             });
 
-            // =============================================
-            // 5. SMOOTH SCROLL for anchor links
-            // =============================================
+            // ===== Smooth scroll =====
             document.querySelectorAll('a[href^="#"]').forEach(anchor => {
                 anchor.addEventListener('click', function(e) {
                     const target = document.querySelector(this.getAttribute('href'));
@@ -2183,9 +2185,7 @@
                 });
             });
 
-            // =============================================
-            // 6. INTERSECTION OBSERVER (reveal animations)
-            // =============================================
+            // ===== Intersection Observer =====
             if ('IntersectionObserver' in window) {
                 const cards = document.querySelectorAll(
                     '.feature-card, .trust-card, .case-card, .pricing-card, .shift-card');
@@ -2219,288 +2219,251 @@
             }
 
             // =============================================
-            // 7. BUBBLE PHYSICS (Canvas)
+            // BUBBLE CANVAS — PHYSICS WITH OFFICIAL ICONS
             // =============================================
             const canvas = document.getElementById('bubbleCanvas');
             const ctx = canvas.getContext('2d');
-            const width = canvas.width;
-            const height = canvas.height;
+            const width = 700,
+                height = 600;
 
-            // Center AI eye
+            // ---- AI Eye (2× larger) ----
             const centerX = width / 2;
             const centerY = height / 2;
-            const centerRadius = 55;
+            const centerRadius = 110;
 
-            // Bubble data
-            const bubbleColors = [
-                '#10a37f', // ChatGPT
-                '#4285f4', // Gemini
-                '#d97757', // Claude
-                '#1f9ea0', // Perplexity
-                '#8b5cf6', // Grok
-                '#00a4ef', // Copilot
-                '#0066b3'  // Meta AI
-            ];
-            const bubbleLabels = ['ChatGPT', 'Gemini', 'Claude', 'Perplexity', 'Grok', 'Copilot', 'Meta AI'];
-            const numBubbles = bubbleLabels.length;
+            // ---- Official SVG icons as Image objects ----
+            const svgIcons = {
+                chatgpt: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="46" fill="#10a37f"/><path d="M34 38L50 24L66 38L62 46L50 34L38 46L34 38Z" fill="white"/><path d="M34 62L50 76L66 62L62 54L50 66L38 54L34 62Z" fill="white"/><path d="M30 50L44 34L52 38L38 54L30 50Z" fill="white" opacity="0.7"/><path d="M70 50L56 66L48 62L62 46L70 50Z" fill="white" opacity="0.7"/></svg>`,
+                gemini: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="46" fill="#4285f4" opacity="0.2"/><path d="M50 18L62 42L88 46L68 66L72 92L50 80L28 92L32 66L12 46L38 42L50 18Z" fill="#4285f4" stroke="#4285f4" stroke-width="1.5"/><path d="M50 30L58 48L78 50L62 66L64 84L50 74L36 84L38 66L22 50L42 48L50 30Z" fill="white" opacity="0.9"/></svg>`,
+                claude: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="46" fill="#d97757" opacity="0.15"/><circle cx="50" cy="50" r="32" fill="#d97757" opacity="0.2"/><circle cx="50" cy="50" r="20" fill="#d97757" opacity="0.4"/><text x="50" y="60" font-size="38" text-anchor="middle" fill="#d97757" font-weight="700" font-family="Inter, sans-serif">C</text><circle cx="50" cy="50" r="36" stroke="#d97757" stroke-width="1.5" stroke-opacity="0.15" stroke-dasharray="4 6"/></svg>`,
+                perplexity: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="46" fill="#1f9ea0" opacity="0.12"/><text x="50" y="60" font-size="40" text-anchor="middle" fill="#1f9ea0" font-weight="800" font-family="Inter, sans-serif">P</text><circle cx="50" cy="50" r="30" stroke="#1f9ea0" stroke-width="1.5" stroke-opacity="0.15"/><path d="M50 26L58 44L76 48L62 62L66 80L50 70L34 80L38 62L24 48L42 44L50 26Z" fill="#1f9ea0" opacity="0.15" stroke="#1f9ea0" stroke-width="0.8" stroke-opacity="0.2"/></svg>`,
+                grok: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="46" fill="#8b5cf6" opacity="0.10"/><circle cx="50" cy="50" r="28" fill="#8b5cf6" opacity="0.12"/><text x="50" y="60" font-size="38" text-anchor="middle" fill="#8b5cf6" font-weight="800" font-family="Inter, sans-serif">G</text><circle cx="50" cy="50" r="34" stroke="#8b5cf6" stroke-width="1" stroke-opacity="0.12" stroke-dasharray="2 4"/></svg>`,
+                copilot: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="46" fill="#00a4ef" opacity="0.10"/><circle cx="50" cy="50" r="22" fill="#00a4ef" opacity="0.15"/><text x="50" y="60" font-size="36" text-anchor="middle" fill="#00a4ef" font-weight="700" font-family="Inter, sans-serif">C</text><circle cx="50" cy="50" r="32" stroke="#00a4ef" stroke-width="1" stroke-opacity="0.12" stroke-dasharray="3 5"/></svg>`,
+                meta: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="46" fill="#0066b3" opacity="0.08"/><text x="50" y="60" font-size="34" text-anchor="middle" fill="#0066b3" font-weight="800" font-family="Inter, sans-serif">M</text><circle cx="50" cy="50" r="26" stroke="#0066b3" stroke-width="1" stroke-opacity="0.12"/></svg>`
+            };
 
-            // Initialize bubbles with random positions (not overlapping center)
-            let bubbles = [];
-            for (let i = 0; i < numBubbles; i++) {
-                let radius = 35 + Math.random() * 15;
-                let angle = Math.random() * 2 * Math.PI;
-                let dist = 120 + Math.random() * 150;
-                let x = centerX + Math.cos(angle) * dist;
-                let y = centerY + Math.sin(angle) * dist;
-                // ensure not too close to center
-                while (Math.hypot(x - centerX, y - centerY) < centerRadius + radius + 10) {
-                    angle = Math.random() * 2 * Math.PI;
-                    dist = 140 + Math.random() * 160;
-                    x = centerX + Math.cos(angle) * dist;
-                    y = centerY + Math.sin(angle) * dist;
-                }
-                let vx = (Math.random() - 0.5) * 2;
-                let vy = (Math.random() - 0.5) * 2;
-                // ensure some initial movement
-                if (Math.abs(vx) < 0.3) vx = 0.5 * (Math.random() > 0.5 ? 1 : -1);
-                if (Math.abs(vy) < 0.3) vy = 0.5 * (Math.random() > 0.5 ? 1 : -1);
-                bubbles.push({
-                    x: x,
-                    y: y,
-                    radius: radius,
-                    vx: vx,
-                    vy: vy,
-                    color: bubbleColors[i % bubbleColors.length],
-                    label: bubbleLabels[i % bubbleLabels.length],
-                    mass: radius / 20
+            function loadIcon(svgStr) {
+                return new Promise((resolve) => {
+                    const img = new Image();
+                    img.onload = () => resolve(img);
+                    img.onerror = () => resolve(null);
+                    img.src = 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(svgStr);
                 });
             }
 
-            // Helper: resolve collision between two circles (elastic)
-            function resolveCollision(a, b) {
-                const dx = b.x - a.x;
-                const dy = b.y - a.y;
-                const dist = Math.hypot(dx, dy);
-                const minDist = a.radius + b.radius;
-                if (dist >= minDist || dist === 0) return false;
+            const iconKeys = ['chatgpt', 'gemini', 'claude', 'perplexity', 'grok', 'copilot', 'meta'];
+            const iconLabels = ['ChatGPT', 'Gemini', 'Claude', 'Perplexity', 'Grok', 'Copilot', 'Meta AI'];
 
-                // Normalize
-                const nx = dx / dist;
-                const ny = dy / dist;
-
-                // Separate overlapping
-                const overlap = (minDist - dist) / 2;
-                a.x -= nx * overlap;
-                a.y -= ny * overlap;
-                b.x += nx * overlap;
-                b.y += ny * overlap;
-
-                // Relative velocity
-                const dvx = a.vx - b.vx;
-                const dvy = a.vy - b.vy;
-                const dvn = dvx * nx + dvy * ny;
-                if (dvn > 0) return false; // moving apart
-
-                // Mass factor
-                const totalMass = a.mass + b.mass;
-                const impulse = (2 * dvn) / totalMass;
-                a.vx -= impulse * b.mass * nx;
-                a.vy -= impulse * b.mass * ny;
-                b.vx += impulse * a.mass * nx;
-                b.vy += impulse * a.mass * ny;
-
-                // Slight energy loss (optional)
-                const damp = 0.98;
-                a.vx *= damp;
-                a.vy *= damp;
-                b.vx *= damp;
-                b.vy *= damp;
-
-                return true;
-            }
-
-            // Update positions and handle collisions
-            function updatePhysics() {
-                // Move bubbles
-                for (let b of bubbles) {
-                    b.x += b.vx;
-                    b.y += b.vy;
-                }
-
-                // Collisions between bubbles
-                for (let i = 0; i < bubbles.length; i++) {
-                    for (let j = i + 1; j < bubbles.length; j++) {
-                        resolveCollision(bubbles[i], bubbles[j]);
+            Promise.all(iconKeys.map(key => loadIcon(svgIcons[key]))).then(icons => {
+                // ---- Init bubbles ----
+                const numBubbles = icons.length;
+                let bubbles = [];
+                for (let i = 0; i < numBubbles; i++) {
+                    let radius = 38 + Math.random() * 18;
+                    let angle = Math.random() * 2 * Math.PI;
+                    let dist = 150 + Math.random() * 180;
+                    let x = centerX + Math.cos(angle) * dist;
+                    let y = centerY + Math.sin(angle) * dist;
+                    while (Math.hypot(x - centerX, y - centerY) < centerRadius + radius + 20) {
+                        angle = Math.random() * 2 * Math.PI;
+                        dist = 170 + Math.random() * 200;
+                        x = centerX + Math.cos(angle) * dist;
+                        y = centerY + Math.sin(angle) * dist;
                     }
+                    let vx = (Math.random() - 0.5) * 2.5;
+                    let vy = (Math.random() - 0.5) * 2.5;
+                    if (Math.abs(vx) < 0.4) vx = 0.6 * (Math.random() > 0.5 ? 1 : -1);
+                    if (Math.abs(vy) < 0.4) vy = 0.6 * (Math.random() > 0.5 ? 1 : -1);
+                    bubbles.push({
+                        x,
+                        y,
+                        radius,
+                        vx,
+                        vy,
+                        icon: icons[i],
+                        label: iconLabels[i],
+                        mass: radius / 20
+                    });
                 }
 
-                // Collision with center AI eye (elastic reflection)
-                for (let b of bubbles) {
-                    const dx = b.x - centerX;
-                    const dy = b.y - centerY;
+                // ---- Physics ----
+                function resolveCollision(a, b) {
+                    const dx = b.x - a.x,
+                        dy = b.y - a.y;
                     const dist = Math.hypot(dx, dy);
-                    const minDist = centerRadius + b.radius;
-                    if (dist < minDist && dist > 0) {
-                        const nx = dx / dist;
-                        const ny = dy / dist;
-                        // Separate
-                        const overlap = (minDist - dist) / 2;
-                        b.x += nx * overlap;
-                        b.y += ny * overlap;
-                        // Reflect velocity (massive center)
-                        const vn = b.vx * nx + b.vy * ny;
-                        if (vn < 0) {
-                            b.vx -= 2 * vn * nx;
-                            b.vy -= 2 * vn * ny;
+                    const minDist = a.radius + b.radius;
+                    if (dist >= minDist || dist === 0) return false;
+                    const nx = dx / dist,
+                        ny = dy / dist;
+                    const overlap = (minDist - dist) / 2;
+                    a.x -= nx * overlap;
+                    a.y -= ny * overlap;
+                    b.x += nx * overlap;
+                    b.y += ny * overlap;
+                    const dvx = a.vx - b.vx,
+                        dvy = a.vy - b.vy;
+                    const dvn = dvx * nx + dvy * ny;
+                    if (dvn > 0) return false;
+                    const totalMass = a.mass + b.mass;
+                    const impulse = (2 * dvn) / totalMass;
+                    a.vx -= impulse * b.mass * nx;
+                    a.vy -= impulse * b.mass * ny;
+                    b.vx += impulse * a.mass * nx;
+                    b.vy += impulse * a.mass * ny;
+                    const damp = 0.98;
+                    a.vx *= damp;
+                    a.vy *= damp;
+                    b.vx *= damp;
+                    b.vy *= damp;
+                    return true;
+                }
+
+                function updatePhysics() {
+                    for (let b of bubbles) {
+                        b.x += b.vx;
+                        b.y += b.vy;
+                    }
+                    for (let i = 0; i < bubbles.length; i++) {
+                        for (let j = i + 1; j < bubbles.length; j++) {
+                            resolveCollision(bubbles[i], bubbles[j]);
                         }
                     }
-                }
-
-                // Boundary collisions (elastic with walls)
-                for (let b of bubbles) {
-                    const r = b.radius;
-                    if (b.x - r < 0) { b.x = r;
-                        b.vx = -b.vx; }
-                    if (b.x + r > width) { b.x = width - r;
-                        b.vx = -b.vx; }
-                    if (b.y - r < 0) { b.y = r;
-                        b.vy = -b.vy; }
-                    if (b.y + r > height) { b.y = height - r;
-                        b.vy = -b.vy; }
-                }
-            }
-
-            // Draw everything
-            function draw() {
-                ctx.clearRect(0, 0, width, height);
-
-                // Draw center AI eye (all‑seeing eye)
-                // Outer glow
-                const gradient = ctx.createRadialGradient(centerX, centerY, 10, centerX, centerY, centerRadius + 30);
-                gradient.addColorStop(0, 'rgba(93,171,255,0.3)');
-                gradient.addColorStop(0.5, 'rgba(93,171,255,0.05)');
-                gradient.addColorStop(1, 'rgba(93,171,255,0)');
-                ctx.beginPath();
-                ctx.arc(centerX, centerY, centerRadius + 30, 0, 2 * Math.PI);
-                ctx.fillStyle = gradient;
-                ctx.fill();
-
-                // Eye background
-                ctx.beginPath();
-                ctx.arc(centerX, centerY, centerRadius, 0, 2 * Math.PI);
-                ctx.fillStyle = 'rgba(8,9,10,0.8)';
-                ctx.fill();
-                ctx.strokeStyle = 'rgba(93,171,255,0.6)';
-                ctx.lineWidth = 2;
-                ctx.stroke();
-
-                // Pupil
-                const pupilRadius = 22;
-                const pupilGrad = ctx.createRadialGradient(centerX - 8, centerY - 8, 2, centerX, centerY, pupilRadius);
-                pupilGrad.addColorStop(0, '#ffffff');
-                pupilGrad.addColorStop(0.4, '#a78bfa');
-                pupilGrad.addColorStop(1, '#6ee7ff');
-                ctx.beginPath();
-                ctx.arc(centerX, centerY, pupilRadius, 0, 2 * Math.PI);
-                ctx.fillStyle = pupilGrad;
-                ctx.fill();
-
-                // Iris ring
-                ctx.beginPath();
-                ctx.arc(centerX, centerY, pupilRadius + 4, 0, 2 * Math.PI);
-                ctx.strokeStyle = 'rgba(255,255,255,0.2)';
-                ctx.lineWidth = 2;
-                ctx.stroke();
-
-                // Glint
-                ctx.beginPath();
-                ctx.arc(centerX - 10, centerY - 12, 7, 0, 2 * Math.PI);
-                ctx.fillStyle = 'rgba(255,255,255,0.7)';
-                ctx.fill();
-
-                // Small glint
-                ctx.beginPath();
-                ctx.arc(centerX - 5, centerY - 20, 3, 0, 2 * Math.PI);
-                ctx.fillStyle = 'rgba(255,255,255,0.4)';
-                ctx.fill();
-
-                // Label "AI"
-                ctx.fillStyle = 'rgba(255,255,255,0.9)';
-                ctx.font = 'bold 14px Inter, sans-serif';
-                ctx.textAlign = 'center';
-                ctx.textBaseline = 'bottom';
-                ctx.fillText('AI', centerX, centerY + centerRadius + 20);
-
-                // Draw bubbles
-                for (let b of bubbles) {
-                    // Glow
-                    const glow = ctx.createRadialGradient(b.x, b.y, 2, b.x, b.y, b.radius + 10);
-                    glow.addColorStop(0, b.color + '40');
-                    glow.addColorStop(1, 'transparent');
-                    ctx.beginPath();
-                    ctx.arc(b.x, b.y, b.radius + 10, 0, 2 * Math.PI);
-                    ctx.fillStyle = glow;
-                    ctx.fill();
-
-                    // Bubble body
-                    ctx.beginPath();
-                    ctx.arc(b.x, b.y, b.radius, 0, 2 * Math.PI);
-                    ctx.fillStyle = b.color + '30';
-                    ctx.fill();
-                    ctx.strokeStyle = b.color + '80';
-                    ctx.lineWidth = 1.5;
-                    ctx.stroke();
-
-                    // Icon – simplified letter or symbol
-                    ctx.fillStyle = '#fff';
-                    ctx.font = `bold ${b.radius * 0.7}px Inter, sans-serif`;
-                    ctx.textAlign = 'center';
-                    ctx.textBaseline = 'middle';
-                    const letter = b.label.charAt(0);
-                    ctx.fillText(letter, b.x, b.y + 2);
-
-                    // Label below bubble
-                    ctx.fillStyle = 'rgba(255,255,255,0.6)';
-                    ctx.font = '10px Inter, sans-serif';
-                    ctx.textBaseline = 'top';
-                    ctx.fillText(b.label, b.x, b.y + b.radius + 4);
-                }
-            }
-
-            // Animation loop
-            function animate() {
-                updatePhysics();
-                draw();
-                requestAnimationFrame(animate);
-            }
-            animate();
-
-            // Click handler: apply impulse to clicked bubble
-            canvas.addEventListener('click', function(e) {
-                const rect = canvas.getBoundingClientRect();
-                const scaleX = canvas.width / rect.width;
-                const scaleY = canvas.height / rect.height;
-                const mouseX = (e.clientX - rect.left) * scaleX;
-                const mouseY = (e.clientY - rect.top) * scaleY;
-
-                // Find closest bubble
-                let closest = null;
-                let minDist = Infinity;
-                for (let b of bubbles) {
-                    const d = Math.hypot(mouseX - b.x, mouseY - b.y);
-                    if (d < b.radius + 10 && d < minDist) {
-                        minDist = d;
-                        closest = b;
+                    for (let b of bubbles) {
+                        const dx = b.x - centerX,
+                            dy = b.y - centerY;
+                        const dist = Math.hypot(dx, dy);
+                        const minDist = centerRadius + b.radius;
+                        if (dist < minDist && dist > 0) {
+                            const nx = dx / dist,
+                                ny = dy / dist;
+                            const overlap = (minDist - dist) / 2;
+                            b.x += nx * overlap;
+                            b.y += ny * overlap;
+                            const vn = b.vx * nx + b.vy * ny;
+                            if (vn < 0) {
+                                b.vx -= 2 * vn * nx;
+                                b.vy -= 2 * vn * ny;
+                            }
+                        }
+                        const r = b.radius;
+                        if (b.x - r < 0) { b.x = r;
+                            b.vx = -b.vx; }
+                        if (b.x + r > width) { b.x = width - r;
+                            b.vx = -b.vx; }
+                        if (b.y - r < 0) { b.y = r;
+                            b.vy = -b.vy; }
+                        if (b.y + r > height) { b.y = height - r;
+                            b.vy = -b.vy; }
                     }
                 }
-                if (closest) {
-                    // Apply random impulse (like a billiard hit)
-                    const angle = Math.random() * 2 * Math.PI;
-                    const strength = 4 + Math.random() * 6;
-                    closest.vx += Math.cos(angle) * strength;
-                    closest.vy += Math.sin(angle) * strength;
+
+                // ---- Draw ----
+                function draw() {
+                    ctx.clearRect(0, 0, width, height);
+
+                    // AI Eye glow
+                    const grad = ctx.createRadialGradient(centerX, centerY, 10, centerX, centerY, centerRadius + 40);
+                    grad.addColorStop(0, 'rgba(93,171,255,0.25)');
+                    grad.addColorStop(0.6, 'rgba(93,171,255,0.05)');
+                    grad.addColorStop(1, 'rgba(93,171,255,0)');
+                    ctx.beginPath();
+                    ctx.arc(centerX, centerY, centerRadius + 40, 0, 2 * Math.PI);
+                    ctx.fillStyle = grad;
+                    ctx.fill();
+
+                    // Eye background
+                    ctx.beginPath();
+                    ctx.arc(centerX, centerY, centerRadius, 0, 2 * Math.PI);
+                    ctx.fillStyle = 'rgba(8,9,10,0.85)';
+                    ctx.fill();
+                    ctx.strokeStyle = 'rgba(93,171,255,0.5)';
+                    ctx.lineWidth = 2.5;
+                    ctx.stroke();
+
+                    // Pupil
+                    const pupilR = 42;
+                    const pupilGrad = ctx.createRadialGradient(centerX - 12, centerY - 12, 4, centerX, centerY, pupilR);
+                    pupilGrad.addColorStop(0, '#ffffff');
+                    pupilGrad.addColorStop(0.3, '#a78bfa');
+                    pupilGrad.addColorStop(1, '#6ee7ff');
+                    ctx.beginPath();
+                    ctx.arc(centerX, centerY, pupilR, 0, 2 * Math.PI);
+                    ctx.fillStyle = pupilGrad;
+                    ctx.fill();
+                    ctx.beginPath();
+                    ctx.arc(centerX, centerY, pupilR + 4, 0, 2 * Math.PI);
+                    ctx.strokeStyle = 'rgba(255,255,255,0.15)';
+                    ctx.lineWidth = 2;
+                    ctx.stroke();
+
+                    // Glints
+                    ctx.beginPath();
+                    ctx.arc(centerX - 16, centerY - 18, 12, 0, 2 * Math.PI);
+                    ctx.fillStyle = 'rgba(255,255,255,0.6)';
+                    ctx.fill();
+                    ctx.beginPath();
+                    ctx.arc(centerX - 8, centerY - 30, 5, 0, 2 * Math.PI);
+                    ctx.fillStyle = 'rgba(255,255,255,0.3)';
+                    ctx.fill();
+
+                    ctx.fillStyle = 'rgba(255,255,255,0.8)';
+                    ctx.font = 'bold 18px Inter, sans-serif';
+                    ctx.textAlign = 'center';
+                    ctx.textBaseline = 'bottom';
+                    ctx.fillText('AI', centerX, centerY + centerRadius + 24);
+
+                    // Bubbles with official icons
+                    for (let b of bubbles) {
+                        if (!b.icon) continue;
+                        const iconSize = b.radius * 1.2;
+                        ctx.drawImage(b.icon, b.x - iconSize / 2, b.y - iconSize / 2, iconSize, iconSize);
+                        ctx.fillStyle = 'rgba(255,255,255,0.5)';
+                        ctx.font = '11px Inter, sans-serif';
+                        ctx.textAlign = 'center';
+                        ctx.textBaseline = 'top';
+                        ctx.fillText(b.label, b.x, b.y + b.radius + 6);
+                    }
                 }
-            });
+
+                // ---- Animation loop (continuous) ----
+                function animate() {
+                    updatePhysics();
+                    draw();
+                    requestAnimationFrame(animate);
+                }
+                animate();
+
+                // ---- Click handler: impulse on bubble ----
+                canvas.addEventListener('click', function(e) {
+                    const rect = canvas.getBoundingClientRect();
+                    const scaleX = canvas.width / rect.width;
+                    const scaleY = canvas.height / rect.height;
+                    const mouseX = (e.clientX - rect.left) * scaleX;
+                    const mouseY = (e.clientY - rect.top) * scaleY;
+
+                    let closest = null,
+                        minDist = Infinity;
+                    for (let b of bubbles) {
+                        const d = Math.hypot(mouseX - b.x, mouseY - b.y);
+                        if (d < b.radius + 10 && d < minDist) {
+                            minDist = d;
+                            closest = b;
+                        }
+                    }
+                    if (closest) {
+                        const angle = Math.random() * 2 * Math.PI;
+                        const strength = 5 + Math.random() * 7;
+                        closest.vx += Math.cos(angle) * strength;
+                        closest.vy += Math.sin(angle) * strength;
+                    }
+                });
+
+                // Prevent tap highlight on mobile
+                canvas.addEventListener('touchstart', function(e) {
+                    // passive: just prevent default highlight behavior
+                }, { passive: true });
+
+            }); // end Promise.all
 
             console.log('ReputationGuardPro Enterprise — AI Visibility Platform loaded.');
         })();

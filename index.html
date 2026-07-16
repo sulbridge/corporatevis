@@ -104,6 +104,8 @@
             transition: all var(--transition);
             text-decoration: none;
             line-height: 1.4;
+            color: #000;
+            background: var(--accent);
         }
         .btn-primary {
             background: var(--accent);
@@ -113,6 +115,7 @@
             background: var(--accent-hover);
             transform: translateY(-2px);
             box-shadow: 0 12px 30px rgba(93, 171, 255, 0.3);
+            color: #000;
         }
         .btn-secondary {
             background: transparent;
@@ -123,6 +126,27 @@
             border-color: var(--text-secondary);
             background: rgba(255, 255, 255, 0.03);
             transform: translateY(-2px);
+            color: var(--text-primary);
+        }
+        .btn-dark {
+            background: var(--bg-card);
+            color: var(--text-primary);
+            border: 1px solid var(--border-color);
+        }
+        .btn-dark:hover {
+            background: var(--bg-card-hover);
+            border-color: var(--text-secondary);
+            color: var(--text-primary);
+        }
+        .btn-outline-light {
+            background: transparent;
+            color: var(--text-primary);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        .btn-outline-light:hover {
+            background: rgba(255, 255, 255, 0.05);
+            border-color: var(--text-secondary);
+            color: var(--text-primary);
         }
         .badge {
             display: inline-block;
@@ -389,200 +413,34 @@
             fill: none;
         }
 
-        /* ===== FLOATING LOGO CLOUD ===== */
+        /* ===== FLOATING BUBBLES WITH PHYSICS ===== */
         .hero-visual {
             position: relative;
             display: flex;
             align-items: center;
             justify-content: center;
-            min-height: 400px;
+            min-height: 480px;
             z-index: 1;
         }
-        .logo-cloud {
+        .bubble-canvas-wrapper {
             position: relative;
             width: 100%;
-            max-width: 500px;
-            aspect-ratio: 1/0.85;
+            max-width: 560px;
+            aspect-ratio: 1/0.9;
             margin: 0 auto;
-        }
-        .logo-bubble {
-            position: absolute;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
             border-radius: 50%;
-            background: rgba(255, 255, 255, 0.04);
-            backdrop-filter: blur(8px);
-            border: 1px solid rgba(255, 255, 255, 0.07);
-            box-shadow: 0 20px 40px -12px rgba(0, 0, 0, 0.6);
-            will-change: transform;
-            padding: 6px;
-            cursor: pointer;
-            pointer-events: auto;
-            z-index: 1;
-            transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1),
-                        opacity 0.3s ease;
+            background: radial-gradient(circle at center, rgba(93,171,255,0.03) 0%, transparent 70%);
         }
-        .logo-bubble svg {
-            width: 40px;
-            height: 40px;
+        #bubbleCanvas {
             display: block;
-            flex-shrink: 0;
-        }
-        .logo-bubble .label {
-            font-size: 8px;
-            font-weight: 600;
-            color: rgba(255, 255, 255, 0.45);
-            letter-spacing: 0.3px;
-            margin-top: 2px;
-            white-space: nowrap;
-            background: rgba(0, 0, 0, 0.5);
-            padding: 2px 10px;
-            border-radius: 20px;
-            border: 1px solid rgba(255, 255, 255, 0.06);
-        }
-        .logo-bubble.flying {
-            animation: none !important;
-            z-index: 10;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            cursor: pointer;
+            background: transparent;
         }
 
-        /* sizes & colors */
-        .bubble-chatgpt {
-            width: 100px;
-            height: 100px;
-            background: rgba(16, 163, 127, 0.12);
-            border-color: rgba(16, 163, 127, 0.2);
-            left: 0%;
-            top: 6%;
-        }
-        .bubble-gemini {
-            width: 92px;
-            height: 92px;
-            background: rgba(66, 133, 244, 0.10);
-            border-color: rgba(66, 133, 244, 0.18);
-            right: 0%;
-            top: 2%;
-        }
-        .bubble-claude {
-            width: 88px;
-            height: 88px;
-            background: rgba(214, 158, 91, 0.10);
-            border-color: rgba(214, 158, 91, 0.18);
-            left: 8%;
-            bottom: 18%;
-        }
-        .bubble-perplexity {
-            width: 96px;
-            height: 96px;
-            background: rgba(0, 200, 200, 0.08);
-            border-color: rgba(0, 200, 200, 0.16);
-            right: 4%;
-            bottom: 12%;
-        }
-        .bubble-grok {
-            width: 84px;
-            height: 84px;
-            background: rgba(168, 85, 247, 0.10);
-            border-color: rgba(168, 85, 247, 0.18);
-            left: 50%;
-            top: 48%;
-            transform: translate(-50%, -50%);
-        }
-        .bubble-copilot {
-            width: 80px;
-            height: 80px;
-            background: rgba(0, 164, 239, 0.08);
-            border-color: rgba(0, 164, 239, 0.16);
-            right: 16%;
-            bottom: 38%;
-        }
-        .bubble-meta {
-            width: 78px;
-            height: 78px;
-            background: rgba(0, 102, 179, 0.08);
-            border-color: rgba(0, 102, 179, 0.14);
-            left: 20%;
-            top: 40%;
-        }
-
-        /* floating animations */
-        @keyframes float1 {
-            0% { transform: translate(0, 0) scale(1); }
-            25% { transform: translate(16px, -20px) scale(1.02); }
-            50% { transform: translate(-10px, -34px) scale(0.98); }
-            75% { transform: translate(20px, -10px) scale(1.01); }
-            100% { transform: translate(0, 0) scale(1); }
-        }
-        @keyframes float2 {
-            0% { transform: translate(0, 0) scale(1); }
-            30% { transform: translate(-24px, 14px) scale(1.03); }
-            60% { transform: translate(14px, 28px) scale(0.97); }
-            100% { transform: translate(0, 0) scale(1); }
-        }
-        @keyframes float3 {
-            0% { transform: translate(0, 0) scale(1); }
-            20% { transform: translate(26px, -16px) scale(1.01); }
-            50% { transform: translate(-18px, 18px) scale(0.99); }
-            80% { transform: translate(10px, -26px) scale(1.02); }
-            100% { transform: translate(0, 0) scale(1); }
-        }
-        @keyframes float4 {
-            0% { transform: translate(0, 0) scale(1); }
-            35% { transform: translate(-14px, -24px) scale(0.98); }
-            65% { transform: translate(20px, 10px) scale(1.03); }
-            100% { transform: translate(0, 0) scale(1); }
-        }
-        @keyframes float5 {
-            0% { transform: translate(-50%, -50%) scale(1); }
-            25% { transform: translate(-42%, -58%) scale(1.04); }
-            50% { transform: translate(-58%, -42%) scale(0.96); }
-            75% { transform: translate(-44%, -52%) scale(1.02); }
-            100% { transform: translate(-50%, -50%) scale(1); }
-        }
-        @keyframes float6 {
-            0% { transform: translate(0, 0) scale(1); }
-            30% { transform: translate(-12px, 24px) scale(1.02); }
-            60% { transform: translate(16px, -14px) scale(0.98); }
-            100% { transform: translate(0, 0) scale(1); }
-        }
-        @keyframes float7 {
-            0% { transform: translate(0, 0) scale(1); }
-            25% { transform: translate(20px, 12px) scale(1.01); }
-            55% { transform: translate(-16px, -20px) scale(0.99); }
-            100% { transform: translate(0, 0) scale(1); }
-        }
-
-        .bubble-chatgpt {
-            animation: float1 7.2s ease-in-out infinite;
-            animation-delay: 0s;
-        }
-        .bubble-gemini {
-            animation: float2 8.4s ease-in-out infinite;
-            animation-delay: 0.6s;
-        }
-        .bubble-claude {
-            animation: float3 9.0s ease-in-out infinite;
-            animation-delay: 1.2s;
-        }
-        .bubble-perplexity {
-            animation: float4 7.8s ease-in-out infinite;
-            animation-delay: 0.3s;
-        }
-        .bubble-grok {
-            animation: float5 8.8s ease-in-out infinite;
-            animation-delay: 0.9s;
-        }
-        .bubble-copilot {
-            animation: float6 7.4s ease-in-out infinite;
-            animation-delay: 1.5s;
-        }
-        .bubble-meta {
-            animation: float7 8.0s ease-in-out infinite;
-            animation-delay: 0.4s;
-        }
-
-        /* ===== CLIENTS STRIP (Real, anonymized) ===== */
+        /* ===== CLIENTS STRIP ===== */
         .clients-strip {
             padding: 40px 0;
             border-top: 1px solid var(--border-color);
@@ -867,7 +725,7 @@
             line-height: 1.6;
         }
 
-        /* ===== CASE STUDIES (Anonymized, real-world style) ===== */
+        /* ===== CASE STUDIES ===== */
         .cases-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
@@ -1033,10 +891,12 @@
             font-weight: 600;
             font-size: 1rem;
             gap: 16px;
+            color: var(--text-primary);
         }
         .faq-item .question svg {
             transition: transform var(--transition);
             flex-shrink: 0;
+            stroke: var(--text-secondary);
         }
         .faq-item.open .question svg {
             transform: rotate(180deg);
@@ -1052,6 +912,90 @@
         .faq-item.open .answer {
             max-height: 300px;
             padding-top: 12px;
+        }
+
+        /* ===== CONTACT / FORM SECTION ===== */
+        .contact-section {
+            background: var(--bg-secondary);
+            border-top: 1px solid var(--border-color);
+            border-bottom: 1px solid var(--border-color);
+        }
+        .contact-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: start;
+            margin-top: 40px;
+        }
+        .contact-info h3 {
+            font-size: 1.8rem;
+            font-weight: 600;
+            margin-bottom: 12px;
+        }
+        .contact-info p {
+            color: var(--text-secondary);
+            line-height: 1.7;
+            margin-bottom: 20px;
+        }
+        .contact-info ul {
+            list-style: none;
+        }
+        .contact-info ul li {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            margin-bottom: 12px;
+        }
+        .contact-info ul li svg {
+            stroke: var(--accent);
+            width: 20px;
+            height: 20px;
+        }
+        .contact-form {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 32px;
+        }
+        .contact-form .form-group {
+            margin-bottom: 16px;
+        }
+        .contact-form label {
+            display: block;
+            font-weight: 500;
+            margin-bottom: 6px;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+        .contact-form input,
+        .contact-form textarea {
+            width: 100%;
+            padding: 12px 16px;
+            background: var(--bg-primary);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            color: var(--text-primary);
+            font-family: inherit;
+            font-size: 0.95rem;
+            transition: border-color var(--transition);
+        }
+        .contact-form input:focus,
+        .contact-form textarea:focus {
+            outline: none;
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px var(--accent-dim);
+        }
+        .contact-form textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+        .contact-form .btn {
+            width: 100%;
+            justify-content: center;
+            padding: 14px;
+            font-size: 1rem;
         }
 
         /* ===== FINAL CTA ===== */
@@ -1107,7 +1051,7 @@
             justify-content: center;
         }
 
-        /* ===== FOOTER ===== */
+        /* ===== FOOTER (updated) ===== */
         footer {
             background: var(--bg-primary);
             padding: 40px 0 24px;
@@ -1120,7 +1064,7 @@
         }
         footer .footer-grid {
             display: grid;
-            grid-template-columns: 2fr 1fr 1fr 1fr;
+            grid-template-columns: 1fr 1fr 1fr 1fr;
             gap: 40px;
         }
         footer .brand {
@@ -1154,13 +1098,6 @@
             border-radius: 40px;
             margin-left: 8px;
             -webkit-text-fill-color: var(--accent);
-        }
-        footer .footer-description {
-            color: var(--text-tertiary);
-            font-size: 0.85rem;
-            max-width: 280px;
-            line-height: 1.6;
-            margin-top: 6px;
         }
         footer h5 {
             font-size: 0.85rem;
@@ -1287,6 +1224,17 @@
             border-radius: 4px;
             transition: width 0.5s ease;
         }
+        .modal .btn-group {
+            display: flex;
+            gap: 12px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+        .modal .btn-group .btn {
+            flex: 1;
+            justify-content: center;
+            min-width: 140px;
+        }
 
         /* ===== RESPONSIVE ===== */
         @media (max-width: 1024px) {
@@ -1311,6 +1259,10 @@
             footer .footer-grid {
                 grid-template-columns: 1fr 1fr;
             }
+            .contact-grid {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
         }
 
         @media (max-width: 900px) {
@@ -1324,53 +1276,12 @@
             }
             .hero-visual {
                 order: -1;
-                min-height: 300px;
+                min-height: 340px;
                 margin-bottom: -10px;
             }
-            .logo-cloud {
+            .bubble-canvas-wrapper {
                 max-width: 380px;
             }
-            .logo-bubble {
-                width: 76px !important;
-                height: 76px !important;
-            }
-            .logo-bubble svg {
-                width: 32px;
-                height: 32px;
-            }
-            .logo-bubble .label {
-                font-size: 7px;
-                padding: 1px 8px;
-            }
-            .bubble-chatgpt {
-                left: 0%;
-                top: 4%;
-            }
-            .bubble-gemini {
-                right: 0%;
-                top: 0%;
-            }
-            .bubble-claude {
-                left: 4%;
-                bottom: 18%;
-            }
-            .bubble-perplexity {
-                right: 2%;
-                bottom: 12%;
-            }
-            .bubble-grok {
-                left: 50%;
-                top: 44%;
-            }
-            .bubble-copilot {
-                right: 14%;
-                bottom: 32%;
-            }
-            .bubble-meta {
-                left: 16%;
-                top: 36%;
-            }
-
             .shift-grid {
                 grid-template-columns: 1fr;
             }
@@ -1452,23 +1363,11 @@
                 font-size: 0.75rem;
                 padding: 6px 14px;
             }
-            .logo-cloud {
+            .bubble-canvas-wrapper {
                 max-width: 280px;
             }
-            .logo-bubble {
-                width: 62px !important;
-                height: 62px !important;
-            }
-            .logo-bubble svg {
-                width: 26px;
-                height: 26px;
-            }
-            .logo-bubble .label {
-                font-size: 6px;
-                padding: 1px 6px;
-            }
             .hero-visual {
-                min-height: 240px;
+                min-height: 260px;
             }
             .hero-title {
                 font-size: 1.8rem;
@@ -1494,6 +1393,12 @@
                 font-size: 0.5rem;
                 padding: 1px 6px;
                 margin-left: 4px;
+            }
+            .modal .btn-group {
+                flex-direction: column;
+            }
+            .modal .btn-group .btn {
+                width: 100%;
             }
         }
 
@@ -1571,92 +1476,17 @@
                     </div>
                 </div>
 
-                <!-- ===== FLOATING LOGO CLOUD ===== -->
+                <!-- ===== FLOATING BUBBLES WITH PHYSICS (Canvas) ===== -->
                 <div class="hero-visual">
-                    <div class="logo-cloud">
-                        <!-- ChatGPT -->
-                        <div class="logo-bubble bubble-chatgpt">
-                            <svg viewBox="0 0 100 100" fill="none">
-                                <circle cx="50" cy="50" r="46" fill="#10a37f" />
-                                <path d="M34 38L50 24L66 38L62 46L50 34L38 46L34 38Z" fill="white" />
-                                <path d="M34 62L50 76L66 62L62 54L50 66L38 54L34 62Z" fill="white" />
-                                <path d="M30 50L44 34L52 38L38 54L30 50Z" fill="white" opacity="0.7" />
-                                <path d="M70 50L56 66L48 62L62 46L70 50Z" fill="white" opacity="0.7" />
-                            </svg>
-                            <span class="label">ChatGPT</span>
-                        </div>
-
-                        <!-- Gemini -->
-                        <div class="logo-bubble bubble-gemini">
-                            <svg viewBox="0 0 100 100" fill="none">
-                                <circle cx="50" cy="50" r="46" fill="#4285f4" opacity="0.2" />
-                                <path d="M50 18L62 42L88 46L68 66L72 92L50 80L28 92L32 66L12 46L38 42L50 18Z" fill="#4285f4" stroke="#4285f4" stroke-width="1.5" />
-                                <path d="M50 30L58 48L78 50L62 66L64 84L50 74L36 84L38 66L22 50L42 48L50 30Z" fill="white" opacity="0.9" />
-                            </svg>
-                            <span class="label">Gemini</span>
-                        </div>
-
-                        <!-- Claude -->
-                        <div class="logo-bubble bubble-claude">
-                            <svg viewBox="0 0 100 100" fill="none">
-                                <circle cx="50" cy="50" r="46" fill="#d97757" opacity="0.15" />
-                                <circle cx="50" cy="50" r="32" fill="#d97757" opacity="0.2" />
-                                <circle cx="50" cy="50" r="20" fill="#d97757" opacity="0.4" />
-                                <text x="50" y="60" font-size="38" text-anchor="middle" fill="#d97757" font-weight="700" font-family="Inter, sans-serif">C</text>
-                                <circle cx="50" cy="50" r="36" stroke="#d97757" stroke-width="1.5" stroke-opacity="0.15" stroke-dasharray="4 6" />
-                            </svg>
-                            <span class="label">Claude</span>
-                        </div>
-
-                        <!-- Perplexity -->
-                        <div class="logo-bubble bubble-perplexity">
-                            <svg viewBox="0 0 100 100" fill="none">
-                                <circle cx="50" cy="50" r="46" fill="#1f9ea0" opacity="0.12" />
-                                <text x="50" y="60" font-size="40" text-anchor="middle" fill="#1f9ea0" font-weight="800" font-family="Inter, sans-serif">P</text>
-                                <circle cx="50" cy="50" r="30" stroke="#1f9ea0" stroke-width="1.5" stroke-opacity="0.15" />
-                                <path d="M50 26L58 44L76 48L62 62L66 80L50 70L34 80L38 62L24 48L42 44L50 26Z" fill="#1f9ea0" opacity="0.15" stroke="#1f9ea0" stroke-width="0.8" stroke-opacity="0.2" />
-                            </svg>
-                            <span class="label">Perplexity</span>
-                        </div>
-
-                        <!-- Grok -->
-                        <div class="logo-bubble bubble-grok">
-                            <svg viewBox="0 0 100 100" fill="none">
-                                <circle cx="50" cy="50" r="46" fill="#8b5cf6" opacity="0.10" />
-                                <circle cx="50" cy="50" r="28" fill="#8b5cf6" opacity="0.12" />
-                                <text x="50" y="60" font-size="38" text-anchor="middle" fill="#8b5cf6" font-weight="800" font-family="Inter, sans-serif">G</text>
-                                <circle cx="50" cy="50" r="34" stroke="#8b5cf6" stroke-width="1" stroke-opacity="0.12" stroke-dasharray="2 4" />
-                            </svg>
-                            <span class="label">Grok</span>
-                        </div>
-
-                        <!-- Copilot -->
-                        <div class="logo-bubble bubble-copilot">
-                            <svg viewBox="0 0 100 100" fill="none">
-                                <circle cx="50" cy="50" r="46" fill="#00a4ef" opacity="0.10" />
-                                <circle cx="50" cy="50" r="22" fill="#00a4ef" opacity="0.15" />
-                                <text x="50" y="60" font-size="36" text-anchor="middle" fill="#00a4ef" font-weight="700" font-family="Inter, sans-serif">C</text>
-                                <circle cx="50" cy="50" r="32" stroke="#00a4ef" stroke-width="1" stroke-opacity="0.12" stroke-dasharray="3 5" />
-                            </svg>
-                            <span class="label">Copilot</span>
-                        </div>
-
-                        <!-- Meta AI -->
-                        <div class="logo-bubble bubble-meta">
-                            <svg viewBox="0 0 100 100" fill="none">
-                                <circle cx="50" cy="50" r="46" fill="#0066b3" opacity="0.08" />
-                                <text x="50" y="60" font-size="34" text-anchor="middle" fill="#0066b3" font-weight="800" font-family="Inter, sans-serif">M</text>
-                                <circle cx="50" cy="50" r="26" stroke="#0066b3" stroke-width="1" stroke-opacity="0.12" />
-                            </svg>
-                            <span class="label">Meta AI</span>
-                        </div>
+                    <div class="bubble-canvas-wrapper">
+                        <canvas id="bubbleCanvas" width="600" height="540"></canvas>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- ===== CLIENTS STRIP (Real companies — anonymized, no logos) ===== -->
+    <!-- ===== CLIENTS STRIP ===== -->
     <section class="clients-strip">
         <div class="container">
             <p>Trusted by enterprise teams across industries</p>
@@ -1915,7 +1745,7 @@
         </div>
     </section>
 
-    <!-- ===== CASE STUDIES (Anonymized, real-world style) ===== -->
+    <!-- ===== CASE STUDIES ===== -->
     <section class="section-padding" id="cases">
         <div class="container">
             <div class="text-center">
@@ -2039,8 +1869,57 @@
         </div>
     </section>
 
+    <!-- ===== CONTACT / FORM SECTION ===== -->
+    <section class="section-padding contact-section" id="contact">
+        <div class="container">
+            <div class="text-center">
+                <span class="badge">Get in touch</span>
+                <h2 class="section-title">Let's talk about <span class="text-accent">your AI visibility</span></h2>
+                <p class="section-subtitle mx-auto">Fill in the form and our enterprise team will reach out within 24 hours.</p>
+            </div>
+            <div class="contact-grid">
+                <div class="contact-info">
+                    <h3>📬 Contact us</h3>
+                    <p>We're here to help you dominate AI search. Whether you need a full audit, a demo, or just have questions — drop us a line.</p>
+                    <ul>
+                        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16v16H4z"/><polyline points="4 8 12 14 20 8"/></svg> defend@reputationguard.pro</li>
+                        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg> Response within 24 hours</li>
+                        <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="18" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg> Enterprise‑grade support</li>
+                    </ul>
+                </div>
+                <div class="contact-form">
+                    <form id="contactForm" action="https://formsubmit.co/defend@reputationguard.pro" method="POST">
+                        <!-- Honeypot -->
+                        <input type="text" name="_honey" style="display:none">
+                        <!-- Disable Captcha -->
+                        <input type="hidden" name="_captcha" value="false">
+                        <!-- Redirect after submit (optional) -->
+                        <input type="hidden" name="_next" value="https://reputationguard.pro/thank-you">
+                        <div class="form-group">
+                            <label for="fullName">Full name *</label>
+                            <input type="text" id="fullName" name="name" required placeholder="John Doe" />
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Email address *</label>
+                            <input type="email" id="email" name="email" required placeholder="john@company.com" />
+                        </div>
+                        <div class="form-group">
+                            <label for="company">Company</label>
+                            <input type="text" id="company" name="company" placeholder="Your company name" />
+                        </div>
+                        <div class="form-group">
+                            <label for="message">Message *</label>
+                            <textarea id="message" name="message" required placeholder="Tell us about your AI visibility goals…"></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Send message →</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <!-- ===== FINAL CTA ===== -->
-    <section class="final-cta" id="contact">
+    <section class="final-cta" id="cta">
         <div class="container">
             <span class="badge" style="background: var(--accent); color: #000;">Start now</span>
             <h2 class="section-title" style="max-width: 700px; margin: 0 auto;">Ready to dominate <span class="text-accent">AI search</span>?</h2>
@@ -2056,19 +1935,19 @@
                     <div class="icon">🎤</div>
                     <h4>Book a demo</h4>
                     <p>See the platform in action with a tailored walkthrough.</p>
-                    <a href="#" class="btn btn-primary" onclick="alert('Demo request received. We\'ll contact you within 24 hours.'); return false;">Request demo</a>
+                    <a href="#contact" class="btn btn-primary">Request demo</a>
                 </div>
                 <div class="final-cta-card">
                     <div class="icon">🤝</div>
                     <h4>Partner with us</h4>
                     <p>For agencies and integrators looking to expand their offering.</p>
-                    <a href="#" class="btn btn-secondary" onclick="alert('Partnership inquiry received. We\'ll reach out shortly.'); return false;">Become a partner</a>
+                    <a href="#contact" class="btn btn-secondary">Become a partner</a>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- ===== FOOTER ===== -->
+    <!-- ===== FOOTER (updated) ===== -->
     <footer>
         <div class="container">
             <div class="footer-grid">
@@ -2077,7 +1956,7 @@
                         <span class="corp">Reputation</span><span class="pro">Guard</span><span class="pro" style="margin-left:0;">Pro</span>
                         <span class="enterprise">Enterprise</span>
                     </div>
-                    <p class="footer-description">Enterprise AI visibility platform. We help global brands get cited, recommended, and trusted by AI assistants.</p>
+                    <p class="footer-description" style="color: var(--text-tertiary); font-size: 0.85rem; max-width: 280px; line-height: 1.6; margin-top: 6px;">Enterprise AI visibility platform. We help global brands get cited, recommended, and trusted by AI assistants.</p>
                 </div>
                 <div>
                     <h5>Platform</h5>
@@ -2085,24 +1964,20 @@
                         <li><a href="#features">Features</a></li>
                         <li><a href="#pricing">Pricing</a></li>
                         <li><a href="#trust">Security</a></li>
-                        <li><a href="#">Integrations</a></li>
                     </ul>
                 </div>
                 <div>
                     <h5>Resources</h5>
                     <ul>
-                        <li><a href="#">Blog</a></li>
-                        <li><a href="#">Case studies</a></li>
+                        <li><a href="#cases">Case studies</a></li>
                         <li><a href="#">Research</a></li>
-                        <li><a href="#">Help center</a></li>
                     </ul>
                 </div>
                 <div>
                     <h5>Company</h5>
                     <ul>
                         <li><a href="https://reputationguard.pro">ReputationGuard.pro</a></li>
-                        <li><a href="#">Careers</a></li>
-                        <li><a href="#">Contact</a></li>
+                        <li><a href="#contact">Contact</a></li>
                         <li><a href="#">Privacy policy</a></li>
                     </ul>
                 </div>
@@ -2129,9 +2004,9 @@
                 <div class="result-item"><span class="label">Share of voice</span><span class="value" id="r5">—</span></div>
                 <div class="result-item"><span class="label">Overall AI Score</span><span class="value" id="r6">—</span></div>
             </div>
-            <div style="margin-top: 20px; display: flex; gap: 12px; flex-wrap: wrap;">
-                <a href="#" class="btn btn-primary" style="flex:1; justify-content:center;" onclick="alert('Full report will be emailed to you. Please provide your email in the next step.'); return false;">Get full report</a>
-                <a href="#contact" class="btn btn-secondary" style="flex:1; justify-content:center;">Talk to an expert</a>
+            <div class="btn-group">
+                <a href="#" class="btn btn-primary" id="getFullReportBtn">Get full report</a>
+                <a href="#contact" class="btn btn-secondary" id="talkToExpertBtn">Talk to an expert</a>
             </div>
         </div>
     </div>
@@ -2140,7 +2015,9 @@
         (function() {
             'use strict';
 
-            // ===== Mobile menu =====
+            // =============================================
+            // 1. MOBILE MENU
+            // =============================================
             const hamburger = document.getElementById('hamburger');
             const mobileNav = document.getElementById('mobileNav');
             hamburger.addEventListener('click', function() {
@@ -2148,7 +2025,9 @@
                 mobileNav.classList.toggle('open');
             });
 
-            // ===== Process tabs =====
+            // =============================================
+            // 2. PROCESS TABS
+            // =============================================
             const tabs = document.querySelectorAll('.process-tab');
             const panels = document.querySelectorAll('.process-panel');
             tabs.forEach(tab => {
@@ -2162,16 +2041,27 @@
                 });
             });
 
-            // ===== FAQ accordion =====
+            // =============================================
+            // 3. FAQ ACCORDION (fixed)
+            // =============================================
             const faqItems = document.querySelectorAll('.faq-item');
             faqItems.forEach(item => {
                 item.addEventListener('click', function() {
+                    // Close others (optional, but nicer)
+                    faqItems.forEach(other => {
+                        if (other !== this && other.classList.contains('open')) {
+                            other.classList.remove('open');
+                        }
+                    });
                     this.classList.toggle('open');
                 });
             });
+            // Open first by default
             if (faqItems.length) faqItems[0].classList.add('open');
 
-            // ===== Audit modal =====
+            // =============================================
+            // 4. AUDIT MODAL
+            // =============================================
             const auditBtn = document.getElementById('auditBtn');
             const auditInput = document.getElementById('auditInput');
             const modal = document.getElementById('auditModal');
@@ -2184,6 +2074,8 @@
             const r4 = document.getElementById('r4');
             const r5 = document.getElementById('r5');
             const r6 = document.getElementById('r6');
+            const getFullReportBtn = document.getElementById('getFullReportBtn');
+            const talkToExpertBtn = document.getElementById('talkToExpertBtn');
 
             function openModal() {
                 modal.classList.add('open');
@@ -2247,7 +2139,34 @@
                 if (e.key === 'Escape' && modal.classList.contains('open')) closeModal();
             });
 
-            // ===== Smooth scroll =====
+            // ---- Get full report: close modal and scroll to contact form ----
+            getFullReportBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                closeModal();
+                // Scroll to contact form
+                const contactSection = document.getElementById('contact');
+                if (contactSection) {
+                    const offset = 80;
+                    const top = contactSection.getBoundingClientRect().top + window.scrollY - offset;
+                    window.scrollTo({ top, behavior: 'smooth' });
+                }
+            });
+
+            // ---- Talk to expert: close modal and scroll to contact form ----
+            talkToExpertBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                closeModal();
+                const contactSection = document.getElementById('contact');
+                if (contactSection) {
+                    const offset = 80;
+                    const top = contactSection.getBoundingClientRect().top + window.scrollY - offset;
+                    window.scrollTo({ top, behavior: 'smooth' });
+                }
+            });
+
+            // =============================================
+            // 5. SMOOTH SCROLL for anchor links
+            // =============================================
             document.querySelectorAll('a[href^="#"]').forEach(anchor => {
                 anchor.addEventListener('click', function(e) {
                     const target = document.querySelector(this.getAttribute('href'));
@@ -2264,7 +2183,9 @@
                 });
             });
 
-            // ===== Intersection Observer =====
+            // =============================================
+            // 6. INTERSECTION OBSERVER (reveal animations)
+            // =============================================
             if ('IntersectionObserver' in window) {
                 const cards = document.querySelectorAll(
                     '.feature-card, .trust-card, .case-card, .pricing-card, .shift-card');
@@ -2297,36 +2218,288 @@
                 });
             }
 
-            // ===== Interactive Bubbles =====
-            document.querySelectorAll('.logo-bubble').forEach(bubble => {
-                bubble.addEventListener('click', function(e) {
-                    if (this.classList.contains('flying')) return;
-                    this.classList.add('flying');
-                    const angle = Math.random() * 2 * Math.PI;
-                    const distance = 80 + Math.random() * 140;
-                    const dx = Math.cos(angle) * distance;
-                    const dy = Math.sin(angle) * distance - 30;
-                    const rotation = (Math.random() - 0.5) * 400;
-                    const scale = 1.2 + Math.random() * 0.4;
-                    this.style.transform = `translate(${dx}px, ${dy}px) rotate(${rotation}deg) scale(${scale})`;
-                    this.style.opacity = '0.7';
-                    setTimeout(() => {
-                        this.style.transform = '';
-                        this.style.opacity = '1';
-                        const onEnd = () => {
-                            this.classList.remove('flying');
-                            this.removeEventListener('transitionend', onEnd);
-                        };
-                        this.addEventListener('transitionend', onEnd);
-                        setTimeout(() => {
-                            if (this.classList.contains('flying')) {
-                                this.classList.remove('flying');
-                                this.style.transform = '';
-                                this.style.opacity = '1';
-                            }
-                        }, 500);
-                    }, 300);
+            // =============================================
+            // 7. BUBBLE PHYSICS (Canvas)
+            // =============================================
+            const canvas = document.getElementById('bubbleCanvas');
+            const ctx = canvas.getContext('2d');
+            const width = canvas.width;
+            const height = canvas.height;
+
+            // Center AI eye
+            const centerX = width / 2;
+            const centerY = height / 2;
+            const centerRadius = 55;
+
+            // Bubble data
+            const bubbleColors = [
+                '#10a37f', // ChatGPT
+                '#4285f4', // Gemini
+                '#d97757', // Claude
+                '#1f9ea0', // Perplexity
+                '#8b5cf6', // Grok
+                '#00a4ef', // Copilot
+                '#0066b3'  // Meta AI
+            ];
+            const bubbleLabels = ['ChatGPT', 'Gemini', 'Claude', 'Perplexity', 'Grok', 'Copilot', 'Meta AI'];
+            const numBubbles = bubbleLabels.length;
+
+            // Initialize bubbles with random positions (not overlapping center)
+            let bubbles = [];
+            for (let i = 0; i < numBubbles; i++) {
+                let radius = 35 + Math.random() * 15;
+                let angle = Math.random() * 2 * Math.PI;
+                let dist = 120 + Math.random() * 150;
+                let x = centerX + Math.cos(angle) * dist;
+                let y = centerY + Math.sin(angle) * dist;
+                // ensure not too close to center
+                while (Math.hypot(x - centerX, y - centerY) < centerRadius + radius + 10) {
+                    angle = Math.random() * 2 * Math.PI;
+                    dist = 140 + Math.random() * 160;
+                    x = centerX + Math.cos(angle) * dist;
+                    y = centerY + Math.sin(angle) * dist;
+                }
+                let vx = (Math.random() - 0.5) * 2;
+                let vy = (Math.random() - 0.5) * 2;
+                // ensure some initial movement
+                if (Math.abs(vx) < 0.3) vx = 0.5 * (Math.random() > 0.5 ? 1 : -1);
+                if (Math.abs(vy) < 0.3) vy = 0.5 * (Math.random() > 0.5 ? 1 : -1);
+                bubbles.push({
+                    x: x,
+                    y: y,
+                    radius: radius,
+                    vx: vx,
+                    vy: vy,
+                    color: bubbleColors[i % bubbleColors.length],
+                    label: bubbleLabels[i % bubbleLabels.length],
+                    mass: radius / 20
                 });
+            }
+
+            // Helper: resolve collision between two circles (elastic)
+            function resolveCollision(a, b) {
+                const dx = b.x - a.x;
+                const dy = b.y - a.y;
+                const dist = Math.hypot(dx, dy);
+                const minDist = a.radius + b.radius;
+                if (dist >= minDist || dist === 0) return false;
+
+                // Normalize
+                const nx = dx / dist;
+                const ny = dy / dist;
+
+                // Separate overlapping
+                const overlap = (minDist - dist) / 2;
+                a.x -= nx * overlap;
+                a.y -= ny * overlap;
+                b.x += nx * overlap;
+                b.y += ny * overlap;
+
+                // Relative velocity
+                const dvx = a.vx - b.vx;
+                const dvy = a.vy - b.vy;
+                const dvn = dvx * nx + dvy * ny;
+                if (dvn > 0) return false; // moving apart
+
+                // Mass factor
+                const totalMass = a.mass + b.mass;
+                const impulse = (2 * dvn) / totalMass;
+                a.vx -= impulse * b.mass * nx;
+                a.vy -= impulse * b.mass * ny;
+                b.vx += impulse * a.mass * nx;
+                b.vy += impulse * a.mass * ny;
+
+                // Slight energy loss (optional)
+                const damp = 0.98;
+                a.vx *= damp;
+                a.vy *= damp;
+                b.vx *= damp;
+                b.vy *= damp;
+
+                return true;
+            }
+
+            // Update positions and handle collisions
+            function updatePhysics() {
+                // Move bubbles
+                for (let b of bubbles) {
+                    b.x += b.vx;
+                    b.y += b.vy;
+                }
+
+                // Collisions between bubbles
+                for (let i = 0; i < bubbles.length; i++) {
+                    for (let j = i + 1; j < bubbles.length; j++) {
+                        resolveCollision(bubbles[i], bubbles[j]);
+                    }
+                }
+
+                // Collision with center AI eye (elastic reflection)
+                for (let b of bubbles) {
+                    const dx = b.x - centerX;
+                    const dy = b.y - centerY;
+                    const dist = Math.hypot(dx, dy);
+                    const minDist = centerRadius + b.radius;
+                    if (dist < minDist && dist > 0) {
+                        const nx = dx / dist;
+                        const ny = dy / dist;
+                        // Separate
+                        const overlap = (minDist - dist) / 2;
+                        b.x += nx * overlap;
+                        b.y += ny * overlap;
+                        // Reflect velocity (massive center)
+                        const vn = b.vx * nx + b.vy * ny;
+                        if (vn < 0) {
+                            b.vx -= 2 * vn * nx;
+                            b.vy -= 2 * vn * ny;
+                        }
+                    }
+                }
+
+                // Boundary collisions (elastic with walls)
+                for (let b of bubbles) {
+                    const r = b.radius;
+                    if (b.x - r < 0) { b.x = r;
+                        b.vx = -b.vx; }
+                    if (b.x + r > width) { b.x = width - r;
+                        b.vx = -b.vx; }
+                    if (b.y - r < 0) { b.y = r;
+                        b.vy = -b.vy; }
+                    if (b.y + r > height) { b.y = height - r;
+                        b.vy = -b.vy; }
+                }
+            }
+
+            // Draw everything
+            function draw() {
+                ctx.clearRect(0, 0, width, height);
+
+                // Draw center AI eye (all‑seeing eye)
+                // Outer glow
+                const gradient = ctx.createRadialGradient(centerX, centerY, 10, centerX, centerY, centerRadius + 30);
+                gradient.addColorStop(0, 'rgba(93,171,255,0.3)');
+                gradient.addColorStop(0.5, 'rgba(93,171,255,0.05)');
+                gradient.addColorStop(1, 'rgba(93,171,255,0)');
+                ctx.beginPath();
+                ctx.arc(centerX, centerY, centerRadius + 30, 0, 2 * Math.PI);
+                ctx.fillStyle = gradient;
+                ctx.fill();
+
+                // Eye background
+                ctx.beginPath();
+                ctx.arc(centerX, centerY, centerRadius, 0, 2 * Math.PI);
+                ctx.fillStyle = 'rgba(8,9,10,0.8)';
+                ctx.fill();
+                ctx.strokeStyle = 'rgba(93,171,255,0.6)';
+                ctx.lineWidth = 2;
+                ctx.stroke();
+
+                // Pupil
+                const pupilRadius = 22;
+                const pupilGrad = ctx.createRadialGradient(centerX - 8, centerY - 8, 2, centerX, centerY, pupilRadius);
+                pupilGrad.addColorStop(0, '#ffffff');
+                pupilGrad.addColorStop(0.4, '#a78bfa');
+                pupilGrad.addColorStop(1, '#6ee7ff');
+                ctx.beginPath();
+                ctx.arc(centerX, centerY, pupilRadius, 0, 2 * Math.PI);
+                ctx.fillStyle = pupilGrad;
+                ctx.fill();
+
+                // Iris ring
+                ctx.beginPath();
+                ctx.arc(centerX, centerY, pupilRadius + 4, 0, 2 * Math.PI);
+                ctx.strokeStyle = 'rgba(255,255,255,0.2)';
+                ctx.lineWidth = 2;
+                ctx.stroke();
+
+                // Glint
+                ctx.beginPath();
+                ctx.arc(centerX - 10, centerY - 12, 7, 0, 2 * Math.PI);
+                ctx.fillStyle = 'rgba(255,255,255,0.7)';
+                ctx.fill();
+
+                // Small glint
+                ctx.beginPath();
+                ctx.arc(centerX - 5, centerY - 20, 3, 0, 2 * Math.PI);
+                ctx.fillStyle = 'rgba(255,255,255,0.4)';
+                ctx.fill();
+
+                // Label "AI"
+                ctx.fillStyle = 'rgba(255,255,255,0.9)';
+                ctx.font = 'bold 14px Inter, sans-serif';
+                ctx.textAlign = 'center';
+                ctx.textBaseline = 'bottom';
+                ctx.fillText('AI', centerX, centerY + centerRadius + 20);
+
+                // Draw bubbles
+                for (let b of bubbles) {
+                    // Glow
+                    const glow = ctx.createRadialGradient(b.x, b.y, 2, b.x, b.y, b.radius + 10);
+                    glow.addColorStop(0, b.color + '40');
+                    glow.addColorStop(1, 'transparent');
+                    ctx.beginPath();
+                    ctx.arc(b.x, b.y, b.radius + 10, 0, 2 * Math.PI);
+                    ctx.fillStyle = glow;
+                    ctx.fill();
+
+                    // Bubble body
+                    ctx.beginPath();
+                    ctx.arc(b.x, b.y, b.radius, 0, 2 * Math.PI);
+                    ctx.fillStyle = b.color + '30';
+                    ctx.fill();
+                    ctx.strokeStyle = b.color + '80';
+                    ctx.lineWidth = 1.5;
+                    ctx.stroke();
+
+                    // Icon – simplified letter or symbol
+                    ctx.fillStyle = '#fff';
+                    ctx.font = `bold ${b.radius * 0.7}px Inter, sans-serif`;
+                    ctx.textAlign = 'center';
+                    ctx.textBaseline = 'middle';
+                    const letter = b.label.charAt(0);
+                    ctx.fillText(letter, b.x, b.y + 2);
+
+                    // Label below bubble
+                    ctx.fillStyle = 'rgba(255,255,255,0.6)';
+                    ctx.font = '10px Inter, sans-serif';
+                    ctx.textBaseline = 'top';
+                    ctx.fillText(b.label, b.x, b.y + b.radius + 4);
+                }
+            }
+
+            // Animation loop
+            function animate() {
+                updatePhysics();
+                draw();
+                requestAnimationFrame(animate);
+            }
+            animate();
+
+            // Click handler: apply impulse to clicked bubble
+            canvas.addEventListener('click', function(e) {
+                const rect = canvas.getBoundingClientRect();
+                const scaleX = canvas.width / rect.width;
+                const scaleY = canvas.height / rect.height;
+                const mouseX = (e.clientX - rect.left) * scaleX;
+                const mouseY = (e.clientY - rect.top) * scaleY;
+
+                // Find closest bubble
+                let closest = null;
+                let minDist = Infinity;
+                for (let b of bubbles) {
+                    const d = Math.hypot(mouseX - b.x, mouseY - b.y);
+                    if (d < b.radius + 10 && d < minDist) {
+                        minDist = d;
+                        closest = b;
+                    }
+                }
+                if (closest) {
+                    // Apply random impulse (like a billiard hit)
+                    const angle = Math.random() * 2 * Math.PI;
+                    const strength = 4 + Math.random() * 6;
+                    closest.vx += Math.cos(angle) * strength;
+                    closest.vy += Math.sin(angle) * strength;
+                }
             });
 
             console.log('ReputationGuardPro Enterprise — AI Visibility Platform loaded.');
